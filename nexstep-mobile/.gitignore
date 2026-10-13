@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Native builds
+android/app/build/
+android/.gradle/
+ios/build/
+ios/Pods/
+
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# macOS
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+expo-env.d.ts

@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "NexStep",
+    "slug": "nexstep-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050810"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "pk.edu.airuni.nexstep",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Used to secure your career profile."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#050810"
+      },
+      "package": "pk.edu.airuni.nexstep",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#050810",
+          "image": "./assets/splash.png",
+          "imageWidth": 200
+        }
+      ],
+      "@clerk/expo",
+      "expo-web-browser"
+    ],
+    "scheme": "nexstep",
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "nexstep-fyp-air-university"
+      }
+    }
+  }
+}
