@@ -1,0 +1,45 @@
+{
+  "appName": "نیکسٹ سٹیپ",
+  "tagline": "آپ کا اگلا قدم، AI کی رہنمائی میں",
+  "actions": {
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "retry": "دوبارہ کوشش کریں",
+    "viewDetails": "تفصیلات دیکھیں",
+    "applyNow": "ابھی اپلائی کریں",
+    "search": "تلاش کریں...",
+    "filter": "فلٹر",
+    "clear": "صاف کریں",
+    "close": "بند کریں",
+    "submit": "جمع کرائیں",
+    "back": "پیچھے",
+    "next": "آگے"
+  },
+  "status": {
+    "verified": "تصدیق شدہ (Verified)",
+    "pendingReview": "زیرِ جائزہ (Pending Review)",
+    "unverified": "غیر تصدیق شدہ (Unverified)",
+    "stale": "پرانا ڈیٹا (Stale)",
+    "fresh": "نیا ڈیٹا (Fresh)",
+    "active": "فعال",
+    "expired": "میعاد ختم"
+  },
+  "ml": {
+    "modelStatus": "ماڈل کی صورتِ حال",
+    "baselineOnly": "بیس لائن ہائبرڈ رینکر (v1.0.0)",
+    "confidence": "ماخذ پر اعتماد",
+    "highConfidence": "اعلیٰ اعتماد (High)",
+    "mediumConfidence": "متوسط اعتماد (Medium)",
+    "factorBreakdown": "عوامل کا جائزہ",
+    "riasecFit": "RIASEC شخصیت کی مطابقت",
+    "skillFit": "مہارتوں کی مطابقت",
+    "academicFit": "تعلیمی نتائج کی مطابقت",
+    "educationCompatibility": "تعلیمی شعبے کی مطابقت",
+    "provenanceSource": "تصدیق شدہ سرکاری ماخذ"
+  },
+  "language": {
+    "english": "English",
+    "urdu": "اردو",
+    "switchLabel": "زبان / Language"
+  }
+}

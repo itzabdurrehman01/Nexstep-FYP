@@ -1,0 +1,45 @@
+{
+  "appName": "NexStep",
+  "tagline": "Your Next Step, Guided by AI",
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "viewDetails": "View details",
+    "applyNow": "Apply now",
+    "search": "Search...",
+    "filter": "Filter",
+    "clear": "Clear",
+    "close": "Close",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next"
+  },
+  "status": {
+    "verified": "Verified",
+    "pendingReview": "Pending Review",
+    "unverified": "Unverified",
+    "stale": "Stale",
+    "fresh": "Fresh",
+    "active": "Active",
+    "expired": "Expired"
+  },
+  "ml": {
+    "modelStatus": "Model Status",
+    "baselineOnly": "Baseline Hybrid Ranker (v1.0.0)",
+    "confidence": "Source Confidence",
+    "highConfidence": "High Confidence",
+    "mediumConfidence": "Medium Confidence",
+    "factorBreakdown": "Factor Breakdown",
+    "riasecFit": "RIASEC Fit",
+    "skillFit": "Skill Fit",
+    "academicFit": "Academic Fit",
+    "educationCompatibility": "Education Stream Compatibility",
+    "provenanceSource": "Verified Official Source"
+  },
+  "language": {
+    "english": "English",
+    "urdu": "اردو",
+    "switchLabel": "Language / زبان"
+  }
+}
