@@ -1,0 +1,18 @@
+{
+  "datasetVersion": "v1.0.0-verified-catalog",
+  "generatedAt": "2026-08-17T20:43:48.701148Z",
+  "sourceCoverage": {
+    "universities": 100,
+    "scholarships": 84,
+    "courses": 70,
+    "careers": 49,
+    "jobs": 10
+  },
+  "exclusions": {
+    "pendingReviewCount": 30,
+    "reason": "Excluded from high-confidence training features due to missing or unverified official_url"
+  },
+  "featureSchemaVersion": "1.0.0",
+  "modelStatus": "BASELINE_ONLY",
+  "checksum": "41794e9990a54632"
+}
