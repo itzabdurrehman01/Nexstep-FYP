@@ -1,0 +1,486 @@
+/* =====================================================================
+   NexStep — Professional theme layer
+   Loaded LAST (see main.jsx). Unlayered rules here intentionally win over
+   Tailwind utilities and the older portal/index stylesheets.
+
+   1. Design tokens (light + dark — the only two themes)
+   2. Base typography
+   3. Normalisation of utility styling (weights, radii, shadows, decor)
+   4. Shared components (cards, buttons, inputs, hero panels)
+   5. App shell (sidebar, bottom nav, main)
+   6. Responsive layer
+   ===================================================================== */
+
+/* ── 1. Tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Neutral scale (re-tuned Tailwind slate: cooler, less blue) */
+  --color-slate-50:  #f8f9fb;
+  --color-slate-100: #f1f3f6;
+  --color-slate-200: #e4e7ec;
+  --color-slate-300: #cdd2da;
+  --color-slate-400: #98a1ae;
+  --color-slate-500: #6a7381;
+  --color-slate-600: #4b5462;
+  --color-slate-700: #353c48;
+  --color-slate-800: #222731;
+  --color-slate-900: #161a21;
+  --color-slate-950: #0d0f13;
+
+  /* Brand — calm, deep green (less neon than stock emerald) */
+  --color-emerald-50:  #edf8f3;
+  --color-emerald-100: #d3efe3;
+  --color-emerald-200: #a9dec8;
+  --color-emerald-300: #75c7a7;
+  --color-emerald-400: #3fab84;
+  --color-emerald-500: #179068;
+  --color-emerald-600: #0f7a58;
+  --color-emerald-700: #0d6349;
+  --color-emerald-800: #0e4f3c;
+  --color-emerald-900: #0c4133;
+  --color-emerald-950: #06261e;
+
+  --ns-primary-50: var(--color-emerald-50);
+  --ns-primary-100: var(--color-emerald-100);
+  --ns-primary-200: var(--color-emerald-200);
+  --ns-primary-300: var(--color-emerald-300);
+  --ns-primary-400: var(--color-emerald-400);
+  --ns-primary-500: var(--color-emerald-500);
+  --ns-primary-600: var(--color-emerald-600);
+  --ns-primary-700: var(--color-emerald-700);
+  --ns-primary-800: var(--color-emerald-800);
+  --ns-primary-900: var(--color-emerald-900);
+
+  --ns-accent-50:  #eff5ff;
+  --ns-accent-100: #dbe8fe;
+  --ns-accent-200: #bfd5fe;
+  --ns-accent-300: #93b8fd;
+  --ns-accent-400: #6094fa;
+  --ns-accent-500: #3b74f2;
+  --ns-accent-600: #2a5bd7;
+  --ns-accent-700: #2449ae;
+  --ns-accent-800: #233f8c;
+  --ns-accent-900: #223870;
+
+  --ns-bg:            #f6f7f9;
+  --ns-surface:       #ffffff;
+  --ns-surface-2:     #f8f9fb;
+  --ns-surface-3:     #f1f3f6;
+  --ns-border:        #e4e7ec;
+  --ns-border-soft:   #eef0f3;
+  --ns-border-strong: #cdd2da;
+
+  --ns-text:        #161a21;
+  --ns-text-muted:  #4b5462;
+  --ns-text-subtle: #6a7381;
+  --ns-text-faint:  #98a1ae;
+
+  --ns-success: #0f7a58;  --ns-success-bg: #edf8f3;
+  --ns-warning: #a15c07;  --ns-warning-bg: #fef7e6;
+  --ns-danger:  #c0362c;  --ns-danger-bg:  #fdf0ef;
+  --ns-info:    #2a5bd7;  --ns-info-bg:    #eff5ff;
+  --ns-ai:      #2a5bd7;  --ns-ai-bg:      #eff5ff;
+  --ns-match:   #0f7a58;  --ns-match-bg:   #edf8f3;
+  --ns-grow:    #0f7a58;  --ns-grow-bg:    #edf8f3;
+
+  --ns-shadow-xs: 0 1px 2px rgb(16 24 40 / 0.04);
+  --ns-shadow-sm: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.06);
+  --ns-shadow-md: 0 4px 12px -2px rgb(16 24 40 / 0.08), 0 2px 4px -2px rgb(16 24 40 / 0.04);
+  --ns-shadow-lg: 0 12px 32px -8px rgb(16 24 40 / 0.14), 0 4px 8px -4px rgb(16 24 40 / 0.05);
+  --ns-shadow-glow: var(--ns-shadow-sm);
+  --ns-ring: 0 0 0 3px rgb(15 122 88 / 0.18);
+
+  --ns-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --ns-font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --font-sans: var(--ns-font-sans);
+  --font-mono: var(--ns-font-mono);
+
+  --ns-text-xs:   0.75rem;
+  --ns-text-sm:   0.8125rem;
+  --ns-text-base: 0.875rem;
+  --ns-text-lg:   1rem;
+  --ns-text-xl:   1.125rem;
+  --ns-text-2xl:  1.375rem;
+  --ns-text-3xl:  1.75rem;
+  --ns-text-4xl:  2.25rem;
+
+  --ns-radius-xs: 6px;
+  --ns-radius-sm: 8px;
+  --ns-radius-md: 10px;
+  --ns-radius-lg: 12px;
+  --ns-radius-xl: 14px;
+  --ns-radius-2xl: 16px;
+  --ns-radius-3xl: 20px;
+
+  --ns-nav-h: 60px;
+  color-scheme: light;
+}
+
+.dark,
+:root.dark,
+:root[data-theme-mode='dark'] {
+  --ns-bg:            #0d0f13;
+  --ns-surface:       #14171c;
+  --ns-surface-2:     #111419;
+  --ns-surface-3:     #1b1f26;
+  --ns-border:        #252a33;
+  --ns-border-soft:   #1c2028;
+  --ns-border-strong: #343a45;
+
+  --ns-text:        #e8eaee;
+  --ns-text-muted:  #b4bac4;
+  --ns-text-subtle: #8a929e;
+  --ns-text-faint:  #646c78;
+
+  --ns-success: #4cc497;  --ns-success-bg: rgb(23 144 104 / 0.14);
+  --ns-warning: #f0b44c;  --ns-warning-bg: rgb(217 119 6 / 0.14);
+  --ns-danger:  #f07a70;  --ns-danger-bg:  rgb(220 38 38 / 0.14);
+  --ns-info:    #7fa8fb;  --ns-info-bg:    rgb(59 116 242 / 0.14);
+  --ns-ai:      #7fa8fb;  --ns-ai-bg:      rgb(59 116 242 / 0.14);
+  --ns-match:   #4cc497;  --ns-match-bg:   rgb(23 144 104 / 0.14);
+  --ns-grow:    #4cc497;  --ns-grow-bg:    rgb(23 144 104 / 0.14);
+
+  --ns-shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
+  --ns-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35), 0 1px 3px rgb(0 0 0 / 0.25);
+  --ns-shadow-md: 0 6px 16px -4px rgb(0 0 0 / 0.45);
+  --ns-shadow-lg: 0 16px 36px -10px rgb(0 0 0 / 0.6);
+  --ns-ring: 0 0 0 3px rgb(76 196 151 / 0.22);
+  color-scheme: dark;
+}
+
+/* ── 2. Base typography ──────────────────────────────────────────────── */
+html {
+  font-family: var(--ns-font-sans);
+  font-size: 16px;
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  scroll-padding-top: calc(var(--ns-nav-h) + 12px);
+}
+body {
+  font-family: var(--ns-font-sans) !important;
+  font-size: var(--ns-text-base);
+  line-height: 1.55;
+  letter-spacing: -0.003em;
+  background: var(--ns-bg) !important;
+  color: var(--ns-text);
+  overflow-x: clip;
+}
+body, button, input, select, textarea { font-family: var(--ns-font-sans); }
+[lang='ur'], .font-urdu { font-family: 'Noto Nastaliq Urdu', var(--ns-font-sans) !important; line-height: 1.9; }
+code, kbd, pre, .font-mono { font-family: var(--ns-font-mono) !important; }
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    line-height: 1.25;
+    color: var(--ns-text);
+    overflow-wrap: break-word;
+  }
+  h1 { font-size: var(--ns-text-3xl); }
+  h2 { font-size: var(--ns-text-2xl); }
+  h3 { font-size: var(--ns-text-xl); }
+  h4 { font-size: var(--ns-text-lg); }
+  p { line-height: 1.6; }
+}
+::selection { background: color-mix(in srgb, var(--ns-primary-500) 22%, transparent); color: inherit; }
+
+/* Tailwind theme variables: calmer type scale, slim weights, calm tracking,
+   smaller radii and soft shadows. Overriding the variables (instead of the
+   utility classes) keeps responsive variants like md:text-base working. */
+:root {
+  --text-xs: 0.75rem;      --text-xs--line-height: 1.5;
+  --text-sm: 0.8125rem;    --text-sm--line-height: 1.55;
+  --text-base: 0.9375rem;  --text-base--line-height: 1.6;
+  --text-lg: 1.0625rem;    --text-lg--line-height: 1.55;
+  --text-xl: 1.1875rem;    --text-xl--line-height: 1.45;
+  --text-2xl: 1.375rem;    --text-2xl--line-height: 1.35;
+  --text-3xl: 1.75rem;     --text-3xl--line-height: 1.25;
+  --text-4xl: 2.125rem;    --text-4xl--line-height: 1.2;
+  --text-5xl: 2.5rem;      --text-5xl--line-height: 1.1;
+  --text-6xl: 2.875rem;    --text-6xl--line-height: 1.08;
+  --text-7xl: 3.25rem;     --text-7xl--line-height: 1.05;
+  --text-8xl: 3.5rem;      --text-8xl--line-height: 1.05;
+
+  --font-weight-black: 600;
+  --font-weight-extrabold: 600;
+  --font-weight-bold: 600;
+  --font-weight-semibold: 550;
+  --font-weight-medium: 500;
+
+  --tracking-widest: 0.06em;
+  --tracking-wider: 0.04em;
+  --tracking-wide: 0.02em;
+  --tracking-tight: -0.015em;
+  --tracking-tighter: -0.025em;
+
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 16px;
+  --radius-4xl: 20px;
+
+  --shadow-2xs: 0 1px 1px rgb(16 24 40 / 0.03);
+  --shadow-xs: 0 1px 2px rgb(16 24 40 / 0.04);
+  --shadow-sm: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.05);
+  --shadow-md: 0 2px 6px -1px rgb(16 24 40 / 0.07), 0 1px 3px -1px rgb(16 24 40 / 0.05);
+  --shadow-lg: 0 6px 16px -4px rgb(16 24 40 / 0.09), 0 2px 4px -2px rgb(16 24 40 / 0.04);
+  --shadow-xl: 0 12px 28px -8px rgb(16 24 40 / 0.12), 0 4px 8px -4px rgb(16 24 40 / 0.05);
+  --shadow-2xl: 0 18px 40px -12px rgb(16 24 40 / 0.18);
+}
+.dark, :root.dark {
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 20px -6px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 14px 32px -10px rgb(0 0 0 / 0.55);
+  --shadow-2xl: 0 20px 44px -12px rgb(0 0 0 / 0.6);
+}
+.drop-shadow-md, .drop-shadow-lg, .drop-shadow-xl, .drop-shadow-2xl { filter: none !important; }
+
+/* ── 3. Normalisation ────────────────────────────────────────────────── */
+/* Remove decorative "AI glow" layers: blurred blobs, grids, glows, pings */
+.absolute:is([class*=' blur-'], [class^='blur-']),
+.fixed:is([class*=' blur-'], [class^='blur-']),
+.ns-accent-glow-left, .ns-accent-glow-right,
+.marketing-gradient-orb, .marketing-spotlight, .marketing-orb,
+.animate-ping { display: none !important; }
+.nexstep-app, .nexstep-app.bg-mesh-pattern,
+.product-app, .marketing-app { background: var(--ns-bg) !important; background-image: none !important; }
+.nexstep-app::before, .nexstep-app::after,
+.portal-route-shell::before, .portal-route-shell::after { display: none !important; content: none !important; }
+.bg-mesh-pattern, .ns-dot-grid, .ns-grid-bg { background-image: none !important; }
+.animate-float-slow, .animate-bounce { animation: none !important; }
+
+/* Replace 3-D tilt / glow hover effects with a gentle lift */
+.ns-3d-card:hover, .ns-card-hover:hover,
+.portal-route-dashboard .ns-card-hover:hover,
+.portal-route-careerAi .ns-card-hover:hover,
+.portal-route-analytics .ns-card-hover:hover { transform: translateY(-1px) !important; box-shadow: var(--ns-shadow-md) !important; border-color: var(--ns-border-strong) !important; }
+.ns-neon-glow { box-shadow: var(--ns-shadow-sm) !important; }
+.ns-glassmorphism { background: var(--ns-surface) !important; border-color: var(--ns-border) !important; box-shadow: var(--ns-shadow-md) !important; backdrop-filter: none !important; }
+
+.portal-route-shell :is(.ns-card, [class*="rounded-2xl"][class*="border"], [class*="rounded-3xl"][class*="border"]) {
+  border-color: var(--ns-border);
+  box-shadow: var(--ns-shadow-xs);
+}
+.portal-route-shell :is(.ns-card, [class*="rounded-2xl"][class*="border"], [class*="rounded-3xl"][class*="border"]):hover {
+  border-color: var(--ns-border);
+  box-shadow: var(--ns-shadow-xs);
+}
+.portal-route-dashboard [class*="grid"] > [class*="rounded"],
+.portal-route-careerAi [class*="grid"] > [class*="rounded"] { animation: none !important; }
+.portal-route-universities [class*="grid"] > *:hover,
+.portal-route-scholarships [class*="grid"] > *:hover,
+.portal-route-jobs [class*="grid"] > *:hover,
+.portal-route-courses [class*="grid"] > *:hover { transform: none; }
+.portal-route-product [class*="rounded-full"]:not(button),
+.portal-route-product [class*="bg-slate-900"],
+.portal-route-quiz [class*="rounded"], .portal-route-onboarding [class*="rounded"],
+.portal-route-resume [class*="rounded"], .portal-route-mockInterview [class*="rounded"] { box-shadow: none; }
+.portal-route-dashboard [class*="recharts"], .portal-route-analytics [class*="recharts"] { filter: none !important; }
+.portal-route-product button:active:not(:disabled) { transform: none; }
+.portal-route-product > div { animation: ns-fade-in .28s ease-out both; }
+@keyframes ns-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* Page titles inside the app */
+.portal-route-product h1 {
+  font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+}
+.portal-route-product h2 { letter-spacing: -0.015em !important; }
+
+/* Tables */
+.portal-route-shell table {
+  border-radius: var(--ns-radius-lg);
+  background: var(--ns-surface);
+  border: 1px solid var(--ns-border);
+  box-shadow: none;
+}
+.portal-route-shell thead { background: var(--ns-surface-2); }
+.portal-route-shell th { font-weight: 550 !important; color: var(--ns-text-subtle); }
+.portal-route-shell tbody tr:hover { background: var(--ns-surface-2); }
+
+/* Inputs */
+:is(.product-app, .portal-route-shell, [role="dialog"], .fixed.inset-0) :is(input:not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *):not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  border-color: var(--ns-border-strong) !important;
+  box-shadow: none !important;
+}
+:is(.product-app, .portal-route-shell, [role="dialog"], .fixed.inset-0) :is(input, select, textarea):not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *):focus {
+  border-color: var(--ns-primary-500) !important;
+  box-shadow: var(--ns-ring) !important;
+  outline: none;
+}
+:focus-visible:not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *) { outline: 2px solid var(--ns-primary-500); outline-offset: 2px; }
+
+/* Scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--ns-border-strong) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--ns-border-strong); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ── 4. Shared components ────────────────────────────────────────────── */
+.ns-card {
+  background: var(--ns-surface) !important;
+  border: 1px solid var(--ns-border) !important;
+  border-radius: var(--ns-radius-lg) !important;
+  box-shadow: var(--ns-shadow-xs) !important;
+  color: var(--ns-text);
+}
+
+/* Former dark gradient banners -> calm surface panel in both themes */
+.ns-hero {
+  background: var(--ns-surface) !important;
+  border: 1px solid var(--ns-border) !important;
+  box-shadow: var(--ns-shadow-xs) !important;
+  color: var(--ns-text);
+}
+.dashboard-hero, .ns-page-hero {
+  background: var(--ns-surface) !important;
+  border: 1px solid var(--ns-border) !important;
+  box-shadow: var(--ns-shadow-xs) !important;
+  color: var(--ns-text) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is(.text-white, [class*="text-slate-50"], [class*="text-slate-100"], [class*="text-slate-200"]):not(:is(button, a, [role="button"], .ns-btn, [class*="bg-emerald-5"], [class*="bg-emerald-6"], [class*="bg-emerald-7"], [class*="bg-blue-5"], [class*="bg-blue-6"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-amber-5"], [class*="bg-amber-6"], [class*="bg-slate-7"], [class*="bg-slate-8"], [class*="bg-slate-9"])):not(:is(button, a, [role="button"], .ns-btn, [class*="bg-emerald-5"], [class*="bg-emerald-6"], [class*="bg-emerald-7"], [class*="bg-blue-5"], [class*="bg-blue-6"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-amber-5"], [class*="bg-amber-6"], [class*="bg-slate-7"], [class*="bg-slate-8"], [class*="bg-slate-9"]) *) {
+  color: var(--ns-text) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="text-slate-300"], [class*="text-slate-400"]):not(:is(button, a, [class*="bg-slate-8"], [class*="bg-slate-9"]) *) {
+  color: var(--ns-text-subtle) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="bg-white/5"], [class*="bg-white/10"], [class*="bg-white/15"], [class*="bg-white/20"], [class*="bg-slate-800"], [class*="bg-slate-700"]):not(button):not(a) {
+  background-color: var(--ns-surface-2) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="border-white/"], [class*="border-slate-7"], [class*="border-slate-8"]) {
+  border-color: var(--ns-border) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="text-emerald-200"], [class*="text-emerald-300"], [class*="text-emerald-400"]) { color: var(--ns-match) !important; }
+:is(.dashboard-hero-title, .dashboard-hero-score, .dashboard-hero-label) { color: var(--ns-text) !important; }
+:is(.dashboard-hero-sub, .dashboard-hero-body, .dashboard-hero-score-label, .dashboard-hero-note) { color: var(--ns-text-subtle) !important; }
+.dashboard-ring-track { stroke: var(--ns-surface-3) !important; }
+.dashboard-hero-btn-secondary { background: var(--ns-surface) !important; color: var(--ns-text) !important; border: 1px solid var(--ns-border-strong) !important; }
+
+/* Buttons inside former dark panels */
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is(button, a, [role="button"]):is([class~="text-white"], [class~="text-slate-100"], [class~="text-slate-200"], [class~="text-slate-300"], [class~="text-slate-400"]):not([class*="bg-emerald-5"], [class*="bg-emerald-6"], [class*="bg-emerald-7"], [class*="bg-blue-5"], [class*="bg-blue-6"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-amber-5"], [class*="bg-slate-8"]:not([class*="bg-slate-800/"]), [class*="bg-slate-9"]) {
+  color: var(--ns-text-muted) !important;
+}
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is(button, a, [role="button"]):is([class*="hover:bg-slate-7"], [class*="hover:bg-slate-8"], [class*="hover:bg-white/"]):hover {
+  background-color: var(--ns-surface-3) !important;
+  color: var(--ns-text) !important;
+}
+
+/* Chip/tab buttons that were dark-on-dark inside former dark panels */
+:is(.ns-hero, .dashboard-hero, .ns-page-hero) :is(button, a, [role="button"]):is([class*=" bg-slate-7"], [class*=" bg-slate-8"], [class^="bg-slate-7"], [class^="bg-slate-8"], [class*=" bg-white/"], [class^="bg-white/"], [class*=" bg-slate-900"]) {
+  background-color: var(--ns-surface-3) !important;
+  color: var(--ns-text-muted) !important;
+  border-color: var(--ns-border) !important;
+}
+
+/* Buttons */
+.ns-btn { font-weight: 550 !important; letter-spacing: -0.005em; border-radius: var(--ns-radius-sm) !important; box-shadow: none !important; transform: none !important; }
+.ns-btn-primary { background: var(--ns-primary-600) !important; border-color: var(--ns-primary-600) !important; color: #fff !important; }
+.ns-btn-primary:hover:not(:disabled) { background: var(--ns-primary-700) !important; border-color: var(--ns-primary-700) !important; }
+
+.ns-icon-btn, .ns-chip-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  height: 36px; min-width: 36px; padding: 0 .55rem;
+  border-radius: var(--ns-radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ns-text-muted);
+  font-size: .8125rem; font-weight: 500;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.ns-chip-btn { border-color: var(--ns-border); padding: 0 .7rem; }
+.ns-icon-btn:hover, .ns-chip-btn:hover { background: var(--ns-surface-3); color: var(--ns-text); }
+
+/* Colored solid "brand" buttons — consistent hover, no neon.
+   Only un-prefixed, fully opaque bg-emerald-500/600 classes count. */
+:is(button, a):is([class^="bg-emerald-500"], [class*=" bg-emerald-500"], [class^="bg-emerald-600"], [class*=" bg-emerald-600"]):not([class*="bg-emerald-500/"], [class*="bg-emerald-600/"]) {
+  background-color: var(--color-emerald-600);
+}
+:is(button, a):is([class^="bg-emerald-500"], [class*=" bg-emerald-500"], [class^="bg-emerald-600"], [class*=" bg-emerald-600"]):not([class*="bg-emerald-500/"], [class*="bg-emerald-600/"]):hover:not(:disabled) {
+  background-color: var(--color-emerald-700);
+}
+:is(button, a):is([class^="bg-emerald-500"], [class*=" bg-emerald-500"]):not([class*="bg-emerald-500/"])[class*="text-slate-9"] { color: #fff !important; }
+
+/* ── 5. App shell ────────────────────────────────────────────────────── */
+.nexstep-sidebar {
+  background: var(--ns-surface) !important;
+  border-right: 1px solid var(--ns-border) !important;
+  box-shadow: none !important;
+  top: var(--ns-nav-h) !important;
+  height: calc(100vh - var(--ns-nav-h)) !important;
+}
+.product-app main#main-content { padding-top: 1.5rem; }
+@media (min-width: 1024px) { .product-app main#main-content { padding-inline: 2rem; } }
+
+/* Page container width for comfortable line lengths */
+.product-app .portal-route-shell { max-width: none; width: 100%; }
+
+/* ── 6. Responsive layer ─────────────────────────────────────────────── */
+img, video, canvas { max-width: 100%; }
+.product-app main#main-content { min-width: 0; }
+
+@media (max-width: 1023px) {
+  .grid-cols-5, .grid-cols-6 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+
+@media (max-width: 767px) {
+  .product-app main#main-content { padding: 1rem 1rem 6.5rem !important; }
+  .p-8, .p-10, .p-12 { padding: 1.25rem !important; }
+  .p-7 { padding: 1.125rem !important; }
+  .px-8, .px-10, .px-12 { padding-inline: 1.25rem !important; }
+  .py-10, .py-12, .py-16, .py-20 { padding-block: 2rem !important; }
+  .gap-8, .gap-10, .gap-12 { gap: 1.25rem !important; }
+  .space-y-8 > :not(:last-child) { margin-bottom: 1.5rem !important; }
+  .text-4xl, .text-5xl { font-size: 1.75rem !important; line-height: 2.15rem; }
+  .text-3xl { font-size: 1.5rem !important; line-height: 1.95rem; }
+  .text-2xl { font-size: 1.25rem !important; line-height: 1.7rem; }
+  .grid-cols-4, .grid-cols-5, .grid-cols-6 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+  /* Fixed pixel widths/min-widths should never push the page sideways */
+  [class*=' w-['], [class^='w-['] { max-width: 100%; }
+  :not(table, table *)[class*='min-w-['] { min-width: 0 !important; }
+  .max-w-none { max-width: 100% !important; }
+
+  /* Wide tables scroll inside their own box */
+  .portal-route-shell table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+
+  /* Long words / URLs wrap instead of overflowing */
+  .portal-route-shell :is(p, h1, h2, h3, h4, li, td, span) { overflow-wrap: break-word; }
+  /* Page titles wrap instead of being cut off with an ellipsis */
+  .portal-route-shell :is(h1, h2).truncate { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+  /* Large header icon tiles shrink so titles get the room */
+  .portal-route-shell :is(.w-14.h-14, .w-16.h-16).shrink-0 { width: 2.75rem !important; height: 2.75rem !important; }
+  .portal-route-shell :is(.w-14.h-14, .w-16.h-16).shrink-0 > svg { width: 1.375rem; height: 1.375rem; }
+
+  /* Modals: fit the viewport and scroll internally */
+  .fixed.inset-0 > :is(div, section, form):not(.absolute):not(.fixed) { max-height: calc(100dvh - 1.5rem); overflow-y: auto; }
+
+  /* Chip / tab rows scroll horizontally rather than overflow the page */
+  .portal-route-shell .flex.gap-2:not(.flex-wrap):not(.flex-col):has(> button:nth-child(4)),
+  .portal-route-shell .flex.gap-1\.5:not(.flex-wrap):not(.flex-col):has(> button:nth-child(4)),
+  .portal-route-shell .flex.gap-1:not(.flex-wrap):not(.flex-col):has(> button:nth-child(4)) {
+    overflow-x: auto; scrollbar-width: none; max-width: 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  .product-app main#main-content { padding-inline: .875rem !important; }
+  .grid-cols-3:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-route-product > div { animation: none !important; }
+}
+
+/* Tinted chips that were designed for dark panels */
+:root[data-theme-mode='light'] :is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="bg-emerald-950"], [class*="bg-emerald-900"]) { background-color: var(--ns-primary-50) !important; border-color: var(--ns-primary-100) !important; }
+:root[data-theme-mode='light'] :is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="bg-blue-950"], [class*="bg-blue-900"]) { background-color: var(--ns-accent-50) !important; border-color: var(--ns-accent-100) !important; }
+:root[data-theme-mode='light'] :is(.ns-hero, .dashboard-hero, .ns-page-hero) :is([class*="text-blue-200"], [class*="text-blue-300"], [class*="text-blue-400"]) { color: var(--ns-info) !important; }
