@@ -1,0 +1,49 @@
+{
+  "name": "NexStep AI — Career Intelligence & Guidance",
+  "short_name": "NexStep",
+  "description": "AI-Powered Career & Academic Guidance Platform for Pakistan",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050810",
+  "theme_color": "#10b981",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/nexstep_logo_1786045525796.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Career AI",
+      "short_name": "Career AI",
+      "description": "AI career recommendations and guidance",
+      "url": "/career-ai",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI Counselor",
+      "short_name": "Chatbot",
+      "description": "Chat with NexStep AI career counselor",
+      "url": "/ai-chatbot",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "RIASEC Quiz",
+      "short_name": "Quiz",
+      "description": "Take Holland RIASEC assessment",
+      "url": "/quiz",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    }
+  ]
+}

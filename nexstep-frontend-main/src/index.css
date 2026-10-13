@@ -1,0 +1,1396 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   NEXSTEP DESIGN SYSTEM — CSS Custom Properties
+   Premium AI career guidance platform for Pakistani students
+
+   Design principles:
+   - Trustworthy, calm, professional
+   - AI + Education + Career + Growth
+   - Excellent contrast in both light & dark
+   - 8pt spacing system
+   - Subtle depth, restraint in gradients
+   ============================================================ */
+
+:root {
+  /* ── Brand: Deep Teal-Emerald (AI + Trust + Growth) ─────── */
+  --ns-primary-50:   #ecfdf5;
+  --ns-primary-100:  #d1fae5;
+  --ns-primary-200:  #a7f3d0;
+  --ns-primary-300:  #6ee7b7;
+  --ns-primary-400:  #34d399;
+  --ns-primary-500:  #10b981;
+  --ns-primary-600:  #059669;
+  --ns-primary-700:  #047857;
+  --ns-primary-800:  #065f46;
+  --ns-primary-900:  #064e3b;
+
+  /* ── Accent: Slate Blue (Career / Education) ───────────── */
+  --ns-accent-50:   #eef2ff;
+  --ns-accent-100:  #e0e7ff;
+  --ns-accent-200:  #c7d2fe;
+  --ns-accent-300:  #a5b4fc;
+  --ns-accent-400:  #818cf8;
+  --ns-accent-500:  #6366f1;
+  --ns-accent-600:  #4f46e5;
+  --ns-accent-700:  #4338ca;
+  --ns-accent-800:  #3730a3;
+  --ns-accent-900:  #312e81;
+
+  /* ── Semantic status colors ────────────────────────────── */
+  --ns-success: #15803d;
+  --ns-success-bg: #f0fdf4;
+  --ns-warning: #b45309;
+  --ns-warning-bg: #fffbeb;
+  --ns-danger:  #b91c1c;
+  --ns-danger-bg: #fef2f2;
+  --ns-info:    #1d4ed8;
+  --ns-info-bg: #eff6ff;
+
+  /* ── Skill / Match / AI semantic ───────────────────────── */
+  --ns-ai:       #6d28d9;   /* violet */
+  --ns-ai-bg:    #f5f3ff;
+  --ns-match:    #047857;   /* career match */
+  --ns-match-bg: #ecfdf5;
+  --ns-grow:     #0e7490;   /* cyan for growth/progress */
+  --ns-grow-bg:  #ecfeff;
+
+  /* ── Surfaces: Pearl light mode default ─────────────────────── */
+  --ns-bg:            #f4f8f7;  /* airy green-tinted canvas */
+  --ns-surface:       #ffffff;  /* card bg */
+  --ns-surface-2:     #f7faf9;  /* secondary surface */
+  --ns-surface-3:     #edf3f1;  /* subtle separators */
+  --ns-border:        #d8e4df;  /* card/section border */
+  --ns-border-soft:   #e7efec;  /* soft separator */
+  --ns-border-strong: #b8cbc4;  /* input/strong border */
+
+  /* ── Text ─────────────────────────────────────────── */
+  --ns-text:          #15251f;  /* deep evergreen */
+  --ns-text-muted:    #465b53;  /* readable body copy */
+  --ns-text-subtle:   #63776e;  /* secondary text */
+  --ns-text-faint:    #82928c;  /* tertiary text */
+
+  /* ── Elevation (shadows) ───────────────────────────────── */
+  --ns-shadow-xs:    0 1px 2px 0 rgb(20 47 37 / 0.04), 0 1px 1px -1px rgb(20 47 37 / 0.04);
+  --ns-shadow-sm:    0 2px 5px -2px rgb(20 47 37 / 0.10), 0 1px 2px -1px rgb(20 47 37 / 0.05);
+  --ns-shadow-md:    0 10px 24px -14px rgb(20 47 37 / 0.18), 0 2px 6px -3px rgb(20 47 37 / 0.08);
+  --ns-shadow-lg:    0 20px 42px -24px rgb(20 47 37 / 0.25), 0 5px 14px -8px rgb(20 47 37 / 0.12);
+  --ns-shadow-glow:  0 12px 34px -16px rgb(5 150 105 / 0.26);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --ns-font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  --ns-font-urdu: 'Noto Nastaliq Urdu', serif;
+  --ns-font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --ns-text-xs:   0.6875rem;  /* 11px */
+  --ns-text-sm:   0.75rem;    /* 12px */
+  --ns-text-base: 0.8125rem;  /* 13px — default body */
+  --ns-text-lg:   0.9375rem;  /* 15px — card title */
+  --ns-text-xl:   1.0625rem;  /* 17px — section title */
+  --ns-text-2xl:  1.375rem;   /* 22px — page title */
+  --ns-text-3xl:  1.75rem;    /* 28px — hero title */
+  --ns-text-4xl:  2.25rem;    /* 36px — hero */
+
+  --ns-leading-tight:   1.2;
+  --ns-leading-snug:    1.4;
+  --ns-leading-normal:  1.55;
+  --ns-leading-relaxed: 1.7;
+
+  --ns-tracking-tight: -0.01em;
+  --ns-tracking-normal: 0;
+  --ns-tracking-wide:   0.02em;
+
+  /* ── Radius ─────────────────────────────────────────────── */
+  --ns-radius-xs: 6px;
+  --ns-radius-sm: 8px;
+  --ns-radius-md: 10px;
+  --ns-radius-lg: 14px;
+  --ns-radius-xl: 18px;
+  --ns-radius-2xl: 24px;
+  --ns-radius-3xl: 32px;
+  --ns-radius-full: 9999px;
+
+  /* ── Spacing (8pt grid + 4pt fine) ──────────────────────── */
+  --ns-space-0-5: 2px;
+  --ns-space-1:   4px;
+  --ns-space-1-5: 6px;
+  --ns-space-2:   8px;
+  --ns-space-2-5: 10px;
+  --ns-space-3:   12px;
+  --ns-space-3-5: 14px;
+  --ns-space-4:   16px;
+  --ns-space-5:   20px;
+  --ns-space-6:   24px;
+  --ns-space-7:   28px;
+  --ns-space-8:   32px;
+  --ns-space-10:  40px;
+  --ns-space-12:  48px;
+  --ns-space-16:  64px;
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --ns-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ns-ease-in:  cubic-bezier(0.4, 0, 1, 1);
+  --ns-ease-io:  cubic-bezier(0.65, 0, 0.35, 1);
+
+  --ns-dur-fastest: 80ms;
+  --ns-dur-fast:    150ms;
+  --ns-dur-base:    240ms;
+  --ns-dur-slow:    380ms;
+  --ns-dur-slowest: 600ms;
+
+  /* ── Z-index scale ──────────────────────────────────────── */
+  --z-base:      1;
+  --z-card:      10;
+  --z-nav:       40;
+  --z-sticky:    45;
+  --z-modal:     50;
+  --z-popover:   55;
+  --z-toast:     60;
+  --z-max:       100;
+}
+
+/* ── Reduced Motion Handling ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Dark mode overrides ────────────────────────────────────
+   Carefully tuned, not just inverted.
+   Warmer dark tones, reduced contrast for comfort. */
+.dark {
+  --ns-bg:            #0b1220;  /* navy-tinged deep dark */
+  --ns-surface:       #111a2e;  /* card bg */
+  --ns-surface-2:     #0e1628;  /* secondary surface */
+  --ns-surface-3:     #1a2540;  /* subtle separators */
+  --ns-border:        #1f2b48;  /* card/section border */
+  --ns-border-soft:   #15203a;  /* soft separator */
+  --ns-border-strong: #2a395e;  /* input/strong border */
+
+  --ns-text:          #f1f5f9;  /* slate-100 */
+  --ns-text-muted:    #cbd5e1;  /* slate-300 */
+  --ns-text-subtle:   #94a3b8;  /* slate-400 */
+  --ns-text-faint:    #64748b;  /* slate-500 */
+
+  /* Brighter semantic ink is needed on deep surfaces. These hues retain
+     readable contrast in compact labels, badges, and data visualisations. */
+  --ns-success: #4ade80;
+  --ns-warning: #fbbf24;
+  --ns-danger:  #f87171;
+  --ns-info:    #60a5fa;
+  --ns-ai:      #c4b5fd;
+  --ns-match:   #6ee7b7;
+  --ns-grow:    #67e8f9;
+
+  --ns-success-bg: rgba(22, 163, 74, 0.12);
+  --ns-warning-bg: rgba(217, 119, 6, 0.12);
+  --ns-danger-bg:  rgba(220, 38, 38, 0.12);
+  --ns-info-bg:    rgba(37, 99, 235, 0.12);
+  --ns-ai-bg:      rgba(124, 58, 237, 0.12);
+  --ns-match-bg:   rgba(5, 150, 105, 0.12);
+  --ns-grow-bg:    rgba(8, 145, 178, 0.12);
+
+  --ns-shadow-xs:    0 1px 2px 0 rgb(0 0 0 / 0.3), 0 1px 1px -1px rgb(0 0 0 / 0.2);
+  --ns-shadow-sm:    0 1px 3px 0 rgb(0 0 0 / 0.35), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+  --ns-shadow-md:    0 4px 8px -2px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --ns-shadow-lg:    0 12px 24px -6px rgb(0 0 0 / 0.5), 0 4px 10px -4px rgb(0 0 0 / 0.35);
+  --ns-shadow-glow:  0 10px 40px -10px rgb(16 185 129 / 0.25);
+}
+
+/* Components created before the design-system migration frequently use
+   fixed Tailwind surface/text utilities. Keep their contrast correct when
+   the app theme changes, including cards without an explicit dark variant. */
+.dark [class*="bg-white"]:not(button):not(a):not([class*="rounded-full px-"]) { background-color: var(--ns-surface) !important; }
+.dark [class*="bg-slate-50"]:not(button):not(a) { background-color: var(--ns-surface-2) !important; }
+.dark .border-slate-100, .dark .border-slate-200, .dark .border-slate-200\/80 { border-color: var(--ns-border) !important; }
+.dark .text-slate-900, .dark .text-slate-800, .dark .text-slate-700 { color: var(--ns-text) !important; }
+.dark .text-slate-600, .dark .text-slate-500 { color: var(--ns-text-muted) !important; }
+.dark .text-slate-400 { color: var(--ns-text-subtle) !important; }
+
+/* In dark mode, preserve intentional bright action buttons with dark text */
+.dark button.bg-white,
+.dark a.bg-white,
+.dark [role="button"].bg-white {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+.dark button.bg-white:hover,
+.dark a.bg-white:hover {
+  background-color: #f1f5f9 !important;
+  color: #020617 !important;
+}
+
+/* In light mode, ensure any text on light surfaces is dark and legible */
+:root[data-theme-mode='light'] .text-slate-100:not(:is([class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], [class*="bg-emerald-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"], [class*="bg-red-"], button, a) *),
+:root[data-theme-mode='light'] .text-slate-200:not(:is([class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], [class*="bg-emerald-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"], [class*="bg-red-"], button, a) *) {
+  color: var(--ns-text) !important;
+}
+
+:root[data-theme-mode='light'] .text-slate-400:not(:is([class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], [class*="bg-emerald-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"], [class*="bg-red-"]) *) {
+  color: var(--ns-text-muted);
+}
+
+/* ============================================================
+   BASE RESETS & TYPOGRAPHY
+   ============================================================ */
+
+@layer base {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--ns-font-sans);
+  font-size: calc(16px * var(--ns-user-font-scale, 1));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ns-bg);
+  color: var(--ns-text);
+  font-family: var(--ns-font-sans);
+  font-size: var(--ns-text-base);
+  line-height: var(--ns-leading-normal);
+  letter-spacing: var(--ns-tracking-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Explicit user controls from Settings. These apply to the complete web app,
+   including pages created before the current design system. */
+:root[data-nexstep-motion='reduced'] *,
+:root[data-nexstep-motion='reduced'] *::before,
+:root[data-nexstep-motion='reduced'] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+:root[data-nexstep-density='compact'] .portal-route-product > div {
+  --ns-space-6: 18px;
+}
+
+:root[data-nexstep-density='compact'] .product-app main {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+/* ── Typographic hierarchy ────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: var(--ns-leading-tight);
+  letter-spacing: var(--ns-tracking-tight);
+  color: var(--ns-text);
+}
+
+h1 { font-size: var(--ns-text-3xl); }
+h2 { font-size: var(--ns-text-2xl); }
+h3 { font-size: var(--ns-text-xl); }
+h4 { font-size: var(--ns-text-lg); }
+
+p { margin: 0; color: var(--ns-text-muted); line-height: var(--ns-leading-normal); }
+
+small { font-size: var(--ns-text-xs); }
+}
+
+/* ============================================================
+   FOCUS & ACCESSIBILITY
+   ============================================================ */
+
+/* Clerk's sign-in / OTP widgets (cl-* classes) manage their own focus styles. */
+:focus-visible:not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *) {
+  outline: 2px solid var(--ns-primary-500);
+  outline-offset: 2px;
+  border-radius: var(--ns-radius-sm);
+}
+
+/* Skip-link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: var(--z-max);
+  background: var(--ns-primary-600);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 var(--ns-radius-md) var(--ns-radius-md);
+  font-size: var(--ns-text-sm);
+  font-weight: 700;
+  transition: top var(--ns-dur-base) var(--ns-ease-out);
+  box-shadow: var(--ns-shadow-md);
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Reduced motion: honor OS preference everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+}
+
+/* ============================================================
+   SHARED UTILITY LAYER — reusable components
+   ============================================================ */
+
+@layer components {
+  /* ── Page & Container Layouts ────────────────────────────── */
+  .ns-page-wrapper {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding-left: var(--ns-space-4);
+    padding-right: var(--ns-space-4);
+    padding-top: var(--ns-space-6);
+    padding-bottom: var(--ns-space-10);
+  }
+  @media (min-width: 640px) {
+    .ns-page-wrapper {
+      padding-left: var(--ns-space-6);
+      padding-right: var(--ns-space-6);
+      padding-top: var(--ns-space-8);
+      padding-bottom: var(--ns-space-12);
+    }
+  }
+  @media (min-width: 1024px) {
+    .ns-page-wrapper {
+      padding-left: var(--ns-space-8);
+      padding-right: var(--ns-space-8);
+    }
+  }
+
+  /* ── 3D Glassmorphism & Perspective Cards ──────────────── */
+  .ns-card {
+    background: var(--ns-surface);
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius-xl);
+    box-shadow: var(--ns-shadow-xs);
+    transition:
+      border-color var(--ns-dur-fast) var(--ns-ease-out),
+      box-shadow var(--ns-dur-base) var(--ns-ease-out),
+      transform var(--ns-dur-base) var(--ns-ease-out);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .ns-card-padded {
+    padding: var(--ns-space-6);
+  }
+  @media (min-width: 768px) {
+    .ns-card-padded {
+      padding: var(--ns-space-8);
+    }
+  }
+  .ns-card-hover:hover {
+    border-color: var(--ns-primary-400);
+    box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.25), 0 0 20px 2px rgba(16, 185, 129, 0.15);
+    transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
+  }
+  .dark .ns-card { border-color: var(--ns-border); background: rgba(17, 26, 46, 0.85); }
+
+  /* 3D Glass Card Container */
+  .glass-card-3d {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+  }
+  .dark .glass-card-3d {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  }
+
+  .ns-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--ns-space-4);
+    margin-bottom: var(--ns-space-6);
+    border-bottom: 1px solid var(--ns-border-soft);
+  }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  .ns-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ns-space-2);
+    padding: var(--ns-space-2) var(--ns-space-4);
+    border-radius: var(--ns-radius-md);
+    font-family: var(--ns-font-sans);
+    font-size: var(--ns-text-sm);
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--ns-dur-fast) var(--ns-ease-out),
+      color var(--ns-dur-fast) var(--ns-ease-out),
+      border-color var(--ns-dur-fast) var(--ns-ease-out),
+      box-shadow var(--ns-dur-fast) var(--ns-ease-out),
+      transform var(--ns-dur-fastest) var(--ns-ease-out);
+    white-space: nowrap;
+  }
+  .ns-btn:active:not(:disabled) { transform: translateY(0.5px) scale(0.99); }
+  .ns-btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+
+  .ns-btn-primary {
+    background: var(--ns-primary-600);
+    color: #ffffff;
+    border-color: var(--ns-primary-600);
+    box-shadow: 0 1px 2px 0 rgb(5 150 105 / 0.25);
+  }
+  .ns-btn-primary:hover:not(:disabled) {
+    background: var(--ns-primary-700);
+    border-color: var(--ns-primary-700);
+    box-shadow: var(--ns-shadow-glow);
+  }
+
+  .ns-btn-secondary {
+    background: var(--ns-surface-2);
+    color: var(--ns-text);
+    border-color: var(--ns-border-strong);
+  }
+  .ns-btn-secondary:hover:not(:disabled) {
+    background: var(--ns-border-soft);
+    border-color: var(--ns-border-strong);
+  }
+
+  .ns-btn-ghost {
+    background: transparent;
+    color: var(--ns-text-muted);
+    border-color: transparent;
+  }
+  .ns-btn-ghost:hover:not(:disabled) {
+    background: var(--ns-surface-2);
+    color: var(--ns-text);
+  }
+
+  .ns-btn-danger {
+    background: var(--ns-danger);
+    color: #fff;
+  }
+  .ns-btn-danger:hover:not(:disabled) {
+    background: #b91c1c;
+  }
+
+  .ns-btn-sm { padding: var(--ns-space-1-5) var(--ns-space-3); font-size: var(--ns-text-xs); border-radius: var(--ns-radius-sm); }
+  .ns-btn-lg { padding: var(--ns-space-3) var(--ns-space-5); font-size: var(--ns-text-base); border-radius: var(--ns-radius-lg); }
+
+  /* ── Inputs ─────────────────────────────────────────────── */
+  .ns-input,
+  .ns-select,
+  .ns-textarea {
+    width: 100%;
+    padding: var(--ns-space-2-5) var(--ns-space-3);
+    background: var(--ns-surface);
+    border: 1px solid var(--ns-border-strong);
+    border-radius: var(--ns-radius-md);
+    font-family: var(--ns-font-sans);
+    font-size: var(--ns-text-base);
+    color: var(--ns-text);
+    line-height: var(--ns-leading-snug);
+    transition:
+      border-color var(--ns-dur-fast) var(--ns-ease-out),
+      box-shadow var(--ns-dur-fast) var(--ns-ease-out),
+      background-color var(--ns-dur-fast) var(--ns-ease-out);
+  }
+  .ns-input::placeholder,
+  .ns-textarea::placeholder { color: var(--ns-text-faint); }
+  .ns-input:focus,
+  .ns-select:focus,
+  .ns-textarea:focus {
+    outline: none;
+    border-color: var(--ns-primary-500);
+    box-shadow: 0 0 0 3px rgb(16 185 129 / 0.15);
+  }
+  .ns-textarea { min-height: 96px; resize: vertical; }
+
+  .ns-input-label {
+    display: block;
+    font-size: var(--ns-text-xs);
+    font-weight: 700;
+    color: var(--ns-text-muted);
+    margin-bottom: var(--ns-space-1-5);
+    letter-spacing: var(--ns-tracking-wide);
+    text-transform: uppercase;
+  }
+  .ns-input-helper {
+    display: block;
+    font-size: var(--ns-text-xs);
+    color: var(--ns-text-subtle);
+    margin-top: var(--ns-space-1);
+  }
+  .ns-input-error {
+    border-color: var(--ns-danger) !important;
+    box-shadow: 0 0 0 3px rgb(220 38 38 / 0.12) !important;
+  }
+  .ns-input-error-msg {
+    display: block;
+    font-size: var(--ns-text-xs);
+    color: var(--ns-danger);
+    margin-top: var(--ns-space-1);
+    font-weight: 600;
+  }
+
+  /* ── Badges ─────────────────────────────────────────────── */
+  .ns-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ns-space-1);
+    padding: 2px var(--ns-space-2);
+    border-radius: var(--ns-radius-full);
+    font-size: var(--ns-text-xs);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .ns-badge-primary  { background: var(--ns-primary-100);  color: var(--ns-primary-800); border-color: var(--ns-primary-200); }
+  .ns-badge-accent   { background: var(--ns-accent-100);   color: var(--ns-accent-800);  border-color: var(--ns-accent-200); }
+  .ns-badge-success  { background: var(--ns-success-bg);   color: var(--ns-success);     border-color: var(--ns-success); border-color: rgb(22 163 74 / 0.2); }
+  .ns-badge-warning  { background: var(--ns-warning-bg);   color: var(--ns-warning);     border-color: rgb(217 119 6 / 0.2); }
+  .ns-badge-danger   { background: var(--ns-danger-bg);    color: var(--ns-danger);      border-color: rgb(220 38 38 / 0.2); }
+  .ns-badge-info     { background: var(--ns-info-bg);      color: var(--ns-info);        border-color: rgb(37 99 235 / 0.2); }
+  .ns-badge-ai       { background: var(--ns-ai-bg);        color: var(--ns-ai);          border-color: rgb(124 58 237 / 0.25); }
+  .ns-badge-match    { background: var(--ns-match-bg);     color: var(--ns-match);       border-color: rgb(5 150 105 / 0.2); }
+  .ns-badge-neutral  { background: var(--ns-surface-2);    color: var(--ns-text-muted);  border-color: var(--ns-border); }
+
+  .dark .ns-badge-primary  { background: rgb(5 150 105 / 0.15);  color: var(--ns-primary-300); border-color: rgb(5 150 105 / 0.25); }
+  .dark .ns-badge-accent   { background: rgb(79 70 229 / 0.15);  color: var(--ns-accent-300);  border-color: rgb(79 70 229 / 0.25); }
+  .dark .ns-badge-neutral  { background: var(--ns-surface-2);    color: var(--ns-text-muted);  border-color: var(--ns-border); }
+
+  /* ── Alerts ─────────────────────────────────────────────── */
+  .ns-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ns-space-3);
+    padding: var(--ns-space-3-5) var(--ns-space-4);
+    border-radius: var(--ns-radius-lg);
+    border: 1px solid;
+    font-size: var(--ns-text-sm);
+    line-height: var(--ns-leading-snug);
+  }
+  .ns-alert-info    { background: var(--ns-info-bg);    border-color: rgb(37 99 235 / 0.25); color: var(--ns-info); }
+  .ns-alert-success { background: var(--ns-success-bg); border-color: rgb(22 163 74 / 0.25); color: var(--ns-success); }
+  .ns-alert-warning { background: var(--ns-warning-bg); border-color: rgb(217 119 6 / 0.25); color: var(--ns-warning); }
+  .ns-alert-danger  { background: var(--ns-danger-bg);  border-color: rgb(220 38 38 / 0.25); color: var(--ns-danger); }
+  .ns-alert-ai      { background: var(--ns-ai-bg);      border-color: rgb(124 58 237 / 0.25); color: var(--ns-ai); }
+
+  /* ── Progress bars / rings ──────────────────────────────── */
+  .ns-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--ns-surface-2);
+    border-radius: var(--ns-radius-full);
+    overflow: hidden;
+  }
+  .ns-progress-bar {
+    height: 100%;
+    border-radius: var(--ns-radius-full);
+    background: linear-gradient(90deg, var(--ns-primary-500), var(--ns-primary-400));
+    transition: width var(--ns-dur-slow) var(--ns-ease-out);
+  }
+
+  /* ── Tables ─────────────────────────────────────────────── */
+  .ns-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--ns-text-sm);
+  }
+  .ns-table thead th {
+    padding: var(--ns-space-2-5) var(--ns-space-3);
+    background: var(--ns-surface-2);
+    color: var(--ns-text-subtle);
+    font-weight: 700;
+    font-size: var(--ns-text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ns-tracking-wide);
+    text-align: left;
+    border-bottom: 1px solid var(--ns-border);
+  }
+  .ns-table thead th:first-child { border-top-left-radius: var(--ns-radius-lg); }
+  .ns-table thead th:last-child  { border-top-right-radius: var(--ns-radius-lg); }
+  .ns-table tbody td {
+    padding: var(--ns-space-3) var(--ns-space-3);
+    border-bottom: 1px solid var(--ns-border-soft);
+    color: var(--ns-text-muted);
+  }
+  .ns-table tbody tr:last-child td { border-bottom: none; }
+  .ns-table tbody tr:hover td { background: var(--ns-surface-2); }
+
+  /* ── Empty states ───────────────────────────────────────── */
+  .ns-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ns-space-3);
+    padding: var(--ns-space-12) var(--ns-space-6);
+    text-align: center;
+  }
+  .ns-empty-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--ns-radius-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ns-surface-2);
+    color: var(--ns-text-subtle);
+    margin-bottom: var(--ns-space-1);
+  }
+  .ns-empty-title {
+    font-size: var(--ns-text-lg);
+    font-weight: 700;
+    color: var(--ns-text);
+  }
+  .ns-empty-sub {
+    font-size: var(--ns-text-sm);
+    color: var(--ns-text-subtle);
+    max-width: 320px;
+  }
+
+  /* ── Skeleton / loading shimmer ─────────────────────────── */
+  .ns-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--ns-surface-2);
+    border-radius: var(--ns-radius-md);
+  }
+  .ns-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.5),
+      transparent
+    );
+    animation: ns-shimmer 1.6s infinite;
+  }
+  .dark .ns-skeleton::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.08),
+      transparent
+    );
+  }
+
+  @keyframes ns-shimmer {
+    100% { transform: translateX(100%); }
+  }
+
+  /* ── Urdu font support ──────────────────────────────────── */
+  .font-urdu {
+    font-family: var(--ns-font-urdu);
+    line-height: 2.2;
+  }
+
+  [dir='rtl'] .marketing-navbar-inner,
+  [dir='rtl'] .marketing-footer,
+  [dir='rtl'] .community-workspace {
+    text-align: right;
+  }
+
+  [dir='rtl'] .marketing-nav-links,
+  [dir='rtl'] .marketing-nav-actions,
+  [dir='rtl'] .marketing-footer-content,
+  [dir='rtl'] .marketing-footer-bottom {
+    flex-direction: row-reverse;
+  }
+
+  /* ── Text gradients (sparingly) ─────────────────────────── */
+  .ns-text-gradient-brand {
+    background: linear-gradient(135deg, var(--ns-primary-600) 0%, var(--ns-accent-600) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ── Glow accents (very subtle, premium feel) ───────────── */
+  .ns-accent-glow-left {
+    position: absolute;
+    pointer-events: none;
+    top: -120px;
+    left: -80px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(16 185 129 / 0.10) 0%, transparent 68%);
+    filter: blur(20px);
+  }
+  .ns-accent-glow-right {
+    position: absolute;
+    pointer-events: none;
+    bottom: -140px;
+    right: -60px;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(99 102 241 / 0.09) 0%, transparent 68%);
+    filter: blur(20px);
+  }
+  .dark .ns-accent-glow-left  { background: radial-gradient(circle, rgb(16 185 129 / 0.16) 0%, transparent 68%); }
+  .dark .ns-accent-glow-right { background: radial-gradient(circle, rgb(99 102 241 / 0.14) 0%, transparent 68%); }
+
+  /* ── Mesh dot pattern (page bg) ─────────────────────────── */
+  .bg-mesh-pattern {
+    background-image: radial-gradient(rgb(15 23 42 / 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .dark .bg-mesh-pattern {
+    background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  }
+
+  /* ── Scrollbars: thin, muted ────────────────────────────── */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--ns-border-strong);
+    border-radius: var(--ns-radius-full);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ns-primary-500);
+    background-clip: content-box;
+    border: 2px solid transparent;
+  }
+}
+
+/* ============================================================
+   COMPONENT-SPECIFIC HELPERS
+   ============================================================ */
+
+/* Page section title */
+.ns-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--ns-space-2);
+  font-size: var(--ns-text-sm);
+  font-weight: 800;
+  color: var(--ns-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Stats / KPI numbers */
+.ns-stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tag cloud */
+.ns-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--ns-radius-full);
+  background: var(--ns-surface-2);
+  border: 1px solid var(--ns-border);
+  color: var(--ns-text-muted);
+  font-size: var(--ns-text-xs);
+  font-weight: 600;
+  transition: all var(--ns-dur-fast) var(--ns-ease-out);
+  cursor: default;
+}
+.ns-tag:hover { border-color: var(--ns-primary-400); color: var(--ns-text); }
+
+/* Nav items */
+.ns-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ns-space-2-5);
+  padding: var(--ns-space-2) var(--ns-space-3);
+  border-radius: var(--ns-radius-md);
+  font-size: var(--ns-text-sm);
+  font-weight: 600;
+  color: var(--ns-text-muted);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--ns-dur-fast) var(--ns-ease-out);
+  user-select: none;
+  border: 1px solid transparent;
+}
+.ns-nav-item:hover {
+  background: var(--ns-surface-2);
+  color: var(--ns-text);
+}
+.ns-nav-item-active {
+  background: var(--ns-primary-600);
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 1px 2px 0 rgb(5 150 105 / 0.25), 0 2px 8px -2px rgb(5 150 105 / 0.3);
+}
+.ns-nav-item-active:hover {
+  background: var(--ns-primary-700);
+}
+
+/* Section separator label (Sidebar) */
+.ns-nav-group-label {
+  font-size: 0.625rem;  /* 10px */
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ns-text-faint);
+  padding: 0 var(--ns-space-3);
+  margin-top: var(--ns-space-4);
+  margin-bottom: var(--ns-space-1-5);
+}
+.ns-nav-group-label:first-child { margin-top: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   NEXSTEP LOGO — white-background PNG fix
+   The logo PNG has a white background. These rules remove it on dark
+   surfaces using mix-blend-mode so it looks clean on any background.
+───────────────────────────────────────────────────────────────────────────── */
+.marketing-navbar img[alt="NexStep.AI"],
+.marketing-footer-brand-lockup img {
+  mix-blend-mode: multiply;
+}
+
+/* Logo wrapper container for the navbar */
+.nexstep-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.nexstep-logo-wrap img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  display: block;
+}
+
+/* Scrolled state — slightly more opaque wrapper */
+.marketing-navbar.is-scrolled .nexstep-logo-wrap {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* The shared navbar deliberately adopts the selected app theme. Its original
+   landing-page styling was dark-only, which made light mode look unfinished. */
+:root[data-theme-mode='light'] .marketing-navbar .nexstep-logo-wrap {
+  background: color-mix(in srgb, var(--ns-primary-500) 10%, var(--ns-surface));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ns-border-strong) 72%, transparent);
+}
+
+:root[data-theme-mode='light'] .marketing-navbar.is-scrolled .nexstep-logo-wrap {
+  background: color-mix(in srgb, var(--ns-primary-500) 12%, var(--ns-surface));
+}
+
+:root[data-theme-mode='light'] .marketing-navbar .text-slate-100 {
+  color: var(--ns-text) !important;
+}
+
+:root[data-theme-mode='light'] .marketing-navbar .border-white\/20 {
+  border-color: var(--ns-border) !important;
+}
+
+/* ============================================================
+   RESUME PRINT STYLES — A4 PDF Export via window.print()
+   ============================================================ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 12mm 14mm;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #resume-print-area,
+  #resume-print-area * {
+    visibility: visible !important;
+  }
+
+  #resume-print-area {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    font-size: 10pt !important;
+    line-height: 1.55 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+
+  #resume-print-area h1 {
+    font-size: 18pt !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin-bottom: 2pt !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  #resume-print-area h2,
+  #resume-print-area h3 {
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    border-bottom: 1pt solid #0f172a !important;
+    padding-bottom: 2pt !important;
+    margin-top: 8pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  #resume-print-area p,
+  #resume-print-area span,
+  #resume-print-area li,
+  #resume-print-area div {
+    color: #1e293b !important;
+  }
+
+  #resume-print-area [class*="dark:bg-"] {
+    background: #ffffff !important;
+  }
+
+  #resume-print-area [class*="rounded"],
+  #resume-print-area [class*="shadow"] {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #resume-print-area .resume-skill-tag {
+    display: inline-block !important;
+    border: 0.5pt solid #475569 !important;
+    padding: 1pt 4pt !important;
+    margin: 1pt !important;
+    font-size: 8pt !important;
+    border-radius: 2pt !important;
+    background: #f8fafc !important;
+    color: #1e293b !important;
+  }
+
+  #resume-print-area .resume-section {
+    page-break-inside: avoid !important;
+  }
+
+  #resume-print-area hr,
+  #resume-print-area .border-b {
+    border-color: #0f172a !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ============================================================
+   IMMERSIVE INTERFACE LAYER
+   Ambient depth stays deliberately subtle so learning content remains
+   readable while the product feels responsive and distinctly premium.
+   ============================================================ */
+
+
+
+
+
+.nexstep-app {
+  isolation: isolate;
+  background-color: var(--ns-bg) !important;
+  background-image:
+    radial-gradient(circle at 14% 8%, color-mix(in srgb, var(--ns-primary-400) 13%, transparent), transparent 24rem),
+    radial-gradient(circle at 88% 90%, color-mix(in srgb, var(--ns-accent-400) 11%, transparent), transparent 28rem) !important;
+}
+
+.nexstep-app::before,
+.nexstep-app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.nexstep-app::before {
+  inset: 0;
+  opacity: 0.34;
+  background-image: linear-gradient(rgb(148 163 184 / 0.08) 1px, transparent 1px), linear-gradient(90deg, rgb(148 163 184 / 0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black, transparent 58%);
+}
+
+.nexstep-app::after {
+  width: 28rem;
+  height: 28rem;
+  top: 18%;
+  right: -13rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--ns-primary-500) 12%, transparent);
+  filter: blur(76px);
+  animation: ns-orbit-glow 13s ease-in-out infinite;
+}
+
+.hero-3d-stage {
+  transform-style: preserve-3d;
+  box-shadow: 0 30px 70px -30px rgb(2 6 23 / 0.82), inset 0 1px 0 rgb(255 255 255 / 0.12) !important;
+}
+
+.hero-3d-stage::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(125deg, rgb(255 255 255 / 0.12), transparent 23%, transparent 74%, rgb(16 185 129 / 0.09));
+}
+
+.ns-card-hover {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.ns-card-hover:hover {
+  transform: perspective(900px) translateY(-5px) rotateX(1.1deg);
+  box-shadow: 0 20px 34px -22px rgb(15 23 42 / 0.38), var(--ns-shadow-glow);
+}
+
+@keyframes ns-orbit-glow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-2rem, 1.5rem, 0) scale(1.14); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexstep-app::after { animation: none; }
+  .ns-card-hover:hover { transform: translateY(-1px); }
+}
+
+/* A fresh product shell: light passes through the navigation, content is
+   framed instead of boxed in, and the landing page gets a clear visual arc. */
+.nexstep-nav {
+  border-color: color-mix(in srgb, var(--ns-border) 78%, transparent) !important;
+  background: color-mix(in srgb, var(--ns-surface) 82%, transparent) !important;
+  box-shadow: 0 12px 34px -28px rgb(15 23 42 / 0.55) !important;
+}
+
+.nexstep-nav::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ns-primary-400) 40%, transparent), transparent);
+}
+
+.nexstep-sidebar {
+  background: color-mix(in srgb, var(--ns-surface) 86%, transparent) !important;
+  border-color: color-mix(in srgb, var(--ns-border) 72%, transparent) !important;
+  box-shadow: 18px 0 40px -38px rgb(15 23 42 / 0.65) !important;
+  backdrop-filter: blur(18px);
+}
+
+.landing-redesign {
+  max-width: 1360px;
+  margin-inline: auto;
+}
+
+.landing-section-nav {
+  position: sticky;
+  top: 5.2rem;
+  z-index: 20;
+  background: linear-gradient(115deg, #10182b 0%, #13243a 48%, #0d3838 100%);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  box-shadow: 0 20px 44px -28px rgb(2 6 23 / 0.8), inset 0 1px rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(18px);
+}
+
+.landing-nav-label {
+  border: 1px solid rgb(110 231 183 / 0.28);
+  border-radius: 0.72rem;
+  background: linear-gradient(135deg, rgb(16 185 129 / 0.26), rgb(20 184 166 / 0.1));
+}
+
+.landing-nav-active {
+  background: linear-gradient(135deg, #10b981, #14b8a6) !important;
+  box-shadow: 0 8px 18px -9px rgb(16 185 129 / 0.8);
+}
+
+.landing-metrics {
+  perspective: 1000px;
+}
+
+.landing-stat {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ns-border) 82%, transparent);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ns-surface) 92%, white), var(--ns-surface));
+  box-shadow: 0 16px 28px -24px rgb(15 23 42 / 0.55), inset 0 1px rgb(255 255 255 / 0.7);
+  transition: transform 260ms var(--ns-ease-out), box-shadow 260ms var(--ns-ease-out), border-color 260ms var(--ns-ease-out);
+}
+
+.landing-stat::after {
+  content: '';
+  position: absolute;
+  inset: auto -1rem -2.7rem auto;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ns-primary-400) 17%, transparent);
+  filter: blur(10px);
+}
+
+.landing-stat:hover {
+  transform: translateY(-6px) rotateX(2deg);
+  border-color: color-mix(in srgb, var(--ns-primary-400) 52%, var(--ns-border));
+  box-shadow: 0 24px 36px -24px rgb(15 23 42 / 0.52), var(--ns-shadow-glow);
+}
+
+.landing-feature-section {
+  padding: clamp(1.5rem, 4vw, 3.25rem);
+  border: 1px solid color-mix(in srgb, var(--ns-border) 86%, transparent);
+  border-radius: 2rem;
+  background: color-mix(in srgb, var(--ns-surface) 78%, transparent);
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.72), 0 28px 45px -42px rgb(15 23 42 / 0.5);
+  backdrop-filter: blur(14px);
+}
+
+.landing-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ns-primary-700);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.landing-eyebrow::before {
+  content: '';
+  width: 1.7rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.landing-feature {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ns-border) 86%, transparent);
+  background: linear-gradient(140deg, color-mix(in srgb, var(--ns-surface) 95%, white), var(--ns-surface));
+  box-shadow: 0 15px 30px -27px rgb(15 23 42 / 0.6), inset 0 1px rgb(255 255 255 / 0.8);
+  transition: transform 320ms var(--ns-ease-out), box-shadow 320ms var(--ns-ease-out), border-color 320ms var(--ns-ease-out);
+}
+
+.landing-feature::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ns-primary-500), var(--ns-accent-400));
+  opacity: 0;
+  transition: opacity 260ms var(--ns-ease-out);
+}
+
+.landing-feature:hover {
+  transform: translateY(-9px) perspective(1000px) rotateX(1.4deg);
+  border-color: color-mix(in srgb, var(--ns-primary-400) 58%, var(--ns-border));
+  box-shadow: 0 27px 42px -28px rgb(15 23 42 / 0.54), var(--ns-shadow-glow);
+}
+
+.landing-feature:hover::before { opacity: 1; }
+
+
+
+
+
+@media (max-width: 1023px) {
+  .landing-section-nav { top: 4.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-stat:hover,
+  .landing-feature:hover { transform: translateY(-1px); }
+}
+
+/* ============================================================
+   3D PERSPECTIVE & GLASSMORPHIC ELEVATION UTILITIES
+   ============================================================ */
+.ns-3d-perspective {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.ns-3d-card {
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.ns-3d-card:hover {
+  transform: translateY(-8px) rotateX(4deg) rotateY(-3deg) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25), 0 0 20px rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.ns-glassmorphism {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.ns-neon-glow {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+@keyframes float3d {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.animate-float-slow {
+  animation: float3d 6s ease-in-out infinite;
+}
+
+/* ============================================================
+   UI VISIBILITY FIXES — DARK & LIGHT MODE
+   Prevent content from disappearing when theme changes.
+   Applied last so these take highest precedence.
+   ============================================================ */
+
+/* ── 1. Dark mode: gradient hero/banner cards with hardcoded white text ──────
+   Many cards use bg-gradient-to-br from-slate-900 and text-white.
+   In dark mode these are fine. In light mode the bg-white guardrail in
+   portal-redesign.css doesn't catch gradient backgrounds, so text-white
+   remains white-on-white. Fix: any text-white inside a gradient bg is
+   overridden to --ns-text in light mode. */
+:root[data-theme-mode='light'] [class*="bg-gradient-"]:not(:is(
+  [class*="from-emerald-"], [class*="from-teal-"], [class*="from-green-"],
+  [class*="from-blue-"], [class*="from-indigo-"], [class*="from-violet-"],
+  [class*="from-purple-"], [class*="from-red-"],
+  button, a, [role="button"]
+)) .text-white:not(svg, path),
+:root[data-theme-mode='light'] [class*="bg-gradient-"]:not(:is(
+  [class*="from-emerald-"], [class*="from-teal-"], [class*="from-green-"],
+  [class*="from-blue-"], [class*="from-indigo-"], [class*="from-violet-"],
+  [class*="from-purple-"], [class*="from-red-"],
+  button, a, [role="button"]
+)) [class*="text-white"]:not(svg, path) {
+  color: var(--ns-text) !important;
+}
+
+/* ── 2. Dark mode: text-slate-900 inside bg-slate-800/900/950 ────────────────
+   Some components use text-slate-900 (near-black) inside a dark card.
+   The global .dark .text-slate-900 override flips it to --ns-text (white),
+   but this can create white-on-white if the container is already light.
+   The existing rules handle this, but bg-slate-800+ with text-slate-900
+   descendants inside need an explicit fix. */
+.dark [class*="bg-slate-8"],
+.dark [class*="bg-slate-9"] {
+  color: var(--ns-text);
+}
+
+/* ── 3. Light mode: cards that use from-slate-900 (gradient dark panels) ─────
+   DashboardTab hero, CareerAiTab header, etc. use
+   "bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950"
+   These look correct in dark mode (dark card on dark bg) but in light mode
+   they become a dark card on a light bg — that's intentional and correct.
+   BUT any child text must remain white on these dark gradient cards.
+   So we PRESERVE white text when the gradient starts from slate-8/9. */
+:root[data-theme-mode='light'] [class*="from-slate-8"] .text-white,
+:root[data-theme-mode='light'] [class*="from-slate-9"] .text-white,
+:root[data-theme-mode='light'] [class*="from-slate-8"] [class*="text-white"],
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-white"],
+:root[data-theme-mode='light'] [class*="via-slate-9"] .text-white,
+:root[data-theme-mode='light'] [class*="to-slate-9"] .text-white {
+  color: #ffffff !important;
+}
+
+/* Sub-text on dark gradient cards — preserve slate-3/4 muted text too */
+:root[data-theme-mode='light'] [class*="from-slate-8"] [class*="text-slate-3"],
+:root[data-theme-mode='light'] [class*="from-slate-8"] [class*="text-slate-4"],
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-slate-3"],
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-slate-4"],
+:root[data-theme-mode='light'] [class*="via-slate-9"] [class*="text-slate-3"],
+:root[data-theme-mode='light'] [class*="via-slate-9"] [class*="text-slate-4"] {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+/* ── 4. Dark mode: bg-white/75 and bg-white/50 translucent cards ─────────────
+   These are not caught by the .dark [class*="bg-white"] rule because that
+   matches class substrings and Tailwind generates "bg-white\/75" literally. */
+.dark [class*="bg-white\/"] { background-color: var(--ns-surface) !important; }
+
+/* ── 5. Light mode: any element with class text-white that sits inside
+   a bg-white or bg-slate-50 direct parent — white-on-white killer ─────────── */
+:root[data-theme-mode='light'] .bg-white > .text-white,
+:root[data-theme-mode='light'] .bg-white > * > .text-white,
+:root[data-theme-mode='light'] [class="bg-slate-50"] > .text-white {
+  color: var(--ns-text) !important;
+}
+
+/* ── 6. MockInterviewTab & ScoreRing: ensure SVG track ring is visible ────────
+   The dark:text-slate-700 Tailwind class on the track circle SVG element
+   needs the .dark parent to be an ancestor — guaranteed by App.jsx. ───────── */
+.dark circle.text-slate-200 { color: #334155 !important; /* slate-700 */ }
+
+/* ── 7. Aurora theme: text legibility on violet surfaces ─────────────────────
+   Aurora uses violet/cyan. Some components don't have aurora-specific
+   overrides and can render poorly. */
+
+
+
+
+/* ── 8. Sidebar in light mode: nav items and user card text ──────────────────
+   The sidebar uses var(--ns-surface) so inherits correct colours via the
+   design token, but explicit Tailwind classes need a nudge. */
+:root[data-theme-mode='light'] aside [class*="text-slate-900"],
+:root[data-theme-mode='light'] aside [class*="text-slate-800"] { color: var(--ns-text) !important; }
+:root[data-theme-mode='light'] aside [class*="text-slate-500"],
+:root[data-theme-mode='light'] aside [class*="text-slate-400"] { color: var(--ns-text-muted) !important; }
+
+/* ── 9. Ensure backgrounds of ns-card components use the correct surface token
+   in all themes, including Sunrise ─────────────────────────────────────────── */
+.ns-card { background: var(--ns-surface); border-color: var(--ns-border); color: var(--ns-text); }

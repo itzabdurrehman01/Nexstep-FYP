@@ -1,0 +1,1119 @@
+/* Shared premium workspace treatment for every product route. */
+.product-app { background-color: var(--ns-bg) !important; }
+.nexstep-app { background-color: var(--ns-bg) !important; color: var(--ns-text) !important; }
+.nexstep-app.bg-mesh-pattern { background-image: radial-gradient(color-mix(in srgb, var(--ns-text) 7%, transparent) 1px, transparent 1px) !important; }
+.marketing-navbar,
+.marketing-navbar-portal,
+.product-app .marketing-navbar,
+.product-app .marketing-navbar-portal {
+  background: color-mix(in srgb, var(--ns-surface) 90%, transparent) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ns-border) 88%, transparent) !important;
+  backdrop-filter: blur(20px) !important;
+}
+.marketing-navbar.is-scrolled,
+.marketing-navbar-portal.is-scrolled,
+.product-app .marketing-navbar.is-scrolled,
+.product-app .marketing-navbar-portal.is-scrolled {
+  background: color-mix(in srgb, var(--ns-surface) 94%, transparent) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ns-border-strong) 76%, transparent) !important;
+  backdrop-filter: blur(20px) !important;
+}
+.product-app .marketing-navbar-portal .marketing-brand b,
+.product-app .marketing-navbar-portal .marketing-nav-links > button,
+.product-app .marketing-navbar-portal .marketing-nav-dropdown-wrap > button {
+  color: var(--ns-text) !important;
+}
+.product-app .marketing-navbar-portal .marketing-brand small,
+.product-app .marketing-navbar-portal .marketing-signin {
+  color: var(--ns-text-subtle) !important;
+}
+.product-app .marketing-navbar-portal .marketing-nav-links > button:hover,
+.product-app .marketing-navbar-portal .marketing-nav-dropdown-wrap > button:hover {
+  color: var(--ns-text) !important;
+  background: color-mix(in srgb, var(--ns-primary-500) 10%, transparent) !important;
+}
+.product-app main { position: relative; }
+.portal-route-shell { position: relative; isolation: isolate; min-height: 52vh; }
+.portal-route-shell::before { position: absolute; z-index: -1; top: -2.5rem; right: -2rem; width: 20rem; height: 20rem; content: ''; border-radius: 50%; background: color-mix(in srgb, var(--ns-primary-500) 10%, transparent); filter: blur(76px); pointer-events: none; }
+.portal-route-shell::after { position: absolute; z-index: -1; bottom: 8%; left: -8rem; width: 18rem; height: 18rem; content: ''; border-radius: 50%; background: color-mix(in srgb, var(--ns-accent-500) 7%, transparent); filter: blur(84px); pointer-events: none; }
+.portal-route-product > div { animation: portal-rise .54s var(--ns-ease-out) both; }
+@keyframes portal-rise { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+
+.portal-route-shell :is(.ns-card, [class*="rounded-2xl"][class*="border"], [class*="rounded-3xl"][class*="border"]) { border-color: color-mix(in srgb, var(--ns-border) 82%, transparent); box-shadow: 0 18px 38px -32px rgb(15 23 42 / .65), inset 0 1px rgb(255 255 255 / .08); }
+.portal-route-shell :is(.ns-card, [class*="rounded-2xl"][class*="border"], [class*="rounded-3xl"][class*="border"]):hover { border-color: color-mix(in srgb, var(--ns-primary-400) 45%, var(--ns-border)); box-shadow: 0 24px 42px -31px rgb(15 23 42 / .68), var(--ns-shadow-glow); }
+.portal-route-shell :is(input, select, textarea) { border-color: color-mix(in srgb, var(--ns-border-strong) 78%, transparent) !important; box-shadow: inset 0 1px rgb(255 255 255 / .04); transition: border-color .18s var(--ns-ease-out), box-shadow .18s var(--ns-ease-out), background .18s var(--ns-ease-out); }
+.portal-route-shell :is(input, select, textarea):not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *):focus { border-color: var(--ns-primary-400) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ns-primary-500) 16%, transparent), inset 0 1px rgb(255 255 255 / .05) !important; }
+.portal-route-shell table { overflow: hidden; border-collapse: separate; border-spacing: 0; border: 1px solid color-mix(in srgb, var(--ns-border) 84%, transparent); border-radius: 1rem; background: color-mix(in srgb, var(--ns-surface) 88%, transparent); box-shadow: 0 18px 30px -32px rgb(15 23 42 / .62); }
+.portal-route-shell thead { background: color-mix(in srgb, var(--ns-primary-500) 6%, var(--ns-surface-2)); }
+.portal-route-shell tbody tr { transition: background .16s var(--ns-ease-out), transform .16s var(--ns-ease-out); }
+.portal-route-shell tbody tr:hover { background: color-mix(in srgb, var(--ns-primary-500) 6%, transparent); }
+.portal-route-shell :is(button, a, [role="button"]):focus-visible { outline: 0; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ns-primary-500) 30%, transparent) !important; }
+
+.portal-route-dashboard .ns-card-hover, .portal-route-careerAi .ns-card-hover, .portal-route-analytics .ns-card-hover { transform-style: preserve-3d; }
+.portal-route-dashboard .ns-card-hover:hover, .portal-route-careerAi .ns-card-hover:hover, .portal-route-analytics .ns-card-hover:hover { transform: perspective(1000px) translateY(-5px) rotateX(1.25deg); }
+.portal-route-dashboard [class*="grid"] > [class*="rounded"], .portal-route-careerAi [class*="grid"] > [class*="rounded"] { animation: portal-card-cascade .5s var(--ns-ease-out) both; }
+.portal-route-dashboard [class*="grid"] > [class*="rounded"]:nth-child(2), .portal-route-careerAi [class*="grid"] > [class*="rounded"]:nth-child(2) { animation-delay: .06s; }
+.portal-route-dashboard [class*="grid"] > [class*="rounded"]:nth-child(3), .portal-route-careerAi [class*="grid"] > [class*="rounded"]:nth-child(3) { animation-delay: .12s; }
+.portal-route-dashboard [class*="grid"] > [class*="rounded"]:nth-child(4), .portal-route-careerAi [class*="grid"] > [class*="rounded"]:nth-child(4) { animation-delay: .18s; }
+@keyframes portal-card-cascade { from { opacity: 0; transform: translate3d(0, 18px, 0) scale(.98); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
+
+/* Page hierarchy and controls */
+.portal-route-product h1 { color: var(--ns-text); font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 850; letter-spacing: -.055em; line-height: 1.05; }
+.portal-route-product h2 { letter-spacing: -.04em; }
+.portal-route-product :is(h1, h2) + p { max-width: 56rem; color: var(--ns-text-subtle); }
+.portal-route-product [class*="sticky"][class*="top-"] { box-shadow: 0 14px 30px -26px rgb(15 23 42 / .65); backdrop-filter: blur(14px); }
+.portal-route-product [class*="bg-white"][class*="dark:bg-slate-900"], .portal-route-product [class*="bg-slate-50"][class*="dark:bg-slate-800"] { background-color: color-mix(in srgb, var(--ns-surface) 88%, transparent); }
+.portal-route-product [class*="bg-slate-900"] { box-shadow: 0 24px 45px -33px rgb(2 6 23 / .8), inset 0 1px rgb(255 255 255 / .08); }
+.portal-route-product [class*="rounded-full"]:not(button) { box-shadow: inset 0 1px rgb(255 255 255 / .12); }
+.portal-route-product button { transition: transform .16s var(--ns-ease-out), box-shadow .16s var(--ns-ease-out), background-color .16s var(--ns-ease-out), border-color .16s var(--ns-ease-out); }
+.portal-route-product button:hover:not(:disabled) { will-change: transform; }
+.portal-route-product button:active:not(:disabled) { transform: scale(.98); }
+
+/* Dashboard, analytics, and AI workspaces */
+.portal-route-dashboard [class*="bg-gradient-to-br"], .portal-route-careerAi [class*="bg-gradient-to-br"], .portal-route-analytics [class*="bg-gradient-to-br"] { position: relative; overflow: hidden; }
+.portal-route-dashboard [class*="bg-gradient-to-br"]::after, .portal-route-careerAi [class*="bg-gradient-to-br"]::after, .portal-route-analytics [class*="bg-gradient-to-br"]::after { position: absolute; inset: 0; content: ''; pointer-events: none; background: linear-gradient(120deg, rgb(255 255 255 / .09), transparent 34%, transparent 70%, rgb(255 255 255 / .035)); }
+.portal-route-careerAi [class*="rounded-3xl"][class*="bg-gradient"] { border-color: rgb(16 185 129 / .22); }
+.portal-route-careerAi [class*="rounded-3xl"][class*="bg-gradient"] h1 { color: #f8fafc; }
+.portal-route-dashboard [class*="recharts"], .portal-route-analytics [class*="recharts"] { filter: drop-shadow(0 16px 17px rgb(15 23 42 / .12)); }
+
+/* Forms, explorers, and comparison tools */
+.portal-route-quiz [class*="rounded"], .portal-route-onboarding [class*="rounded"], .portal-route-resume [class*="rounded"], .portal-route-mockInterview [class*="rounded"] { box-shadow: 0 20px 38px -32px rgb(15 23 42 / .55), inset 0 1px rgb(255 255 255 / .08); }
+.portal-route-universities [class*="grid"], .portal-route-scholarships [class*="grid"], .portal-route-jobs [class*="grid"], .portal-route-courses [class*="grid"] { align-items: stretch; }
+.portal-route-universities [class*="grid"] > *, .portal-route-scholarships [class*="grid"] > *, .portal-route-jobs [class*="grid"] > *, .portal-route-courses [class*="grid"] > * { transition: transform .24s var(--ns-ease-out), box-shadow .24s var(--ns-ease-out), border-color .24s var(--ns-ease-out); }
+.portal-route-universities [class*="grid"] > *:hover, .portal-route-scholarships [class*="grid"] > *:hover, .portal-route-jobs [class*="grid"] > *:hover, .portal-route-courses [class*="grid"] > *:hover { transform: translateY(-4px); }
+
+/* Responsive density remains comfortable on mobile. */
+@media (max-width: 767px) { .portal-route-shell::before { top: -4rem; right: -10rem; } .portal-route-shell::after { left: -12rem; } .portal-route-product h1 { font-size: 1.7rem; } }
+
+@media (prefers-reduced-motion: reduce) { .portal-route-product > div, .portal-route-dashboard [class*="grid"] > [class*="rounded"], .portal-route-careerAi [class*="grid"] > [class*="rounded"] { animation: none !important; } .portal-route-dashboard .ns-card-hover:hover, .portal-route-careerAi .ns-card-hover:hover, .portal-route-analytics .ns-card-hover:hover { transform: translateY(-1px); } }
+
+/* --------------------------------------------------------------------------
+   THEME CONTRAST ASSURANCE
+   Universal guardrails ensuring all content in every div, card, modal,
+   and page is crystal clear and legible in both Light and Dark themes.
+   -------------------------------------------------------------------------- */
+.product-app,
+.portal-route-shell,
+.nexstep-app {
+  color: var(--ns-text);
+}
+
+:root[data-theme-mode='light'] {
+  color-scheme: light;
+}
+
+.dark,
+:root[data-theme-mode='dark'] {
+  color-scheme: dark;
+}
+
+:is(.product-app, .portal-route-shell, .portal-route-product, .portal-route-marketing, .nexstep-app, [role="dialog"], .fixed.inset-0) :is(input:not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]), select, textarea) {
+  color: var(--ns-text) !important;
+  background-color: var(--ns-surface) !important;
+  border-color: var(--ns-border-strong) !important;
+  caret-color: var(--ns-primary-600);
+}
+
+:is(.product-app, .portal-route-shell, .portal-route-product, .portal-route-marketing, .nexstep-app, [role="dialog"], .fixed.inset-0) :is(input, select, textarea):not([class*="cl-"]):not([data-input-otp]):not([class*="cl-"] *)::placeholder {
+  color: var(--ns-text-subtle) !important;
+  opacity: 0.9 !important;
+}
+
+:is(.product-app, .portal-route-shell, .portal-route-product, .portal-route-marketing, .nexstep-app, [role="dialog"], .fixed.inset-0) :is(option, optgroup) {
+  color: var(--ns-text);
+  background-color: var(--ns-surface);
+}
+
+/* The product logo uses its native colours rather than a blend mode that can
+   make the blue details disappear on midnight and aurora surfaces. */
+.product-app .nexstep-logo-wrap,
+.marketing-navbar .nexstep-logo-wrap {
+  background: color-mix(in srgb, var(--ns-primary-500) 10%, var(--ns-surface)) !important;
+  box-shadow: 0 0 0 1px var(--ns-border-strong), 0 6px 16px -12px rgb(15 23 42 / .55) !important;
+}
+
+.product-app .nexstep-logo-wrap img,
+.marketing-navbar .nexstep-logo-wrap img {
+  mix-blend-mode: normal !important;
+  filter: drop-shadow(0 1px 1px rgb(2 6 23 / .28));
+}
+
+/* ── DARK THEME ADAPTATIONS ── */
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) [class*="bg-white"]:not(button):not(a):not([class*="rounded-full px-"]):not(:is([class*="hover:"])) {
+  background-color: var(--ns-surface) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) [class*="bg-slate-50"]:not(button):not(a):not(:is([class*="hover:"])) {
+  background-color: var(--ns-surface-2) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) [class*="bg-slate-100"]:not(button):not(a):not(:is([class*="hover:"])) {
+  background-color: var(--ns-surface-3) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) [class*="bg-slate-200"]:not(button):not(a) {
+  background-color: var(--ns-surface-3) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) :is([class*="border-slate-100"], [class*="border-slate-200"], [class*="border-slate-300"]) {
+  border-color: var(--ns-border) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) :is([class*="text-slate-900"], [class*="text-slate-800"], [class*="text-slate-700"]):not(:is(button.bg-white, a.bg-white, [class*="bg-white text-slate-900"], [class*="bg-emerald-300"], [class*="bg-emerald-400"], [class*="bg-amber-300"]) *) {
+  color: var(--ns-text) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) :is([class*="text-slate-600"], [class*="text-slate-500"]):not(:is(button.bg-white, a.bg-white) *) {
+  color: var(--ns-text-muted) !important;
+}
+
+.dark :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) :is([class*="text-slate-400"], [class*="text-slate-300"]):not(:is(button.bg-white, a.bg-white) *) {
+  color: var(--ns-text-subtle) !important;
+}
+
+/* Status colours in dark mode */
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-emerald-"] { color: var(--ns-match) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-green-"]   { color: var(--ns-success) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-amber-"]   { color: var(--ns-warning) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-yellow-"]  { color: var(--ns-warning) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-red-"]     { color: var(--ns-danger) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) [class*="text-blue-"]    { color: var(--ns-info) !important; }
+.dark :is(.portal-route-product, .portal-route-shell) :is([class*="text-indigo-"], [class*="text-violet-"], [class*="text-purple-"]) { color: var(--ns-ai) !important; }
+
+/* ── LIGHT THEME UNIVERSAL CONTRAST ASSURANCE ──
+   Ensures text is never white-on-white or low-contrast in light mode,
+   while preserving intentional high-contrast CTA buttons and badges. */
+:root[data-theme-mode='light'] :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .product-app, .nexstep-app, [role="dialog"], .fixed.inset-0) :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"]) :is(.text-white, [class*="text-white"], [class*="text-slate-100"], [class*="text-slate-200"]):not(:is(
+  [class*="bg-emerald-"], [class*="bg-teal-"], [class*="bg-green-"],
+  [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-violet-"], [class*="bg-purple-"],
+  [class*="bg-red-"], [class*="bg-amber-600"], [class*="bg-amber-700"],
+  [class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"],
+  [class*="bg-gradient-"], .btn-primary, .ns-btn-primary, button[class*="bg-"]
+) *) {
+  color: var(--ns-text) !important;
+}
+
+/* Headings and titles in Light Mode */
+:root[data-theme-mode='light'] :is(.portal-route-product, .portal-route-shell, .product-app, .nexstep-app) :is(h1, h2, h3, h4, h5, h6).text-white:not(:is(
+  [class*="bg-emerald-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"],
+  [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], [class*="bg-gradient-"]
+) *) {
+  color: var(--ns-text) !important;
+}
+
+/* High-emphasis action buttons and intentional dark badges retain crisp white text in Light Mode.
+   Only un-prefixed bg-* classes count (so "dark:bg-slate-900" does not). */
+:root[data-theme-mode='light'] :is([class^="bg-emerald-5"], [class*=" bg-emerald-5"], [class^="bg-emerald-6"], [class*=" bg-emerald-6"], [class^="bg-emerald-7"], [class*=" bg-emerald-7"], [class^="bg-emerald-8"], [class*=" bg-emerald-8"], [class^="bg-green-5"], [class*=" bg-green-5"], [class^="bg-green-6"], [class*=" bg-green-6"], [class^="bg-green-7"], [class*=" bg-green-7"], [class^="bg-blue-5"], [class*=" bg-blue-5"], [class^="bg-blue-6"], [class*=" bg-blue-6"], [class^="bg-blue-7"], [class*=" bg-blue-7"], [class^="bg-red-5"], [class*=" bg-red-5"], [class^="bg-red-6"], [class*=" bg-red-6"], [class^="bg-red-7"], [class*=" bg-red-7"], [class^="bg-slate-7"], [class*=" bg-slate-7"], [class^="bg-slate-8"], [class*=" bg-slate-8"], [class^="bg-slate-9"], [class*=" bg-slate-9"], .ns-btn-primary, .btn-primary):not([class*="bg-emerald-500/"], [class*="bg-emerald-600/"], [class*="bg-blue-500/"], [class*="bg-slate-800/"], [class*="bg-slate-900/"], [class*="bg-red-500/"]) .text-white {
+  color: #ffffff !important;
+}
+
+/* Subtle text contrast enhancement on light surfaces */
+:root[data-theme-mode='light'] :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-slate-100"]) :is(.text-slate-400, .text-gray-400) {
+  color: var(--ns-text-muted) !important;
+}
+
+/* Native media should never blend into the surrounding theme. */
+.product-app img:not(.nexstep-logo-wrap img) {
+  color: var(--ns-text);
+}
+
+/* ===========================================================================
+   DASHBOARD HERO — ADAPTIVE THEME STYLES
+   The hero panel must look excellent in all four themes.
+   Light mode: clean white/emerald card with dark text.
+   Dark / Aurora mode: the original deep-navy immersive panel.
+   =========================================================================== */
+
+/* ── Hero container ── */
+.dashboard-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #0c1f2e 45%, #0d2833 70%, #0a1f2a 100%);
+  border-color: rgb(5 150 105 / 0.35);
+}
+
+:root[data-theme-mode='light'] .dashboard-hero {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--ns-primary-500) 8%, var(--ns-surface)) 0%,
+    color-mix(in srgb, var(--ns-primary-600) 5%, var(--ns-surface)) 50%,
+    color-mix(in srgb, var(--ns-accent-500) 4%, var(--ns-surface)) 100%
+  ) !important;
+  border-color: color-mix(in srgb, var(--ns-primary-500) 22%, var(--ns-border)) !important;
+}
+
+
+
+/* ── Hero ambient glow blobs: adapt opacity for light mode ── */
+:root[data-theme-mode='light'] .dashboard-hero .absolute[class*="blur-3xl"] {
+  opacity: 0.15 !important;
+}
+
+/* ── Hero badge ── */
+:root[data-theme-mode='light'] .dashboard-hero .bg-emerald-500\/15 {
+  background-color: color-mix(in srgb, var(--ns-primary-500) 12%, transparent) !important;
+}
+:root[data-theme-mode='light'] .dashboard-hero .border-emerald-400\/25 {
+  border-color: color-mix(in srgb, var(--ns-primary-500) 40%, transparent) !important;
+}
+:root[data-theme-mode='light'] .dashboard-hero .text-emerald-500 {
+  color: var(--ns-primary-700) !important;
+}
+
+/* ── Greeting subheading ── */
+.dashboard-hero-sub {
+  color: rgb(148 163 184);   /* slate-400 on dark */
+}
+:root[data-theme-mode='light'] .dashboard-hero-sub {
+  color: var(--ns-text-muted) !important;
+}
+
+
+/* ── Main headline ── */
+.dashboard-hero-title {
+  color: #ffffff;
+}
+:root[data-theme-mode='light'] .dashboard-hero-title {
+  color: var(--ns-text) !important;
+}
+
+
+/* ── Body paragraph ── */
+.dashboard-hero-body {
+  color: rgb(203 213 225);   /* slate-300 on dark */
+}
+:root[data-theme-mode='light'] .dashboard-hero-body {
+  color: var(--ns-text-muted) !important;
+}
+
+
+/* ── "Complete Profile" secondary CTA ── */
+.dashboard-hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.10);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+}
+.dashboard-hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(52, 211, 153, 0.35);
+}
+:root[data-theme-mode='light'] .dashboard-hero-btn-secondary {
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, var(--ns-surface)) !important;
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+  backdrop-filter: none !important;
+}
+:root[data-theme-mode='light'] .dashboard-hero-btn-secondary:hover {
+  background: color-mix(in srgb, var(--ns-primary-500) 15%, var(--ns-surface)) !important;
+  border-color: var(--ns-primary-500) !important;
+}
+
+
+/* ── ReadinessRing track circle ── */
+.dashboard-ring-track {
+  stroke: rgba(30, 41, 59, 0.6);   /* dark: slate-800 */
+}
+:root[data-theme-mode='light'] .dashboard-ring-track {
+  stroke: color-mix(in srgb, var(--ns-border-strong) 70%, transparent) !important;
+}
+
+
+/* ── Readiness score number ── */
+.dashboard-hero-score {
+  color: #ffffff;
+}
+:root[data-theme-mode='light'] .dashboard-hero-score {
+  color: var(--ns-text) !important;
+}
+
+
+/* ── Readiness sub-label ── */
+.dashboard-hero-score-label {
+  color: rgb(148 163 184);
+}
+:root[data-theme-mode='light'] .dashboard-hero-score-label {
+  color: var(--ns-text-subtle) !important;
+}
+
+
+/* ── Readiness label + note ── */
+.dashboard-hero-label {
+  color: #ffffff;
+}
+:root[data-theme-mode='light'] .dashboard-hero-label {
+  color: var(--ns-text) !important;
+}
+
+
+.dashboard-hero-note {
+  color: rgb(148 163 184);
+}
+:root[data-theme-mode='light'] .dashboard-hero-note {
+  color: var(--ns-text-muted) !important;
+}
+
+
+/* ===========================================================================
+   MARKETING NAVBAR — comprehensive light-mode fix
+   The navbar CSS in index.css is dark-hardcoded. portal-redesign.css already
+   patches the portal variant (marketing-navbar-portal) with var(--ns-text).
+   These rules extend coverage to ALL text elements in the navbar for light mode.
+   =========================================================================== */
+
+/* Brand name and tagline text */
+:root[data-theme-mode='light'] .marketing-navbar .nexstep-logo-wrap + span > span:first-child {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .nexstep-logo-wrap + span > span:last-child {
+  color: var(--ns-text-subtle) !important;
+}
+
+/* Nav links text */
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-links > button,
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown-wrap > button {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-links > button:hover,
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown-wrap > button:hover {
+  color: var(--ns-text) !important;
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, transparent) !important;
+}
+
+/* Sign-in button */
+:root[data-theme-mode='light'] .marketing-navbar .marketing-signin {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-signin:hover {
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+}
+
+/* Hamburger menu button */
+:root[data-theme-mode='light'] .marketing-navbar .marketing-menu-button {
+  border-color: var(--ns-border-strong) !important;
+  background: var(--ns-surface-2) !important;
+  color: var(--ns-text) !important;
+}
+
+/* Dropdown panel */
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+  box-shadow: var(--ns-shadow-lg) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item:hover {
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, transparent) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item small {
+  color: var(--ns-text-subtle) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-icon {
+  background: color-mix(in srgb, var(--ns-primary-500) 12%, transparent) !important;
+  color: var(--ns-primary-600) !important;
+}
+
+/* Scrolled state background for the non-landing portal navbar in light mode */
+:root[data-theme-mode='light'] .marketing-navbar-portal.is-scrolled {
+  background: color-mix(in srgb, var(--ns-surface) 96%, transparent) !important;
+  border-bottom-color: color-mix(in srgb, var(--ns-border-strong) 80%, transparent) !important;
+}
+
+/* ===========================================================================
+   SIDEBAR BRAND / NAV TEXT — light mode visibility
+   The sidebar brand name uses dark-hardcoded colors in some variants.
+   =========================================================================== */
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-100,
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-200 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-400,
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-500 {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .nexstep-sidebar .border-white\/10,
+:root[data-theme-mode='light'] .nexstep-sidebar .border-white\/20 {
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .nexstep-sidebar .bg-white\/5,
+:root[data-theme-mode='light'] .nexstep-sidebar .bg-white\/10,
+:root[data-theme-mode='light'] .nexstep-sidebar .bg-white\/\[0\.06\] {
+  background: color-mix(in srgb, var(--ns-primary-500) 6%, var(--ns-surface-2)) !important;
+}
+
+/* ===========================================================================
+   GLOBAL LIGHT-MODE GUARDRAILS
+   Catch any remaining text-white on a non-dark surface that slipped through.
+   Does NOT affect intentional dark panels (hero, marketing, gradient banners).
+   =========================================================================== */
+
+/* Generic cards / surfaces — text-white becomes readable dark text */
+:root[data-theme-mode='light'] :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .nexstep-app, [role="dialog"], .fixed.inset-0)
+  :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"])
+  .text-white:not(:is([class*="bg-emerald-"], [class*="bg-teal-"], [class*="bg-green-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"], [class*="bg-red-"], [class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], button, .btn-primary, .ns-btn-primary) *) {
+  color: var(--ns-text) !important;
+}
+
+/* text-slate-300, text-slate-200, text-slate-400 used as body copy on light cards */
+:root[data-theme-mode='light'] :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .nexstep-app, [role="dialog"], .fixed.inset-0)
+  :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-slate-100"])
+  :is([class*="text-slate-300"], [class*="text-slate-200"], [class*="text-slate-400"]) {
+  color: var(--ns-text-muted) !important;
+}
+
+/* Section headers, titles, and body paragraphs in light mode */
+:root[data-theme-mode='light'] :is(.portal-route-product, .portal-route-marketing, .portal-route-shell, .nexstep-app, [role="dialog"]) :is(h1, h2, h3, h4, h5, h6, p, span).text-white:not(:is(
+  [class*="bg-emerald-"], [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-purple-"], [class*="bg-red-"],
+  [class*="bg-slate-700"], [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"], [class*="bg-gradient-"], button, a
+) *) {
+  color: var(--ns-text) !important;
+}
+
+/* ── Aurora theme specific adjustments ── */
+
+
+/* ── Sunrise theme text adaptations for hero ── */
+
+
+
+
+/* ===========================================================================
+   COMPREHENSIVE THEME FIX — all tabs, all pages, both light & dark modes
+   Addresses every issue identified in the theme audit:
+   - Undefined dashboard-hero CSS classes
+   - Hardcoded dark headers in Jobs, Courses, MockInterview, SkillGap,
+     CareerRoadmap, CareerAI, Analytics, Quiz
+   - Settings Panel transparency bleed-through
+   - Missing dark: prefixes on cards, inputs, filters
+   =========================================================================== */
+
+/* ── 1. DASHBOARD HERO — missing class definitions ─────────────────────────── */
+.dashboard-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #0c1f2e 45%, #0d2833 70%, #0a1f2a 100%);
+  border-color: rgba(5, 150, 105, 0.35);
+}
+
+/* Light mode: clean, professional, theme-matching */
+:root[data-theme-mode='light'] .dashboard-hero {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ns-primary-600) 8%, var(--ns-surface)) 0%,
+    color-mix(in srgb, var(--ns-primary-700) 5%, var(--ns-surface)) 60%,
+    color-mix(in srgb, var(--ns-accent-600) 4%, var(--ns-surface)) 100%
+  ) !important;
+  border-color: color-mix(in srgb, var(--ns-primary-500) 25%, var(--ns-border)) !important;
+}
+
+
+
+
+
+/* Reduce glow blob opacity on light/sunrise */
+:root[data-theme-mode='light'] .dashboard-hero .blur-3xl,
+
+
+/* Text colours */
+.dashboard-hero-title       { color: #ffffff; }
+.dashboard-hero-sub         { color: rgb(148 163 184); }
+.dashboard-hero-body        { color: rgb(203 213 225); }
+.dashboard-hero-score       { color: #ffffff; }
+.dashboard-hero-score-label { color: rgb(148 163 184); }
+.dashboard-hero-label       { color: #ffffff; }
+.dashboard-hero-note        { color: rgb(148 163 184); }
+
+:root[data-theme-mode='light'] .dashboard-hero-title,
+:root[data-theme-mode='light'] .dashboard-hero-score,
+:root[data-theme-mode='light'] .dashboard-hero-label       { color: var(--ns-text)        !important; }
+:root[data-theme-mode='light'] .dashboard-hero-sub,
+:root[data-theme-mode='light'] .dashboard-hero-body,
+:root[data-theme-mode='light'] .dashboard-hero-score-label,
+:root[data-theme-mode='light'] .dashboard-hero-note        { color: var(--ns-text-muted)  !important; }
+
+
+
+
+/* Secondary CTA button */
+.dashboard-hero-btn-secondary {
+  background: rgba(255,255,255,0.10);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+}
+.dashboard-hero-btn-secondary:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(52,211,153,0.35);
+}
+:root[data-theme-mode='light'] .dashboard-hero-btn-secondary {
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, var(--ns-surface)) !important;
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+  backdrop-filter: none !important;
+}
+:root[data-theme-mode='light'] .dashboard-hero-btn-secondary:hover {
+  background: color-mix(in srgb, var(--ns-primary-500) 14%, var(--ns-surface)) !important;
+  border-color: var(--ns-primary-500) !important;
+}
+
+/* Ring track */
+.dashboard-ring-track { stroke: rgba(30,41,59,0.55); }
+:root[data-theme-mode='light'] .dashboard-ring-track {
+  stroke: color-mix(in srgb, var(--ns-border-strong) 65%, transparent) !important;
+}
+
+/* ── 2. TAB PAGE HEADERS — adaptive dark-hero pattern ─────────────────────── */
+/*
+   Many tabs use a "page hero" pattern: a dark gradient banner at the top with
+   white text. This is an intentional design, but in light mode it renders as
+   a harsh black island on a soft green canvas.
+
+   Strategy: keep it visually intentional by using a slightly lighter, more
+   professional surface in light mode while keeping the full dark in dark mode.
+*/
+
+/* Universal adaptive page-hero class used in Jobs, Courses, MockInterview */
+.ns-page-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
+  border-color: rgba(51,65,85,0.8);
+  color: #ffffff;
+}
+:root[data-theme-mode='light'] .ns-page-hero {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .ns-page-hero h1,
+:root[data-theme-mode='light'] .ns-page-hero h2,
+:root[data-theme-mode='light'] .ns-page-hero h3 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .ns-page-hero p,
+:root[data-theme-mode='light'] .ns-page-hero .text-slate-400,
+:root[data-theme-mode='light'] .ns-page-hero small {
+  color: var(--ns-text-muted) !important;
+}
+/* Icon container inside hero stays emerald */
+:root[data-theme-mode='light'] .ns-page-hero .bg-slate-800,
+:root[data-theme-mode='light'] .ns-page-hero .bg-slate-700 {
+  background: var(--ns-surface-2) !important;
+  border: 1px solid var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .ns-page-hero .text-slate-300,
+:root[data-theme-mode='light'] .ns-page-hero .text-slate-400 {
+  color: var(--ns-text-subtle) !important;
+}
+
+/* ── 3. SETTINGS — fix Panel backdrop bleed-through ───────────────────────── */
+/* The panel uses bg-white/90 + backdrop-blur which causes the dark parent
+   to show through. Remove the glass effect in light mode. */
+:root[data-theme-mode='light'] .settings-control-center [class*="bg-white/90"] {
+  background-color: var(--ns-surface) !important;
+  backdrop-filter: none !important;
+}
+:root[data-theme-mode='light'] .settings-control-center [class*="dark:bg-slate-900/80"] {
+  background-color: var(--ns-surface) !important;
+}
+
+/* Settings hero banner — always dark is fine but make it read well in light mode */
+:root[data-theme-mode='light'] .settings-control-center [class*="bg-slate-950"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--ns-primary-600) 12%, #0f172a) 0%,
+    color-mix(in srgb, var(--ns-primary-700) 8%, #0c1f2e) 100%
+  ) !important;
+}
+
+/* ── 4. JOBPORTALLAB — header & filter bar ────────────────────────────────── */
+/* Handled via .ns-page-hero class (applied in JSX fix below) */
+
+/* Filter bar inside the dark portal header */
+:root[data-theme-mode='light'] .portal-route-jobs .bg-slate-800,
+:root[data-theme-mode='light'] .portal-route-courses .bg-slate-800 {
+  background: var(--ns-surface-2) !important;
+  border: 1px solid var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-jobs .text-slate-300,
+:root[data-theme-mode='light'] .portal-route-courses .text-white {
+  color: var(--ns-text) !important;
+}
+
+/* ── 5. SKILL GAP — always-dark header in light mode ─────────────────────── */
+:root[data-theme-mode='light'] .portal-route-skillGap [class*="from-slate-900"][class*="via-indigo-950"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--ns-accent-500) 6%, var(--ns-surface)) 0%,
+    color-mix(in srgb, var(--ns-primary-500) 5%, var(--ns-surface)) 100%
+  ) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-skillGap [class*="from-slate-900"][class*="via-indigo-950"] h1,
+:root[data-theme-mode='light'] .portal-route-skillGap [class*="from-slate-900"][class*="via-indigo-950"] h2 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-skillGap [class*="from-slate-900"][class*="via-indigo-950"] p,
+:root[data-theme-mode='light'] .portal-route-skillGap [class*="from-slate-900"][class*="via-indigo-950"] .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+
+/* SkillGap active filter pill — bg-slate-900 on light page */
+:root[data-theme-mode='light'] .portal-route-skillGap .bg-slate-900:not([class*="dark:"]) {
+  background: var(--ns-primary-600) !important;
+  color: #ffffff !important;
+}
+
+/* ── 6. CAREER ROADMAP — always-dark headers ──────────────────────────────── */
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] h1,
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] h2,
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] p {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] .text-slate-400,
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] .text-slate-300 {
+  color: var(--ns-text-muted) !important;
+}
+/* Keep decorative blobs subtle */
+:root[data-theme-mode='light'] .portal-route-careerRoadmap [class*="from-slate-9"] .blur-3xl {
+  opacity: 0.08 !important;
+}
+
+/* ── 7. CAREER AI — always-dark hero header ───────────────────────────────── */
+:root[data-theme-mode='light'] .portal-route-careerAi [class*="from-slate-900"][class*="via-slate-900"] {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-careerAi [class*="from-slate-900"][class*="via-slate-900"] .text-white {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-careerAi [class*="from-slate-900"][class*="via-slate-900"] .text-slate-400,
+:root[data-theme-mode='light'] .portal-route-careerAi [class*="from-slate-900"][class*="via-slate-900"] .text-slate-300 {
+  color: var(--ns-text-muted) !important;
+}
+
+/* ── 8. MOCK INTERVIEW — hardcoded dark headers without dark: ─────────────── */
+/* Handled via .ns-page-hero class (applied in JSX fix below) */
+
+/* Interview phase progress header */
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="bg-slate-900"]:not([class*="dark:"]) {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="bg-slate-900"]:not([class*="dark:"]) .text-white,
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="bg-slate-900"]:not([class*="dark:"]) h1,
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="bg-slate-900"]:not([class*="dark:"]) h2 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="bg-slate-900"]:not([class*="dark:"]) .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+/* Interview report gradient */
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="from-slate-9"][class*="via-slate-8"] {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-mockInterview [class*="from-slate-9"][class*="via-slate-8"] .text-white {
+  color: var(--ns-text) !important;
+}
+
+/* ── 9. QUIZ — results panel missing dark: prefixes ──────────────────────── */
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ns-primary-600) 8%, var(--ns-surface)) 0%,
+    color-mix(in srgb, var(--ns-accent-600) 6%, var(--ns-surface)) 100%
+  ) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] .text-white {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] .text-slate-300,
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] .text-emerald-300 {
+  color: var(--ns-primary-600) !important;
+}
+:root[data-theme-mode='light'] .portal-route-quiz [class*="from-slate-9"] .border-emerald-500\/30 {
+  border-color: color-mix(in srgb, var(--ns-primary-500) 30%, transparent) !important;
+}
+
+/* Quiz score breakdown cards */
+:root[data-theme-mode='light'] .portal-route-quiz .bg-slate-50 {
+  background-color: var(--ns-surface-2) !important;
+}
+
+/* ── 10. ANALYTICS — hardcoded inline style header & loading skeleton ──────── */
+:root[data-theme-mode='light'] .portal-route-analytics [style*="linear-gradient"][style*="#0f172a"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ns-primary-600) 10%, var(--ns-surface)) 0%,
+    color-mix(in srgb, #0f766e 8%, var(--ns-surface)) 100%
+  ) !important;
+}
+:root[data-theme-mode='light'] .portal-route-analytics [style*="linear-gradient"] .text-white {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .portal-route-analytics [style*="linear-gradient"] .text-slate-300,
+:root[data-theme-mode='light'] .portal-route-analytics [style*="linear-gradient"] .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+/* Loading skeleton */
+:root[data-theme-mode='light'] .portal-route-analytics .bg-slate-800\/70 {
+  background-color: var(--ns-surface-2) !important;
+}
+/* Date range filter bar inside analytics header */
+:root[data-theme-mode='light'] .portal-route-analytics .bg-slate-800\/70,
+:root[data-theme-mode='light'] .portal-route-analytics .bg-slate-700 {
+  background: var(--ns-surface-2) !important;
+  border-color: var(--ns-border) !important;
+}
+:root[data-theme-mode='light'] .portal-route-analytics .text-slate-300,
+:root[data-theme-mode='light'] .portal-route-analytics .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+
+/* ── 11. UNIVERSITIES — header & compare modal missing dark: ─────────────── */
+/* The global .dark .bg-white fix handles dark mode, but we also need to
+   ensure the compare modal has proper styling */
+:root[data-theme-mode='light'] .portal-route-universities .bg-slate-100 {
+  background-color: var(--ns-surface-2) !important;
+}
+
+/* ── 12. GLOBAL: inputs & selects missing dark: in any tab ───────────────── */
+/* Any input/select that doesn't have explicit dark: classes */
+.dark .product-app input:not([class*="dark:bg-"]):not([class*="dark:text-"]) {
+  background-color: var(--ns-surface) !important;
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+}
+.dark .product-app select:not([class*="dark:bg-"]):not([class*="dark:text-"]) {
+  background-color: var(--ns-surface) !important;
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+}
+.dark .product-app textarea:not([class*="dark:bg-"]):not([class*="dark:text-"]) {
+  background-color: var(--ns-surface) !important;
+  color: var(--ns-text) !important;
+  border-color: var(--ns-border-strong) !important;
+}
+
+/* ── 13. GLOBAL: bg-slate-50 cards in any tab missing dark: ──────────────── */
+/* Score breakdown cards in QuizTab, stat blocks in various tabs */
+.dark .product-app .bg-slate-50:not([class*="dark:"]) {
+  background-color: var(--ns-surface-2) !important;
+}
+.dark .product-app .bg-slate-100:not([class*="dark:"]) {
+  background-color: var(--ns-surface-3) !important;
+}
+.dark .product-app .border-slate-100:not([class*="dark:"]) {
+  border-color: var(--ns-border) !important;
+}
+.dark .product-app .bg-white:not([class*="dark:"]) {
+  background-color: var(--ns-surface) !important;
+}
+
+/* ── 14. LOADING SKELETON global — wrong color in light mode ─────────────── */
+.dark .product-app .ns-skeleton {
+  background: linear-gradient(90deg, var(--ns-surface-2) 25%, var(--ns-surface-3) 50%, var(--ns-surface-2) 75%);
+}
+/* Also fix hardcoded dark skeleton anywhere */
+:root[data-theme-mode='light'] .product-app .bg-slate-800\/70,
+:root[data-theme-mode='light'] .product-app .bg-slate-700\/70,
+:root[data-theme-mode='light'] .product-app .bg-slate-900\/70 {
+  background-color: var(--ns-surface-2) !important;
+}
+
+/* ── 15. NAVBAR — comprehensive light-mode text & dropdown ───────────────── */
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-links > button,
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown-wrap > button {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-links > button:hover,
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown-wrap > button:hover {
+  color: var(--ns-text) !important;
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, transparent) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-signin {
+  color: var(--ns-text-muted) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-menu-button {
+  border-color: var(--ns-border-strong) !important;
+  background: var(--ns-surface-2) !important;
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-nav-dropdown {
+  background: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+  box-shadow: 0 12px 40px -10px rgba(0,0,0,0.15) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item { color: var(--ns-text) !important; }
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item:hover {
+  background: color-mix(in srgb, var(--ns-primary-500) 8%, transparent) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-item small {
+  color: var(--ns-text-subtle) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar .marketing-dropdown-icon {
+  background: color-mix(in srgb, var(--ns-primary-500) 12%, transparent) !important;
+  color: var(--ns-primary-600) !important;
+}
+/* Brand name text in navbar */
+:root[data-theme-mode='light'] .marketing-navbar span.text-\[11px\],
+:root[data-theme-mode='light'] .marketing-navbar span[class*="text-slate-100"] {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .marketing-navbar span[class*="text-emerald-400"] {
+  color: var(--ns-primary-600) !important;
+}
+
+/* ── 16. SIDEBAR — brand text visibility in light mode ───────────────────── */
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-100,
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-200 { color: var(--ns-text) !important; }
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-400,
+:root[data-theme-mode='light'] .nexstep-sidebar .text-slate-500 { color: var(--ns-text-muted) !important; }
+:root[data-theme-mode='light'] .nexstep-sidebar .border-white\/10,
+:root[data-theme-mode='light'] .nexstep-sidebar .border-white\/20 { border-color: var(--ns-border) !important; }
+:root[data-theme-mode='light'] .nexstep-sidebar [class*="bg-white\/"] {
+  background: color-mix(in srgb, var(--ns-primary-500) 6%, var(--ns-surface-2)) !important;
+}
+
+/* ── 17. MOBILE APP — theme tokens for React Native theme utility ─────────── */
+/* The mobile app uses a separate theme.ts file; these rules do not apply
+   to React Native. Mobile-specific theme fixes are in theme.ts (already done). */
+
+/* ── 18. GLOBAL last-resort: text-white on white surfaces ────────────────── */
+/* Catch any remaining text-white that bleeds through on light card surfaces.
+   Only targets non-intentional-dark containers. */
+:root[data-theme-mode='light'] .product-app
+  :is([class="bg-white"], [class*=" bg-white "], [class$=" bg-white"])
+  .text-white {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .product-app .bg-slate-50 .text-white {
+  color: var(--ns-text) !important;
+}
+
+/* Restore white text on intentional dark/coloured backgrounds */
+:root[data-theme-mode='light'] .product-app :is(
+  [class*="bg-emerald-"], [class*="bg-green-"], [class*="bg-blue-"],
+  [class*="bg-indigo-"], [class*="bg-violet-"], [class*="bg-purple-"],
+  [class*="bg-red-"], [class*="bg-amber-"],
+  [class*="bg-slate-7"], [class*="bg-slate-8"],
+  [class*="bg-slate-9"], .dashboard-hero,
+  [class*="from-slate-9"], [class*="from-emerald-"]
+) .text-white {
+  color: #ffffff !important;
+}
+
+/* ── 19. Aurora Theme Refinements ────────────────────────────────────────── */
+
+
+
+
+
+/* ── 20. Sunrise Theme Refinements ───────────────────────────────────────── */
+
+
+
+
+
+
+
+/* ============================================================
+   UI VISIBILITY FIXES — appended fixes for dark/light modes
+   ============================================================ */
+
+/* ── Dark mode: translucent bg-white/* cards ──────────────── */
+.dark [class*="bg-white\/"],
+.dark [class*="bg-slate-50\/"] {
+  background-color: var(--ns-surface) !important;
+}
+
+/* ── Dark mode: dark bg cards (bg-slate-800/900/950) must have light text ── */
+.dark [class*="bg-slate-8"],
+.dark [class*="bg-slate-9"] {
+  color: var(--ns-text);
+}
+
+/* ── Light mode: dark gradient cards keep white text ─────────
+   Cards that use from-slate-9 are intentionally dark panels
+   (e.g. CareerAiTab header, DashboardTab hero). Their white text
+   is CORRECT and must NOT be flipped to dark. ─────────────── */
+:root[data-theme-mode='light'] [class*="from-slate-9"] .text-white,
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-white"],
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-slate-3"],
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-slate-4"],
+:root[data-theme-mode='light'] [class*="via-slate-9"] .text-white,
+:root[data-theme-mode='light'] [class*="via-slate-9"] [class*="text-white"],
+:root[data-theme-mode='light'] [class*="via-slate-8"] .text-white,
+:root[data-theme-mode='light'] [class*="via-slate-8"] [class*="text-white"] {
+  color: #ffffff !important;
+}
+:root[data-theme-mode='light'] [class*="from-slate-9"] [class*="text-slate-4"],
+:root[data-theme-mode='light'] [class*="via-slate-9"] [class*="text-slate-4"] {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+/* ── Light mode: bg-slate-900 hardcoded dark panels ─────────
+   e.g. Sidebar, Chatbot header — these are dark cards in light mode too */
+:root[data-theme-mode='light'] .bg-slate-900 .text-white,
+:root[data-theme-mode='light'] .bg-slate-950 .text-white { color: #ffffff !important; }
+:root[data-theme-mode='light'] .bg-slate-900 [class*="text-slate-3"],
+:root[data-theme-mode='light'] .bg-slate-900 [class*="text-slate-4"] { color: rgba(255,255,255,0.65) !important; }
+
+/* ── Dark mode: inset-0 absolute decorative divs with bg-emerald/teal ───────
+   These are ambient glows inside dark gradient cards. Only pointer-events-none
+   decorative divs should be excluded from the bg-surface override. ────────── */
+.dark [class*="pointer-events-none"][class*="bg-emerald-"],
+.dark [class*="pointer-events-none"][class*="bg-teal-"] {
+  background-color: unset !important;
+}
+
+/* ── Sidebar dark mode: nav group labels ─────────────────────────────────── */
+.dark aside [class*="text-emerald-"] { color: var(--ns-match) !important; }
+
+/* ── MockInterviewTab ScoreRing track: ensure visibility in all themes ──── */
+:root[data-theme-mode='light'] circle.text-slate-200 { color: #e2e8f0 !important; }
+.dark circle.text-slate-200 { color: #334155 !important; }
+
+/* ── Marketing navbar in portal mode: all themes ─────────────────────────── */
+.marketing-navbar-portal .marketing-nav-links > button,
+.marketing-navbar-portal .marketing-nav-dropdown-wrap > button,
+.marketing-navbar-portal .marketing-signin {
+  color: var(--ns-text) !important;
+}
+
+/* ============================================================
+   TARGETED VISIBILITY FIXES — Social Buttons & Auth Pages
+   Appended last so they win any specificity conflicts.
+   ============================================================ */
+
+/* ── 1. Social auth buttons: guarantee correct bg/text in BOTH themes ────────
+   These buttons carry both a light-mode class (bg-white, bg-slate-800/90)
+   and a dark-mode override (dark:bg-slate-800). We pin the exact values so
+   no broad override can stomp on them. */
+button.bg-white,
+button[class*="bg-white "],
+button[class*="bg-white\n"],
+button[class*=" bg-white"] {
+  background-color: #ffffff !important;
+  color: #1e293b !important;         /* slate-800 */
+}
+.dark button.bg-white,
+.dark button[class*="bg-white "],
+.dark button[class*=" bg-white"] {
+  background-color: var(--ns-surface-3) !important;  /* slate-800 equivalent */
+  color: var(--ns-text) !important;
+}
+
+/* Explicitly protect the social button classes we write in JSX */
+button[class*="bg-white dark:bg-slate-800"],
+button[class*="dark:bg-slate-800"][class*="bg-white"] {
+  /* light */
+  background-color: #ffffff;
+  color: #1e293b;
+}
+.dark button[class*="bg-white dark:bg-slate-800"],
+.dark button[class*="dark:bg-slate-800"][class*="bg-white"] {
+  background-color: #1e293b !important;  /* slate-800 */
+  color: #f1f5f9 !important;             /* slate-100 */
+}
+
+/* Hover states for social buttons in dark mode */
+.dark button[class*="bg-white"]:hover,
+.dark button[class*="dark:bg-slate-800"]:hover {
+  background-color: #273549 !important;  /* slate-700 */
+}
+
+/* ── 2. Social button divider "Or continue with" badge ────────────────────── */
+.dark [class*="bg-white dark:bg-slate-9"] {
+  background-color: var(--ns-surface) !important;
+  color: var(--ns-text-subtle) !important;
+}
+
+/* ── 3. LinkedIn & GitHub SVG icons — preserve brand colours ─────────────── */
+/* The broad dark-mode text-blue override was clobbering LinkedIn blue.
+   SVGs with an explicit fill attribute are not affected by `color`, but
+   SVGs using fill="currentColor" are. Pin the LinkedIn colour explicitly. */
+.dark button[class*="linkedin"] svg,
+.dark button svg[class*="text-\\[#0A66C2\\]"] {
+  color: #0A66C2 !important;
+}
+/* GitHub icon should be white in dark mode */
+.dark button svg[class*="fill-current"] {
+  color: var(--ns-text) !important;
+}
+
+/* ── 4. Auth page cards: guarantee legibility in all four themes ─────────── */
+/* The auth tab left column (dark panel) must keep white text */
+:root[data-theme-mode='light'] .bg-slate-950 .text-white,
+:root[data-theme-mode='light'] .bg-slate-900 .text-white { color: #ffffff !important; }
+:root[data-theme-mode='light'] .bg-slate-950 [class*="text-slate-3"],
+:root[data-theme-mode='light'] .bg-slate-950 [class*="text-slate-4"],
+:root[data-theme-mode='light'] .bg-slate-900 [class*="text-slate-3"],
+:root[data-theme-mode='light'] .bg-slate-900 [class*="text-slate-4"] {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+/* Auth right panel (bg-slate-50/90) labels and body text */
+:root[data-theme-mode='light'] [class*="bg-slate-50"] label,
+:root[data-theme-mode='light'] [class*="bg-slate-50"] .text-slate-900,
+:root[data-theme-mode='light'] [class*="bg-slate-50"] .text-slate-800,
+:root[data-theme-mode='light'] [class*="bg-slate-50"] .text-slate-700 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] [class*="bg-slate-50"] .text-slate-500,
+:root[data-theme-mode='light'] [class*="bg-slate-50"] .text-slate-600 {
+  color: var(--ns-text-muted) !important;
+}
+
+/* Register role tiles in light mode — ensure text visible on white bg */
+:root[data-theme-mode='light'] .bg-white .text-slate-900,
+:root[data-theme-mode='light'] .bg-white .text-slate-800 {
+  color: var(--ns-text) !important;
+}
+:root[data-theme-mode='light'] .bg-white .text-slate-600,
+:root[data-theme-mode='light'] .bg-white .text-slate-500,
+:root[data-theme-mode='light'] .bg-white .text-slate-400 {
+  color: var(--ns-text-muted) !important;
+}
+
+/* ── 5. Dark mode status colour overrides — narrow scope to text only ─────── */
+/* The earlier rules applied to ALL [class*="text-blue-"] including icons and
+   SVGs. Narrow them to text-bearing elements inside product routes only.
+   Inline SVG fill= attributes are not affected by `color` anyway, but
+   currentColor-based SVGs need to keep their brand colours. */
+.dark :is(.portal-route-product, .portal-route-shell) svg[class*="text-blue-"]:not([class*="text-blue-6"]) {
+  color: unset !important;   /* let SVG use its own fill */
+}
+
+/* ── 6. SocialDetailsModal overlay — dark-mode card visibility ─────────────
+   The modal uses `bg-white dark:bg-slate-900`. In dark mode the broad
+   `.dark [class*="bg-white"]:not(button)` rule would remap the card's
+   background unless we explicitly restore it via the dark: variant
+   already on the element. Reinforce with a targeted rule. */
+.dark [role="dialog"][class*="bg-white"],
+.dark [role="dialog"][class*="dark:bg-slate-9"] {
+  background-color: var(--ns-surface) !important;
+  color: var(--ns-text) !important;
+}
+
+/* ── 7. StudentOnboarding header: always dark regardless of theme ──────────
+   The step-wizard header panel intentionally uses bg-slate-900 on ALL
+   themes for contrast. Ensure its white text is preserved. */
+:root[data-theme-mode='light'] .bg-slate-900.text-white,
+:root[data-theme-mode='light'] .bg-slate-900 > .text-white,
+:root[data-theme-mode='light'] .bg-slate-900 .text-emerald-400,
+:root[data-theme-mode='light'] .bg-slate-900 .text-slate-300,
+:root[data-theme-mode='light'] .bg-slate-900 .text-slate-400 {
+  color: inherit !important;   /* let the inline dark card's own colours win */
+}
+
+/* ── 8. Education-level tile buttons (Register) in dark mode ─────────────── */
+.dark button[class*="bg-white dark:bg-slate-800"],
+.dark button[class*="border-slate-300 dark:border-slate-700"] {
+  background-color: var(--ns-surface) !important;
+  border-color: var(--ns-border) !important;
+  color: var(--ns-text) !important;
+}
