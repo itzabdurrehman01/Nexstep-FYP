@@ -17,6 +17,7 @@ import { TRANSNATIONAL_PATHWAYS }              from './src/data/transnationalDat
 import { COURSES_DATA, JOBS_INTERNSHIPS_DATA } from './src/data/mockFullAppData.js';
 import { personalRiasecQuestions } from './src/data/quizPersonalize.js';
 import { CAREERS_EXPANDED } from './src/data/realData/careers.js';
+import { CAREER_KNOWLEDGE_BASE } from './src/data/careerKnowledgeBase.js';
 import { COURSES_REAL } from './src/data/realData/courses.js';
 import { SCHOLARSHIPS_ADDITIONAL } from './src/data/realData/scholarships.js';
 
@@ -30,6 +31,7 @@ import { adminRouter }         from './src/routes/admin.routes.js';
 import { adminAuthRouter, requireAdmin, ensureAdminSchema } from './src/routes/adminPortal.routes.js';
 import { paymentsRouter }      from './src/routes/payments.routes.js';
 import { publicDataRouter }    from './src/routes/publicData.routes.js';
+import { usageRouter }         from './src/routes/usage.routes.js';
 import { feedbackRouter }      from './src/routes/feedback.routes.js';
 import { entryTestsRouter }    from './src/routes/entryTests.routes.js';
 import { translationRouter }   from './src/routes/translation.routes.js';
@@ -502,7 +504,17 @@ function personalizedCareerMatches(input: any) {
       matchScore: score,
       fitCategory: score >= 76 ? 'Strong Match' : score >= 58 ? 'Possible Match' : 'Explore with a plan',
       entryTests: entryTestsForCareer(career),
-      topUniversities: likelyUniversities,
+      topUniversities: likelyUniversities.length ? likelyUniversities : (career.topUniversities || []).slice(0, 3),
+      historicalCutoff: /medic|mbbs|doctor|pharm|nurs/i.test(`${career.title} ${career.category || ''}`)
+        ? 'Public medical sample band: about 90% aggregate. Confirm the verified year on the university record.'
+        : /eng|software|computer/i.test(`${career.title} ${career.category || ''}`)
+          ? 'Public engineering and computing sample band: about 72–85%. Confirm the verified year on the university record.'
+          : 'Sample merit band stored on each university. Confirm the verified year before you apply.',
+      scholarships: [
+        'HEC Need-Based',
+        /medic|health|pharm|nurs/i.test(`${career.title} ${career.category || ''}`) ? 'Ehsaas Undergraduate' : 'PEEF (Punjab domicile)',
+        'Provincial endowment for your domicile',
+      ],
       why: [
         streamFit ? `Your ${input.stream || 'academic'} background aligns with this pathway.` : 'This pathway may need a bridge course or stream change.',
         riasecFit ? `It fits your ${riasec} RIASEC preference.` : 'Complete the RIASEC quiz to improve this preference score.',
@@ -701,64 +713,9 @@ const aiLimiter = rateLimit({
   keyGenerator: (req) => (req as any).user?.id ?? req.ip ?? 'unknown',
 });
 
-const KNOWLEDGE_BASE_SYSTEM_PROMPT = `
-You are NexStep AI, an expert, empathetic, bilingual (Urdu & English) education tutor and career guidance counselor for Pakistani students from Grade 8 through University.
+const KNOWLEDGE_BASE_SYSTEM_PROMPT = `You are NexStep AI, a free bilingual career counselor for every student on this platform, from Class 8 through university. Answer in Urdu or English as instructed for this turn. Remember earlier turns. Follow the knowledge base below for career tracks, entry tests, universities, and scholarships. Also explain school subjects when asked. If a question is unrelated to study or careers, refuse it briefly. Use Markdown. Do not guarantee a seat or a scholarship.
 
-SCOPE — answer EVERY question related to education and learning, not only careers:
-  • School, college and university subjects (Physics, Chemistry, Biology, Mathematics, Computer Science, English, Urdu, Islamiat, Pakistan Studies, Accounting, Economics, etc.): explain concepts step by step, solve problems with working, give examples and practice questions.
-  • Study skills, exam preparation, board exams, entry tests, time tables, revision plans, notes, essays and assignments (help the student learn — explain rather than just hand over answers).
-  • Admissions, universities, scholarships, streams, skills, careers and jobs in Pakistan.
-Answer the student's actual question directly and specifically. Never reply with a generic overview that ignores the question.
-If a question is clearly unrelated to education, studies or careers, reply politely in one or two sentences that you can only help with education and career topics, and suggest a related question.
-Use Markdown (headings, bullet points, numbered steps; formulas in plain text). Keep answers focused — usually under 350 words unless the student asks for detail.
-Platform: NexStep (Developed at Air University Islamabad by Muhammad Abdur Rehman, Areej Fatima, and Faria Ahmed, supervised by Mr. Yasir Ali).
-
-════════════════════════════════════════════════════════════════════════════════
-CORE KNOWLEDGE BASE & SYSTEM DIRECTIVES
-════════════════════════════════════════════════════════════════════════════════
-
-1. PAKISTAN EDUCATION SYSTEM ARCHITECTURE & STAGES
-   - Grade 8 (Middle School): Students select their Matric group (Science Biology, Science Computer Science, Commerce/ICOM, or Arts/Humanities).
-   - Grade 9 & 10 (Matric / SSC): Conducted under BISE Boards (FBISE Islamabad, Punjab BISEs: Lahore, Gujranwala, Rawalpindi, Faisalabad, Multan, Sahiwal, Sargodha, Bahawalpur, D.G. Khan; Sindh Boards: BSEK Karachi, BISE Hyderabad, Sukkur, Larkana, Mirpurkhas; KPK Boards: BISE Peshawar, Abbottabad, Mardan, Swat, Kohat, Bannu, Malakand, D.I. Khan; Balochistan BISE Quetta).
-   - Grades 11 & 12 (FSc / HSSC / Transnational): 
-     * FSc Pre-Medical: Biology, Chemistry, Physics (Leads to MBBS, BDS, Pharm-D, DPT, Biotech, Nursing, BS Chemistry/Zoology).
-     * FSc Pre-Engineering: Mathematics, Chemistry, Physics (Leads to BE Civil, Mechanical, Electrical, Chemical, Aerospace, Mechatronics, BS Math, BS Physics).
-     * ICS (Intermediate in Computer Science): Mathematics, Physics, Computer Science OR Math, Statistics, CS (Leads to BS CS, BS Software Eng, BS AI, BS Data Science, BS Cyber Security).
-     * ICOM (Intermediate in Commerce): Principles of Accounting, Economics, Commerce, Business Math (Leads to BBA, BS Accounting & Finance, ACCA, CA, BS Banking).
-     * FA (Faculty of Arts): Humanities, Civics, Fine Arts, Psychology, Sociology, Journalism (Leads to BA-LL.B Law, BS English, BS International Relations, Media Studies, Graphic Design).
-     * DAE (Diploma of Associate Engineer): 3-Year Technical Diploma under Board of Technical Education (PBTE, KPBTE, SBTE). Leads to direct job entry as Sub-Engineer or 2nd year admission in BS Engineering/Technology.
-     * TEVTA Vocational Trade Diplomas: 3-month to 1-year trade certificates (Solar Maintenance, Industrial Automation, HVAC, Electrician, Computer Graphics).
-     * Transnational Education (O-Levels / A-Levels / Cambridge International): 8 O-Level subjects and 3 A-Level principal subjects. Converted to Pakistani Marks Percentage by IBCC (Inter Board Coordination Commission) using official equivalency guidelines: A* = 90%, A = 85%, B = 75%, C = 65%, D = 55%, E = 45%.
-
-2. ENTRY TEST GUIDELINES & SPECIFICATIONS
-   - MDCAT (Medical & Dental College Admission Test): PMDC / UHS / DUHS / KMU / BUMHS. 200 MCQs (Biology 68, Chemistry 54, Physics 54, English 18, Logical Reasoning 6). Eligibility: 65% in FSc Pre-Medical. Public medical merit cutoff is 91.5% to 93.8%.
-   - ECAT (Engineering College Admission Test): UET Lahore / Provincial boards. 100 MCQs (Physics 30, Math/Bio 30, Chem/CS 30, English 10). Total 400 marks with negative marking (-1 for wrong, +4 for correct). Public cutoff: 72% to 82%.
-   - NTS-NAT (National Aptitude Test): 90 MCQs (Verbal 20, Analytical 20, Quantitative 20, Subject 30). Used by COMSATS, Air Uni, Bahria, IUB. Result valid 1 year.
-   - NUMS Entry Test: Conducted by National University of Medical Sciences for Army Medical College Rawalpindi & affiliated private medical colleges.
-   - NUST NET (NUST Entry Test): 200 MCQs (Math 80, Physics 60, Chemistry/CS 30, English 20, Intelligence 10). Held in 4 series per year (NET-1 to NET-4). CS/SE cutoff score > 145/200.
-   - GAT (Graduate Assessment Test General & Subject): Conducted by NTS for MS/MPhil (50% passing) and PhD (60% passing) admissions and HEC postgraduate scholarships.
-
-3. TOP 100 HEC RECOGNIZED UNIVERSITIES OVERVIEW
-   - Public Top Tier: NUST Islamabad, COMSATS Islamabad, QAU Islamabad, UET Lahore, PU Lahore, KEMU Lahore, IBA Karachi, KU Karachi, NED Karachi, UET Peshawar, KMU Peshawar, UAF Faisalabad, PIEAS Islamabad.
-   - Private Top Tier: LUMS Lahore, FAST-NUCES (Lahore/Islamabad/Karachi/Peshawar), Aga Khan University Karachi, GIKI Topi, Riphah, Superior, UCP, UMT, SZABIST, Habib University.
-   - Regional Universities: BZU Multan, IUB Bahawalpur, UOG Gujrat, GCUF Faisalabad, AWKUM Mardan, BUITEMS Quetta, UOB Quetta, UAJK Muzaffarabad, KIU Gilgit.
-
-4. SCHOLARSHIP OPPORTUNITIES
-   - HEC Need-Based Scholarship: Full tuition fee + PKR 6,000 monthly stipend for public uni students with family income < PKR 45,000/mo.
-   - PEEF (Punjab Educational Endowment Fund): Tuition waiver + hostel allowance for Punjab domicile orphans, minorities, low-income students.
-   - Ehsaas Undergraduate Scholarship: 50,000 scholarships/year covering tuition + PKR 4,000/mo living stipend (50% quota for females).
-   - Sindh Endowment, BEEF Balochistan, KPK StEP, MORA Zakat Scholarships.
-
-5. FREE SKILLS & CERTIFICATIONS
-   - DigiSkills.pk: Free government training in Freelancing, SEO, Digital Marketing, QuickBooks, Graphic Design.
-   - Google Career Certificates (via Tech4Life/Ignite): Cybersecurity, Data Analytics, IT Support, Project Management.
-   - NAVTTC Prime Minister Youth Skill Development: 6-month high-tech courses in AI, Cloud, Coding.
-
-6. COUNSELING STRATEGY & GUIDANCE RULES
-   - Be empathetic, realistic, and encouraging. Never discourage a student with low marks.
-   - If marks are low (<55%), suggest DAE or TEVTA vocational trade courses which offer quick skill certification, monthly stipends, and guaranteed job market entry.
-   - If user asks in Urdu script, reply in natural, fluent Urdu script (اردو). If in English, reply in clear English.
-`;
+${CAREER_KNOWLEDGE_BASE}`;
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SECTION 1 — Unauthenticated / public routes
@@ -1010,6 +967,13 @@ app.get('/api/data-freshness', async (_req, res) => {
   }
 });
 
+const GRADE8_SUBJECTS = [
+  { key: 'mathMarks', subject: 'Mathematics', meaning: 'Keeps engineering, computing, and accounting open after Matric.', careers: 'Pre-Engineering, ICS, CA, and economics.' },
+  { key: 'scienceMarks', subject: 'General Science', meaning: 'Shows whether Biology or Physics later will be realistic.', careers: 'Pre-Medical, pharmacy, nursing, and engineering.' },
+  { key: 'englishMarks', subject: 'English', meaning: 'Supports law, media, teaching, and every entry-test English section.', careers: 'Law, media, teaching, and international tests.' },
+  { key: 'computerMarks', subject: 'Computer', meaning: 'Points toward ICS and software rather than a pure medical group.', careers: 'ICS, software, and data careers.' },
+];
+
 app.post('/api/analyze-grade8', (req, res) => {
   const { mathMarks = 70, scienceMarks = 70, englishMarks = 70, computerMarks = 70 } = req.body;
   const m = parseFloat(mathMarks) || 0;
@@ -1017,6 +981,19 @@ app.post('/api/analyze-grade8', (req, res) => {
   const e = parseFloat(englishMarks) || 0;
   const c = parseFloat(computerMarks) || 0;
   const avg = (m + s + e + c) / 4;
+  const marksByKey: Record<string, number> = { mathMarks: m, scienceMarks: s, englishMarks: e, computerMarks: c };
+  const subjects = GRADE8_SUBJECTS.map((item) => {
+    const marks = marksByKey[item.key];
+    const strength = marks >= 70 ? 'Strong' : marks >= 55 ? 'Developing' : 'Needs support';
+    return { ...item, marks, strength };
+  });
+  const riasec = String(req.body.riasec || '').toUpperCase().match(/[RIASEC]/)?.[0] || '';
+  const clusterName: Record<string, string> = { R: 'Realistic', I: 'Investigative', A: 'Artistic', S: 'Social', E: 'Enterprising', C: 'Conventional' };
+  const preferred: Record<string, string> = {
+    I: 'Science (Biology Group)', R: 'Science (Computer Group)',
+    A: 'Arts / Humanities & Vocational Trades', S: 'Arts / Humanities & Vocational Trades',
+    E: 'Commerce / ICOM Group', C: 'Commerce / ICOM Group',
+  };
 
   const groupRecommendations: any[] = [];
   if (s >= 75 && m >= 70) {
@@ -1046,17 +1023,60 @@ app.post('/api/analyze-grade8', (req, res) => {
     reasons: 'Ideal for Law, Graphic Design, Languages, Media, or TEVTA technical skill certifications.'
   });
 
-  res.json({ averageScore: Math.round(avg), recommendations: groupRecommendations });
+  const want = preferred[riasec];
+  if (want) {
+    const hit = groupRecommendations.find((g) => g.group === want);
+    const note = `Matches your ${clusterName[riasec]} interest-quiz result.`;
+    if (hit) {
+      hit.reasons = `${note} ${hit.reasons}`;
+      hit.quizMatch = true;
+      groupRecommendations.sort((a, b) => Number(b.quizMatch) - Number(a.quizMatch));
+    } else {
+      groupRecommendations.unshift({ group: want, fitLevel: 'Quiz match', quizMatch: true, reasons: note });
+    }
+  }
+
+  res.json({ averageScore: Math.round(avg), riasec: riasec || null, cluster: clusterName[riasec] || null, recommendations: groupRecommendations, subjects });
 });
 
+const MATRIC_PATHS = [
+  { stream: 'FSc Pre-Medical', leadsTo: 'MBBS, BDS, Pharm-D, DPT, nursing, and life sciences.', needs: ['biology', 'chemistry'], minPct: 70 },
+  { stream: 'FSc Pre-Engineering', leadsTo: 'BE Civil, Electrical, Mechanical, and related technology degrees.', needs: ['mathematics', 'physics'], minPct: 70 },
+  { stream: 'ICS', leadsTo: 'BS Computer Science, Software Engineering, AI, and Data Science.', needs: ['mathematics', 'computer'], minPct: 60 },
+  { stream: 'ICom', leadsTo: 'BBA, CA, ACCA, accounting, and banking.', needs: ['mathematics'], minPct: 55 },
+  { stream: 'FA / Humanities', leadsTo: 'Law, education, media, psychology, and social sciences.', needs: ['english'], minPct: 50 },
+  { stream: 'DAE', leadsTo: 'A three-year technical diploma, sub-engineer work, or later lateral entry to a technology degree.', needs: [] as string[], minPct: 45 },
+];
+
 app.post('/api/analyze-matric', (req, res) => {
-  const { scienceMarks = 0, mathMarks = 0, totalPercentage, biseBoard = 'FBISE' } = req.body;
+  const body = req.body || {};
+  const subjectsIn = body.subjects || {};
+  const subjectMarks: Record<string, number> = {
+    mathematics: Number(subjectsIn.mathematics ?? body.mathMarks) || 0,
+    physics: Number(subjectsIn.physics) || 0,
+    chemistry: Number(subjectsIn.chemistry) || 0,
+    biology: Number(subjectsIn.biology ?? body.scienceMarks) || 0,
+    computer: Number(subjectsIn.computer) || 0,
+    english: Number(subjectsIn.english ?? body.englishMarks) || 0,
+    urdu: Number(subjectsIn.urdu) || 0,
+  };
+  const { totalPercentage, biseBoard = 'FBISE' } = body;
   const pct = parseFloat(totalPercentage) || 0;
-  const sci = parseFloat(scienceMarks) || 0;
-  const math = parseFloat(mathMarks) || 0;
+  const sci = subjectMarks.biology;
+  const entered = Object.entries(subjectMarks).filter(([, n]) => n > 0);
+  const strongSubjects = entered.filter(([, n]) => n >= 70).map(([name, marks]) => ({ subject: name, marks, band: 'Strong' }));
+  const weakSubjects = entered.filter(([, n]) => n < 55).map(([name, marks]) => ({ subject: name, marks, band: 'Weak' }));
   const streams: any[] = [];
   const warnings: string[] = [];
   const tevtaAlternatives: any[] = [];
+  const allPaths = MATRIC_PATHS.map((path) => {
+    const weakNeed = path.needs.filter((name) => subjectMarks[name] > 0 && subjectMarks[name] < 55);
+    const unrealistic = pct > 0 && pct < path.minPct || weakNeed.length > 0;
+    const warning = unrealistic
+      ? `${path.stream} is unrealistic on these marks${weakNeed.length ? ` because ${weakNeed.join(' and ')} is under the 55% BISE comfort line` : ''}.`
+      : '';
+    return { ...path, unrealistic, warning, matchScore: unrealistic ? 'Unrealistic on current marks' : 'Open on current marks' };
+  });
 
   if (pct >= 85) {
     streams.push({ stream: 'FSc Pre-Medical / Pre-Engineering', matchScore: 'Strong Fit (Top Merit Tier)', details: `Meets ${biseBoard} cutoff for public medical & top engineering universities.` });
@@ -1073,13 +1093,42 @@ app.post('/api/analyze-matric', (req, res) => {
     warnings.push('Traditional FSc merit cutoffs are high. TEVTA trade diplomas offer faster job entry.');
   }
 
+  for (const path of allPaths) {
+    if (path.unrealistic && path.warning) warnings.push(path.warning);
+  }
+
   if (pct < 65 || sci < 60) {
     tevtaAlternatives.push({ title: 'Diploma in Solar PV System Installation', duration: '3 Months', institute: 'TEVTA VTI', stipend: 'PKR 2,500/mo' });
     tevtaAlternatives.push({ title: 'Industrial Automation & Robotics', duration: '6 Months', institute: 'GCT Technical College', stipend: 'PKR 3,000/mo' });
     tevtaAlternatives.push({ title: 'Computerized Building Electrician', duration: '6 Months', institute: 'TEVTA TTC', stipend: 'PKR 2,500/mo' });
   }
 
-  res.json({ pct, board: biseBoard, recommendedStreams: streams, warnings, tevtaAlternatives });
+  const riasec = String(req.body.riasec || '').toUpperCase().match(/[RIASEC]/)?.[0] || '';
+  const clusterName: Record<string, string> = { R: 'Realistic', I: 'Investigative', A: 'Artistic', S: 'Social', E: 'Enterprising', C: 'Conventional' };
+  const quizStream: Record<string, string> = {
+    I: 'FSc Pre-Medical', R: 'FSc Pre-Engineering', A: 'FA / Humanities',
+    S: 'FA / Humanities', E: 'ICOM / BBA / CA Foundation', C: 'ICOM / BBA / CA Foundation',
+  };
+  if (riasec && quizStream[riasec]) {
+    const label = quizStream[riasec];
+    const note = `Your ${clusterName[riasec]} quiz result points here, together with your marks.`;
+    const hit = streams.find((row) => String(row.stream).toLowerCase().includes(label.split(' ')[0].toLowerCase()));
+    if (hit) {
+      hit.details = `${note} ${hit.details}`;
+      streams.sort((a, b) => (a === hit ? -1 : b === hit ? 1 : 0));
+    } else if (pct >= 55) {
+      streams.unshift({ stream: label, matchScore: 'Quiz + marks', details: note });
+    } else {
+      warnings.unshift(`${note} Current marks make that FSc stream unrealistic — the vocational route below is the safer plan.`);
+    }
+  }
+
+  res.json({
+    pct, board: biseBoard, riasec: riasec || null, cluster: clusterName[riasec] || null,
+    recommendedStreams: streams, allPaths, strongSubjects, weakSubjects,
+    thresholdNote: 'Strong means 70% or above. Weak means under 55%, below a typical BISE comfort band.',
+    warnings, tevtaAlternatives,
+  });
 });
 
 app.post('/api/calculate-transnational', (req, res) => {
@@ -1355,6 +1404,12 @@ app.post('/api/chat', requireAuth(), aiLimiter, async (req, res) => {
       },
     } : clientProfile;
 
+    const priorRows = await query<{ role: string; content: string }>(
+      'SELECT role, content FROM ai_messages WHERE conversation_id=$1 ORDER BY created_at DESC LIMIT 8',
+      [conversation.id]
+    );
+    const savedHistory = [...priorRows].reverse();
+
     await query(
       'INSERT INTO ai_messages (conversation_id, role, content) VALUES ($1,$2,$3)',
       [conversation.id, 'user', message.trim()]
@@ -1390,7 +1445,8 @@ If marks are low (<55%), emphasise DAE, TEVTA, and vocational paths encouragingl
 If RIASEC is not taken, recommend taking the quiz on NexStep.
 `;
     }
-    const boundedHistory = Array.isArray(history) ? history.slice(-6) : [];
+    const clientHistory = Array.isArray(history) ? history.slice(-8) : [];
+    const boundedHistory = (savedHistory.length ? savedHistory : clientHistory).slice(-8);
     const historyBlock = boundedHistory.length
       ? '\n══════════ RECENT CONVERSATION ══════════\n' +
         boundedHistory.map((m: any) => `${m.role === 'user' ? 'STUDENT' : 'NEXSTEP AI'}: ${String(m.content || '').slice(0, 4000)}`).join('\n') +
@@ -1527,6 +1583,7 @@ app.use('/api/feedback', feedbackRouter);
 app.use('/api/translate', translationRouter);
 app.use('/api', entryTestsRouter);
 app.use('/api', publicDataRouter);
+app.use('/api', usageRouter);
 
 // Keep unknown API routes as JSON. This prevents the production SPA fallback
 // from returning HTML to a client that expects an API response.

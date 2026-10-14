@@ -21,6 +21,7 @@ import { adminContentRouter } from './education.routes.js';
 import { adminAssignmentsRouter } from './mentorship.routes.js';
 import { adminPaymentsRouter } from './manualPayments.routes.js';
 import { adminSampleDataRouter } from '../services/sampleData.service.js';
+import { adminScopeRouter } from './adminScope.routes.js';
 
 const router = Router();
 router.use(requireAdmin);
@@ -29,6 +30,7 @@ router.use(adminContentRouter);
 router.use(adminAssignmentsRouter);
 router.use(adminPaymentsRouter);
 router.use(adminSampleDataRouter);
+router.use(adminScopeRouter);
 
 import { VerificationCounter } from '../services/verificationCounter.js';
 

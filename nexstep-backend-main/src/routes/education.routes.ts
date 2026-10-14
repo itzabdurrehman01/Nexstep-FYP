@@ -111,6 +111,8 @@ export function ensureEducationSchema(): Promise<void> {
         ALTER TABLE universities ADD COLUMN IF NOT EXISTS has_hostel BOOLEAN;
         ALTER TABLE universities ADD COLUMN IF NOT EXISTS description TEXT;
         ALTER TABLE scholarships ADD COLUMN IF NOT EXISTS min_academic_pct INTEGER;
+        ALTER TABLE universities ADD COLUMN IF NOT EXISTS verified_year INTEGER;
+        ALTER TABLE scholarships ADD COLUMN IF NOT EXISTS verified_year INTEGER;
       `);
     })().catch((err) => { schemaReady = null; throw err; });
   }
@@ -333,6 +335,7 @@ const CONTENT: Record<string, ContentDef> = {
       lastMeritCutoffPct: { column: 'merit_cutoff_pct', kind: 'int' },
       hasHostel:       { column: 'has_hostel', kind: 'bool' },
       description:     { column: 'description', kind: 'longtext' },
+      verifiedYear:    { column: 'verified_year', kind: 'int' },
     },
   },
   scholarships: {
@@ -350,6 +353,7 @@ const CONTENT: Record<string, ContentDef> = {
       applicationUrl:  { column: 'application_url', kind: 'url' },
       officialUrl:     { column: 'official_url', kind: 'url' },
       minAcademicPct:  { column: 'min_academic_pct', kind: 'int' },
+      verifiedYear:    { column: 'verified_year', kind: 'int' },
     },
   },
   courses: {
@@ -448,7 +452,7 @@ function cleanLevels(raw: unknown): string[] {
 }
 
 function rowToApi(def: ContentDef, row: any) {
-  const out: any = { id: row.id, educationLevels: row.education_levels ?? [], updatedAt: row.updated_at, isSample: row.is_sample === true };
+  const out: any = { id: row.id, educationLevels: row.education_levels ?? [], updatedAt: row.updated_at, isSample: row.is_sample === true, lastVerifiedAt: row.last_verified_at || null };
   for (const [key, f] of Object.entries(def.fields)) {
     let v = row[f.column];
     if (f.kind === 'date' && v) v = iso(toDate(v));
@@ -491,6 +495,10 @@ function buildValues(def: ContentDef, body: any, partial: boolean) {
   }
   cols.push('education_levels');
   vals.push(cleanLevels(body.educationLevels));
+  if (body.verifiedYear !== undefined && body.verifiedYear !== '' && def.fields.verifiedYear) {
+    cols.push('last_verified_at');
+    vals.push(new Date());
+  }
   return { cols, vals };
 }
 

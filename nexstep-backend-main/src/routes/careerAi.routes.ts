@@ -22,6 +22,7 @@ import { pool, query, queryOne } from './db.js';
 import { requireAuth } from './auth.middleware.js';
 import { ensureEducationSchema } from './education.routes.js';
 import { getUserPlan, FREE_LIMITS } from '../services/plan.service.js';
+import { recordUsage } from '../services/usageAnalytics.js';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -357,6 +358,7 @@ careerAiRouter.get('/careers/:id/gap', async (req, res) => {
       return res.status(402).json({ error: 'Skill gap for careers outside your top 3 matches is a Premium feature.', code: 'PREMIUM_REQUIRED' });
     }
     const m = ranked[idx];
+    recordUsage('career_search', m.career.id, m.career.title, req.user!.id).catch(() => {});
     const courses = await query<any>(
       `SELECT id, title, provider, duration, format, price_pkr, enrollment_url, skills_covered, education_levels FROM courses ORDER BY title ASC LIMIT 500`).catch(() => []);
     const levelOk = (c: any) => !c.education_levels?.length || !student.level || c.education_levels.includes(student.level);
@@ -389,7 +391,9 @@ careerAiRouter.post('/compare', async (req, res) => {
   const ids = Array.isArray(req.body?.ids) ? req.body.ids.filter((x: any) => UUID_RE.test(String(x))).slice(0, 3) : [];
   if (ids.length < 2) return res.status(400).json({ error: 'Pick two or three careers to compare.' });
   const { ranked } = await rankedFor(req.user!.id);
-  res.json({ data: ids.map((id: string) => ranked.find((m) => m.career.id === id)).filter(Boolean) });
+  const picked = ids.map((id: string) => ranked.find((m) => m.career.id === id)).filter(Boolean);
+  picked.forEach((m: any) => recordUsage('career_search', m.career.id, m.career.title, req.user!.id).catch(() => {}));
+  res.json({ data: picked });
 });
 
 careerAiRouter.put('/target', async (req, res) => {
@@ -399,6 +403,7 @@ careerAiRouter.put('/target', async (req, res) => {
   if (!c) return res.status(404).json({ error: 'Career not found.' });
   await query(`INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`, [req.user!.id]);
   await query(`UPDATE profiles SET target_career = $2, updated_at = NOW() WHERE user_id = $1`, [req.user!.id, c.title]);
+  recordUsage('career_search', id, c.title, req.user!.id).catch(() => {});
   res.json({ success: true, targetCareer: c.title });
 });
 

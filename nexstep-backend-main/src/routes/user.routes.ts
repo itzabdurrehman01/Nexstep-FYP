@@ -42,6 +42,7 @@ export function ensureProfileExtras(): Promise<void> {
       ALTER TABLE profiles ADD COLUMN IF NOT EXISTS interests       JSONB NOT NULL DEFAULT '[]';
       ALTER TABLE profiles ADD COLUMN IF NOT EXISTS preferences     JSONB NOT NULL DEFAULT '{}';
       ALTER TABLE profiles ADD COLUMN IF NOT EXISTS mentor_profile  JSONB NOT NULL DEFAULT '{}';
+      ALTER TABLE profiles ADD COLUMN IF NOT EXISTS guidance        JSONB NOT NULL DEFAULT '{}';
       ALTER TABLE users    ADD COLUMN IF NOT EXISTS phone           VARCHAR(50);
     `).then(() => undefined).catch((err) => { extrasReady = null; throw err; });
   }
@@ -167,6 +168,7 @@ export async function loadProfilePayload(uid: string) {
     budgetAnnualPkr:         profile.budget_annual_pkr,
     preferredStream:         profile.preferred_stream || education?.stream || '',
     topRiasecCluster:        profile.top_riasec_cluster,
+    guidance:                profile.guidance && typeof profile.guidance === 'object' ? profile.guidance : {},
     marks: {
       matricPct:       Number(profile.matric_pct)      || 0,
       fscPct:          Number(profile.fsc_pct)         || 0,
@@ -250,6 +252,23 @@ router.put('/profile', async (req: Request, res: Response) => {
     }
     if ('topRiasecCluster' in b || 'top_riasec_cluster' in b) {
       setCol('top_riasec_cluster', str(b.topRiasecCluster ?? b.top_riasec_cluster, 200));
+    }
+    if (b.guidance && typeof b.guidance === 'object') {
+      const recommendations = strList(b.guidance.recommendations, 5, 160);
+      const deadlines = Array.isArray(b.guidance.deadlines)
+        ? b.guidance.deadlines.slice(0, 6).map((d: any) => ({
+            title: str(d?.title, 160) || '',
+            date: str(d?.date, 40) || '',
+            kind: d?.kind === 'application' ? 'application' : 'entry-test',
+          })).filter((d: { title: string }) => d.title)
+        : [];
+      vals.push(JSON.stringify({
+        recommendations,
+        cluster: str(b.guidance.cluster, 160) || '',
+        deadlines,
+        updatedAt: new Date().toISOString(),
+      }));
+      sets.push(`guidance = $${vals.length}::jsonb`);
     }
     if (b.marks || 'matricPct' in b || 'matric_pct' in b) {
       setCol('matric_pct', numOrNull(b.marks?.matricPct ?? b.matric_pct));

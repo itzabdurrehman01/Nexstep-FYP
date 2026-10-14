@@ -17,6 +17,7 @@ import { CAREERS_EXPANDED } from '../data/realData/careers.js';
 import { CAREERS_DATA } from '../data/careersData.js';
 import { ENTRY_TESTS_DATA } from '../data/entryTestsData.js';
 import { officialScholarshipUrl, officialUniversityUrl, toScholarshipDto, toUniversityDto } from '../data/officialLinks.js';
+import { recordUsage } from '../services/usageAnalytics.js';
 
 const router = Router();
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -343,9 +344,8 @@ router.get('/universities/:id', async (req: Request, res: Response) => {
       : null;
     const item = databaseItem || staticItem;
     if (!item) return res.status(404).json({ error: 'University not found.' });
+    recordUsage('university_view', item.id, item.name).catch(() => {});
     res.json({ data: { ...toUniversityDto(item), publisher: item.publisher || 'Higher Education Commission (HEC)', verification_status: item.verification_status || 'VERIFIED' } });
-    if (!item) return res.status(404).json({ error: 'University not found.' });
-    res.json({ data: { ...item, publisher: item.publisher || 'Higher Education Commission (HEC)', verification_status: item.verification_status || 'VERIFIED' } });
   } catch {
     res.status(500).json({ error: 'Failed to fetch university.' });
   }
