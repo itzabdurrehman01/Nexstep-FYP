@@ -24,6 +24,7 @@ import { SearchableSelect, SampleDataNotice } from '../common/SearchableSelect.j
 import { CityMap } from '../career/CityMap.jsx';
 import { matchesStream, profileStream } from '../../utils/streamMatch.js';
 import { useRestoredValue } from '../../hooks/useRestoredValue.js';
+import { trackUsage } from '../../utils/usageTracker.js';
 
 const toUniversity = (university, index) => ({
   ...university,
@@ -86,6 +87,17 @@ export function UniversitiesTab({ profile, lang }) {
     return matched.length ? matched : base;
   }, [allUnis, search, selectedCity, selectedType, selectedTier, maxFee, studentStream]);
 
+  const recommended = useMemo(() => {
+    const marks = Number(profile?.marks?.fscPct || profile?.marks?.matricPct || 0);
+    const budget = Number(profile?.budgetAnnualPkr || 0);
+    const city = String(profile?.city || '').toLowerCase();
+    return [...allUnis]
+      .filter((u) => !budget || !u.annualFeePkr || u.annualFeePkr <= budget)
+      .filter((u) => !marks || !u.lastMeritCutoffPct || marks + 8 >= u.lastMeritCutoffPct)
+      .sort((a, b) => (city && a.city.toLowerCase() === city ? -1 : 0) - (city && b.city.toLowerCase() === city ? -1 : 0))
+      .slice(0, 3);
+  }, [allUnis, profile?.marks?.fscPct, profile?.marks?.matricPct, profile?.budgetAnnualPkr, profile?.city]);
+
   // Dropdown options come from the data itself (with counts).
   const countBy = (key) => allUnis.reduce((m, u) => { const k = u[key]; if (k) m.set(k, (m.get(k) || 0) + 1); return m; }, new Map());
   const cityOptions = useMemo(() => [...countBy('city')].sort((a, b) => a[0].localeCompare(b[0])).map(([c, n]) => ({ value: c, label: tr(c, lang), hint: `${n} ${n === 1 ? 'university' : 'universities'}` })), [allUnis, lang]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -117,6 +129,7 @@ export function UniversitiesTab({ profile, lang }) {
       fetch(`/api/bookmarks/${uni.id}`, { method: 'DELETE' }).catch(e => console.error(e));
     } else {
       setBookmarkedIds(prev => [...prev, uni.id]);
+      trackUsage('university_view', uni.id, uni.name);
       fetch('/api/bookmarks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -137,6 +150,7 @@ export function UniversitiesTab({ profile, lang }) {
       setCompareLimitWarning(false);
     } else {
       if (compareList.length < 3) {
+        trackUsage('university_view', uni.id, uni.name);
         setCompareList([...compareList, uni]);
         setCompareLimitWarning(false);
       } else {
@@ -370,6 +384,12 @@ export function UniversitiesTab({ profile, lang }) {
             }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 min-w-0"
           >
+            {recommended.length > 0 && (
+              <div className="md:col-span-2 lg:col-span-3 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 dark:bg-emerald-950/20 dark:border-emerald-900">
+                <p className="text-sm font-bold text-slate-900 dark:text-white">Matched to your marks, budget, and city</p>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{recommended.map((u) => `${u.name} (${u.city})`).join(' · ')}</p>
+              </div>
+            )}
             {unis.map(toUniversity).map((uni, idx) => {
               const isSelectedForCompare = compareList.some(item => item.id === uni.id);
               const isBookmarked = bookmarkedIds.includes(uni.id);
@@ -430,6 +450,14 @@ export function UniversitiesTab({ profile, lang }) {
                         </span>
                         <strong className="text-slate-900 dark:text-white text-base">PKR {(uni.annualFeePkr / 1000).toFixed(0)}k/yr</strong>
                       </div>
+                      <div className="space-y-0.5 min-w-0">
+                        <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-black tracking-wider block">HEC ranking</span>
+                        <strong className="text-slate-900 dark:text-white text-sm">{uni.hecRankTier}</strong>
+                      </div>
+                      <div className="space-y-0.5 min-w-0">
+                        <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-black tracking-wider block">Hostel</span>
+                        <strong className="text-slate-900 dark:text-white text-sm">{uni.hasHostel ? 'Available' : 'Not listed'}</strong>
+                      </div>
                     </div>
 
                     <div className="space-y-1.5 min-w-0">
@@ -467,6 +495,7 @@ export function UniversitiesTab({ profile, lang }) {
                       href={uni.websiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackUsage('university_view', uni.id, uni.name)}
                       aria-label={`Visit ${uni.name} official admissions portal`}
                       className="ns-btn ns-btn-ghost ns-btn-sm inline-flex items-center gap-1.5"
                     >

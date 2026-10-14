@@ -229,6 +229,9 @@ export function OnboardingTab({ profile: rawProfile = {}, onSave, onUpdateProfil
   const [skills, setSkills] = useState(skillNames(profile.skills));
   const [interests, setInterests] = useState(Array.isArray(profile.interests) ? profile.interests : []);
   const [bio, setBio] = useState(profile.bio ?? '');
+  const [matricPct, setMatricPct] = useState(profile.marks?.matricPct ? String(profile.marks.matricPct) : '');
+  const [fscPct, setFscPct] = useState(profile.marks?.fscPct ? String(profile.marks.fscPct) : '');
+  const [budgetAnnualPkr, setBudgetAnnualPkr] = useState(profile.budgetAnnualPkr ? String(profile.budgetAnnualPkr) : '');
 
   const applySaved = (p) => {
     if (!p) return;
@@ -248,6 +251,9 @@ export function OnboardingTab({ profile: rawProfile = {}, onSave, onUpdateProfil
     setSkills(skillNames(p.skills));
     setInterests(Array.isArray(p.interests) ? p.interests : []);
     setBio(p.bio ?? '');
+    setMatricPct(p.marks?.matricPct ? String(p.marks.matricPct) : '');
+    setFscPct(p.marks?.fscPct ? String(p.marks.fscPct) : '');
+    setBudgetAnnualPkr(p.budgetAnnualPkr ? String(p.budgetAnnualPkr) : '');
   };
 
   useEffect(() => {
@@ -311,9 +317,12 @@ export function OnboardingTab({ profile: rawProfile = {}, onSave, onUpdateProfil
       JSON.stringify(languages) !== JSON.stringify(base.languages || ['English', 'Urdu']) ||
       JSON.stringify(skills) !== JSON.stringify(base.skills || []) ||
       JSON.stringify(interests) !== JSON.stringify(base.interests || []) ||
-      (bio || '') !== (base.bio || '')
+      (bio || '') !== (base.bio || '') ||
+      String(matricPct || '') !== String(base.marks?.matricPct || '') ||
+      String(fscPct || '') !== String(base.marks?.fscPct || '') ||
+      String(budgetAnnualPkr || '') !== String(base.budgetAnnualPkr || '')
     );
-  }, [profile, firstName, lastName, email, phone, city, province, stream, educationLevel, institution, graduationYear, targetCareer, avatarUrl, languages, skills, interests, bio]);
+  }, [profile, firstName, lastName, email, phone, city, province, stream, educationLevel, institution, graduationYear, targetCareer, avatarUrl, languages, skills, interests, bio, matricPct, fscPct, budgetAnnualPkr]);
 
   const handleSave = async () => {
     const nameFirst = firstName.trim() || profile.firstName || authUser?.firstName || '';
@@ -338,6 +347,11 @@ export function OnboardingTab({ profile: rawProfile = {}, onSave, onUpdateProfil
         skills,
         interests,
         bio,
+        marks: {
+          matricPct: matricPct === '' ? null : Number(matricPct),
+          fscPct: fscPct === '' ? null : Number(fscPct),
+        },
+        budgetAnnualPkr: budgetAnnualPkr === '' ? null : Number(budgetAnnualPkr),
       };
       if (nameFirst) payload.firstName = nameFirst;
       if (nameLast) payload.lastName = nameLast;
@@ -566,6 +580,24 @@ export function OnboardingTab({ profile: rawProfile = {}, onSave, onUpdateProfil
           <div className="sm:col-span-2 space-y-1.5 relative z-30 overflow-visible">
             <label htmlFor="ob-institution" className="block text-xs font-bold text-slate-700 dark:text-slate-300">School / College / University</label>
             <InstitutionPicker id="ob-institution" value={institution} onChange={(v) => setInstitution(v || '')} />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="ob-matric" className="block text-xs font-bold text-slate-700 dark:text-slate-300">Matric / current marks %</label>
+            <input id="ob-matric" type="number" min="0" max="100" value={matricPct} onChange={(e) => setMatricPct(e.target.value)}
+              className="ns-input w-full px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-900 dark:text-white outline-hidden bg-slate-50 dark:bg-slate-800 focus:border-emerald-500"
+              placeholder="e.g. 82" />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="ob-fsc" className="block text-xs font-bold text-slate-700 dark:text-slate-300">FSc / Inter marks %</label>
+            <input id="ob-fsc" type="number" min="0" max="100" value={fscPct} onChange={(e) => setFscPct(e.target.value)}
+              className="ns-input w-full px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-900 dark:text-white outline-hidden bg-slate-50 dark:bg-slate-800 focus:border-emerald-500"
+              placeholder="Leave blank if not in Inter yet" />
+          </div>
+          <div className="sm:col-span-2 space-y-1.5">
+            <label htmlFor="ob-budget" className="block text-xs font-bold text-slate-700 dark:text-slate-300">Annual education budget (PKR)</label>
+            <input id="ob-budget" type="number" min="0" value={budgetAnnualPkr} onChange={(e) => setBudgetAnnualPkr(e.target.value)}
+              className="ns-input w-full px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-900 dark:text-white outline-hidden bg-slate-50 dark:bg-slate-800 focus:border-emerald-500"
+              placeholder="e.g. 250000" />
           </div>
           <div className="sm:col-span-2 space-y-1.5">
             <label htmlFor="ob-graduation" className="block text-xs font-bold text-slate-700 dark:text-slate-300">Expected Graduation Year</label>

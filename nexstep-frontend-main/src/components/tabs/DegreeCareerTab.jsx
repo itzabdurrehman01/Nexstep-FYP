@@ -17,8 +17,70 @@ import { CAREERS_DATA } from '../../data/careersData.js';
 import { translations } from '../../data/translations.js';
 import { CareerComparisonTool } from '../career/CareerComparisonTool.jsx';
 import { SampleDataNotice } from '../common/SearchableSelect.jsx';
+import { trackCareerSearch, trackUsage } from '../../utils/usageTracker.js';
 
-export function DegreeCareerTab({ lang }) {
+const FREE_CERTS = [
+  { provider: 'DigiSkills.pk', title: 'Freelancing', url: 'https://digiskills.pk' },
+  { provider: 'Google Career Certificates', title: 'Data Analytics', url: 'https://grow.google/certificates/' },
+  { provider: 'Coursera', title: 'Audit a course in your field', url: 'https://www.coursera.org' },
+];
+
+const POSTGRAD = [
+  { degree: 'MS / MPhil', who: 'Same field as your bachelor degree', test: 'GAT General, usually 50%', scholarship: 'HEC need-based and university research awards' },
+  { degree: 'MBA', who: 'Students moving into management', test: 'University test or GAT', scholarship: 'University merit waiver and HEC need-based aid' },
+  { degree: 'LLM', who: 'Law graduates', test: 'University law admission test where required', scholarship: 'University law scholarships and HEC need-based aid' },
+];
+
+function UniversityStudentPanel({ profile, careers }) {
+  const degree = profile?.education?.stream || profile?.preferredStream || profile?.education?.levelLabel || 'your degree';
+  const needle = String(degree).toLowerCase();
+  const matches = careers.filter((career) => {
+    const hay = `${career.title} ${career.streamRequired} ${career.category || ''}`.toLowerCase();
+    return needle.split(/\s+/).filter((w) => w.length > 3).some((w) => hay.includes(w));
+  }).slice(0, 2);
+  const shown = matches.length ? matches : careers.slice(0, 2);
+  return (
+    <section className="ns-card p-5 sm:p-6 space-y-4">
+      <div>
+        <h2 className="text-base font-bold text-slate-900 dark:text-white">For students already in a degree</h2>
+        <p className="text-xs text-slate-500 mt-1">Mapped from {degree}. Job titles, pay, and sectors use the stored sample set.</p>
+      </div>
+      <div className="grid md:grid-cols-2 gap-3">
+        {shown.map((career) => (
+          <article key={career.id} className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 space-y-2">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">{career.title}</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-300">Jobs: {(career.jobTitles || []).slice(0, 4).join(', ')}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300">Salary: {career.avgSalaryPkr}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300">Hiring sector: {career.category || career.demandLevel || 'See career page'}</p>
+          </article>
+        ))}
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white">Free certificates</h3>
+        <ul className="mt-2 space-y-1 text-sm">
+          {FREE_CERTS.map((cert) => (
+            <li key={cert.provider}>
+              <a className="text-emerald-700 dark:text-emerald-400 font-semibold" href={cert.url} target="_blank" rel="noreferrer">{cert.provider}</a>
+              <span className="text-slate-600 dark:text-slate-300"> — {cert.title}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="grid md:grid-cols-3 gap-3">
+        {POSTGRAD.map((path) => (
+          <article key={path.degree} className="rounded-xl bg-slate-50 dark:bg-slate-800/50 p-3">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">{path.degree}</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{path.who}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{path.test}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{path.scholarship}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function DegreeCareerTab({ profile, lang }) {
   const t = translations[lang];
   const [viewMode, setViewMode] = useState('compare');
   const [search, setSearch] = useState('');
@@ -37,6 +99,7 @@ export function DegreeCareerTab({ lang }) {
   return (
     <div className="ns-page-wrapper space-y-6 min-w-0">
       <SampleDataNotice lang={lang} />
+      <UniversityStudentPanel profile={profile} careers={CAREERS_DATA} />
       <div className="relative overflow-hidden ns-card p-6 sm:p-8">
         <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl ns-accent-glow-right" aria-hidden="true" />
         <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl" aria-hidden="true" />
@@ -105,7 +168,7 @@ export function DegreeCareerTab({ lang }) {
                   role="searchbox"
                   aria-label="Search careers by degree, job title, or required stream"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => { setSearch(e.target.value); trackCareerSearch(e.target.value); }}
                   placeholder="Search by degree name, job title, or stream..."
                   className="ns-input pl-11"
                 />
@@ -170,6 +233,7 @@ export function DegreeCareerTab({ lang }) {
                   visible: { opacity: 1, y: 0, transition: { duration: 0.34, ease: 'easeOut', delay: idx * 0.035 } }
                 }}
                 className="ns-card ns-card-hover p-5 space-y-4 flex flex-col justify-between min-w-0"
+                onClick={() => trackUsage('career_search', car.id, car.title)}
               >
                 <div className="space-y-3 min-w-0">
                   <div className="flex items-start justify-between gap-3 min-w-0">

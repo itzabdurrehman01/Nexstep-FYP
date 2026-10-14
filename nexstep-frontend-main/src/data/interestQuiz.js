@@ -235,11 +235,11 @@ export const recommendationGroup = (level) =>
   level === 'class8' ? 'class8' : level === 'class9' || level === 'class10' ? 'matric'
     : level === 'class11' || level === 'class12' ? 'inter' : level === 'dae' ? 'dae' : level === 'university' ? 'university' : 'matric';
 
-/** Scores the answers. riasecAnswers: { [questionId]: 1..5 }, subjectAnswers: { [qid]: optionIndex } */
-export function scoreQuiz(riasecAnswers, subjectAnswers) {
+/** Scores the 30 questions the student actually answered. */
+export function scoreQuiz(riasecAnswers, subjectAnswers = {}, riasecQuestions = RIASEC_QUESTIONS, subjectQuestions = SUBJECT_QUESTIONS) {
   const riasec = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
   const counts = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
-  for (const q of RIASEC_QUESTIONS) {
+  for (const q of riasecQuestions) {
     const v = riasecAnswers[q.id];
     if (v) { riasec[q.category] += v; counts[q.category] += 1; }
   }
@@ -249,7 +249,7 @@ export function scoreQuiz(riasecAnswers, subjectAnswers) {
 
   const areas = Object.fromEntries(Object.keys(AREAS).map((k) => [k, 0]));
   let pathway = null;
-  for (const q of SUBJECT_QUESTIONS) {
+  for (const q of subjectQuestions) {
     const idx = subjectAnswers[q.id];
     const opt = q.options[idx];
     if (!opt) continue;

@@ -213,6 +213,8 @@ export function FscMapperTab({ profile, onNavigate, lang }) {
                   <div className="text-xs space-y-1 text-slate-700 dark:text-slate-300">
                     <div><strong>Suggested campuses:</strong> {car.topUniversities.length ? car.topUniversities.map((university) => typeof university === 'string' ? university : `${university.name} (${university.city})`).join(', ') : 'Review university options'}</div>
                     <div><strong>Entry Tests:</strong> {car.entryTests.join(', ')}</div>
+                    <div><strong>Past cutoff:</strong> {car.historicalCutoff || 'See the verified year on each university.'}</div>
+                    <div><strong>Scholarships:</strong> {(car.scholarships || []).join(', ') || 'HEC, PEEF, and provincial schemes'}</div>
                     <div><strong>Monthly Salary PKR:</strong> {car.avgSalaryPkr}</div>
                   </div>
 
@@ -274,7 +276,7 @@ export function FscMapperTab({ profile, onNavigate, lang }) {
                     </div>
 
                     <div>
-                      <strong className="text-slate-800">Test Pattern & Structure:</strong>
+                      <strong className="text-slate-800">Syllabus and paper pattern:</strong>
                       <p className="text-slate-600 mt-0.5">{test.testPattern}</p>
                     </div>
 

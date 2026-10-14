@@ -21,8 +21,15 @@ function Bar({ value, tone = 'bg-emerald-500' }) {
   return <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"><div className={`h-full ${tone}`} style={{ width: `${value}%` }} /></div>;
 }
 
-function Results({ result, level, lang, onRetake, onNavigate, savedAt }) {
+function Results({ result, level, lang, onRetake, onNavigate, savedAt, marks = 0 }) {
   const ur = lang === 'ur';
+  const [matches, setMatches] = useState([]);
+  useEffect(() => {
+    fetch('/api/career-ai/matches', { credentials: 'include' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setMatches(Array.isArray(d?.data) ? d.data.slice(0, 3) : []))
+      .catch(() => setMatches([]));
+  }, []);
   const group = recommendationGroup(level);
   const recs = RECOMMENDATIONS[group];
   const top = result.ranked.slice(0, 3);
@@ -33,10 +40,12 @@ function Results({ result, level, lang, onRetake, onNavigate, savedAt }) {
       <section className={`${card} p-5 sm:p-6 space-y-4`}>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">{ur ? 'آپ کا نتیجہ' : 'Your result'}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">{ur ? 'آپ کا کلسٹر' : 'Your career cluster'}</p>
             <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
-              {ur ? 'آپ کی دلچسپی کا کوڈ' : 'Your interest code'}: <span data-no-translate>{result.code}</span>
+              {ur ? RIASEC_TYPES[result.code[0]].ur : RIASEC_TYPES[result.code[0]].en}
+              <span className="ml-2 text-base font-medium text-slate-500" data-no-translate>({result.code[0]})</span>
             </h2>
+            <p className="text-xs text-slate-500">{ur ? 'کوڈ' : 'Code'} <span data-no-translate>{result.code}</span> — {ur ? 'چھ ہالینڈ کلسٹرز میں سے ایک' : 'one of the six Holland clusters'}</p>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
               {result.code.split('').map((l) => (ur ? RIASEC_TYPES[l].ur : RIASEC_TYPES[l].en)).join(' · ')}
             </p>
@@ -104,7 +113,21 @@ function Results({ result, level, lang, onRetake, onNavigate, savedAt }) {
             </div>
           ))}
         </div>
-        <p className="text-xs text-slate-500">{ur ? 'یہ نتیجہ کیریئر اے آئی میں آپ کے کیریئر میچز کو بہتر بناتا ہے۔' : 'Your result is saved to your profile and used by Career AI to rank careers for you.'}</p>
+        <p className="text-xs text-slate-500">
+          {marks > 0
+            ? (ur ? `یہ کیریئر آپ کے ${RIASEC_TYPES[result.code[0]].ur} نتیجے اور ${marks}% نمبروں کو ملا کر بنے ہیں۔` : `These careers combine your ${RIASEC_TYPES[result.code[0]].en} result with your ${marks}% marks.`)
+            : (ur ? 'نمبر پروفائل میں شامل کریں تاکہ یہ نتیجہ نمبروں کے ساتھ ملایا جا سکے۔' : 'Add your marks on your profile so this result is combined with your academic marks.')}
+        </p>
+        {matches.length > 0 && (
+          <ul className="space-y-2">
+            {matches.map((m, i) => (
+              <li key={m.career?.id || i} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 px-3 py-2 text-sm">
+                <span className="font-medium text-slate-800 dark:text-slate-100 truncate">{i + 1}. {m.career?.title}</span>
+                <span className="text-xs text-emerald-700 dark:text-emerald-400 shrink-0">{m.score}%</span>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="flex flex-wrap gap-2">
           <button type="button" onClick={() => onNavigate?.('dashboard')} className={btnPrimary}>{ur ? 'ڈیش بورڈ پر جائیں' : 'Continue to dashboard'}<ArrowRight className="w-4 h-4" /></button>
           {allowed('careerAi') && <button type="button" onClick={() => onNavigate?.('careerAi')} className={btnGhost}><Sparkles className="w-4 h-4" />{ur ? 'میرے کیریئر میچز دیکھیں' : 'See my career matches'}</button>}
@@ -122,10 +145,7 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
   const level = profile?.education?.level || null;
   const [attempt, setAttempt] = useState(0);
   const [pack, setPack] = useState(() => buildPersonalQuiz(userId, 0));
-  const steps = useMemo(() => [
-    ...pack.riasec.map((q) => ({ kind: 'riasec', q })),
-    ...pack.subject.map((q) => ({ kind: 'subject', q })),
-  ], [pack]);
+  const steps = useMemo(() => pack.riasec.slice(0, 30).map((q) => ({ kind: 'riasec', q })), [pack]);
   const [phase, setPhase] = useState('loading'); // loading | intro | quiz | result
   const [step, setStep] = useState(0);
   const [riasecAnswers, setRiasecAnswers] = useState({});
@@ -197,7 +217,7 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
     const missing = steps.findIndex((st) => (st.kind === 'riasec' ? riasecAnswers[st.q.id] == null : subjectAnswers[st.q.id] == null));
     if (missing >= 0) { setStep(missing); setError(ur ? 'براہ کرم تمام سوالات کے جواب دیں۔' : 'Please answer every question — this one was skipped.'); return; }
     setError('');
-    const r = scoreQuiz(riasecAnswers, subjectAnswers, pack.riasec, pack.subject);
+    const r = scoreQuiz(riasecAnswers, {}, pack.riasec.slice(0, 30), []);
     setResult(r); setPhase('result'); setSaving(true);
     const topArea = AREAS[r.ranked[0]].en;
     const rec = RECOMMENDATIONS[recommendationGroup(level)][r.ranked[0]];
@@ -226,7 +246,7 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
     <div className="space-y-6 w-full">
       <header>
         <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-2"><ListChecks className="w-6 h-6 text-emerald-600" />{ur ? 'دلچسپی کوئز' : 'Interest quiz'}</h1>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{ur ? 'جانیں کہ آپ کس شعبے میں دلچسپی رکھتے ہیں اور آپ کی جماعت کے لحاظ سے اگلا قدم کیا ہے۔' : 'Find out which fields you are most interested in and what the next step is for your class.'}</p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{ur ? '30 سوالات — ہالینڈ کے چھ کیریئر کلسٹرز میں سے آپ کا کلسٹر۔ نتیجہ نمبروں کے ساتھ ملا کر کیریئر تجویز کرتا ہے۔' : '30 questions. You are mapped to one of Holland’s six career clusters, then combined with your marks.'}</p>
       </header>
 
       {error && <p role="alert" className="flex items-start gap-2 rounded-xl px-3 py-2.5 text-sm bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"><AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />{error}</p>}
@@ -236,8 +256,8 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
       ) : phase === 'intro' ? (
         <section className={`${card} p-6 sm:p-8 space-y-5`}>
           <div className="grid sm:grid-cols-3 gap-4">
-            {[[ListChecks, ur ? 'آپ کے اپنے سوالات' : 'Your own question mix', ur ? 'ہر طالب علم کو الگ سوالات ملتے ہیں تاکہ اصل دلچسپی معلوم ہو' : 'Each student gets a different mix so the result is your real interest, not dummy data'],
-              [Clock, ur ? 'تقریباً 8 منٹ' : 'About 8 minutes', ur ? 'آپ کا جواب خود محفوظ ہوتا ہے' : 'Your progress is saved as you go'],
+            {[[ListChecks, ur ? '30 سوالات' : '30 questions', ur ? 'ہر کلسٹر کے 5 سوال — Realistic سے Conventional' : 'Five questions for each cluster, from Realistic to Conventional'],
+              [Clock, ur ? 'تقریباً 5 منٹ' : 'About 5 minutes', ur ? 'نتیجہ پروفائل میں محفوظ ہوتا ہے' : 'Your result is saved on your profile'],
               [Sparkles, ur ? 'ذاتی رہنمائی' : 'Personal next steps', level ? `${ur ? 'برائے' : 'For'} ${levelLabel(level, lang)}` : (ur ? 'آپ کی جماعت کے مطابق' : 'Matched to your class')]].map(([I, t, d]) => (
               <div key={t} className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-4">
                 <I className="w-5 h-5 text-emerald-600" />
@@ -256,7 +276,7 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
         <section className={`${card} p-5 sm:p-8 space-y-6`}>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>{current.kind === 'riasec' ? (ur ? 'حصہ 1: دلچسپیاں' : 'Part 1: Your interests') : (ur ? 'حصہ 2: مضامین اور اہداف' : 'Part 2: Subjects and goals')}</span>
+              <span>{ur ? 'ہالینڈ RIASEC' : 'Holland RIASEC'}</span>
               <span>{ur ? 'سوال' : 'Question'} {step + 1} / {steps.length}</span>
             </div>
             <Bar value={pct} />
@@ -304,7 +324,8 @@ export function QuizTab({ profile, onUpdateProfile, onNavigate, lang = 'en' }) {
           </div>
         </section>
       ) : result && (
-        <Results result={result} level={level} lang={lang} onRetake={restart} onNavigate={onNavigate} savedAt={savedAt} />
+        <Results result={result} level={level} lang={lang} onRetake={restart} onNavigate={onNavigate} savedAt={savedAt}
+          marks={Math.max(Number(profile?.marks?.matricPct) || 0, Number(profile?.marks?.fscPct) || 0)} />
       )}
     </div>
   );

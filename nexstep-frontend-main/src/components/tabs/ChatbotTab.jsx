@@ -289,6 +289,11 @@ export function ChatbotTab({ profile = {}, lang }) {
                     )}
                   </div>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{chatbotCopy.subtitle}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                    {lang === 'ur'
+                      ? 'جواب منتخب زبان میں آتا ہے، اور یہ گفتگو یاد رکھی جاتی ہے۔'
+                      : 'Replies follow Urdu or English, and this chat remembers the conversation.'}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0 ml-2">

@@ -46,6 +46,10 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
   const [mathMarks, setMathMarks] = useState( profile?.marks?.matricPct ? Math.round(profile.marks.matricPct * 0.75) : 68 );
   const [scienceMarks, setScienceMarks] = useState( profile?.marks?.matricPct ? Math.round(profile.marks.matricPct * 0.8) : 72 );
   const [englishMarks, setEnglishMarks] = useState(70);
+  const [physicsMarks, setPhysicsMarks] = useState(70);
+  const [chemistryMarks, setChemistryMarks] = useState(68);
+  const [computerMarks, setComputerMarks] = useState(74);
+  const [urduMarks, setUrduMarks] = useState(72);
   const [totalPercentage, setTotalPercentage] = useRestoredValue(profile?.marks?.matricPct || '', 78);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -71,7 +75,8 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
           mathMarks: g8Math,
           scienceMarks: g8Science,
           englishMarks: g8English,
-          computerMarks: g8Computer
+          computerMarks: g8Computer,
+          riasec: String(profile?.topRiasecCluster || '').match(/[RIASEC]/i)?.[0] || '',
         })
       });
       const data = await res.json();
@@ -94,7 +99,17 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
           scienceMarks,
           englishMarks,
           totalPercentage,
-          biseBoard
+          biseBoard,
+          subjects: {
+            mathematics: mathMarks,
+            physics: physicsMarks,
+            chemistry: chemistryMarks,
+            biology: scienceMarks,
+            computer: computerMarks,
+            english: englishMarks,
+            urdu: urduMarks,
+          },
+          riasec: String(profile?.topRiasecCluster || '').match(/[RIASEC]/i)?.[0] || '',
         })
       });
       const data = await response.json();
@@ -145,6 +160,9 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
             <h1 className="text-xl font-bold text-slate-900">Grade 8 Subject Marks Evaluator</h1>
             <p className="text-xs text-slate-500">
               Enter your current Grade 8 school report card marks to evaluate whether Science (Bio), Science (Computer), Commerce, or Arts group is best suited for your Matric enrollment.
+              {profile?.topRiasecCluster
+                ? ` Your saved quiz cluster is included in the recommendation.`
+                : ' Take the interest quiz first so the group also follows your Holland result.'}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-2">
@@ -203,6 +221,18 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
                 <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
                   Avg: {g8Result.averageScore}%
                 </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {(g8Result.subjects || []).map((subject) => (
+                  <div key={subject.subject} className="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-sm font-bold text-slate-900">{subject.subject} · {subject.marks}%</h3>
+                      <span className="text-[11px] font-bold text-emerald-800">{subject.strength}</span>
+                    </div>
+                    <p className="text-xs text-slate-600 mt-1">{subject.meaning}</p>
+                    <p className="text-xs text-slate-500 mt-1">Leads toward: {subject.careers}</p>
+                  </div>
+                ))}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(g8Result.recommendations || []).map((rec, i) => (
@@ -361,6 +391,17 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
                   className="w-full px-3 py-2 rounded-lg border border-slate-300 text-slate-900"
                 />
               </div>
+              {[
+                ['Physics %', physicsMarks, setPhysicsMarks],
+                ['Chemistry %', chemistryMarks, setChemistryMarks],
+                ['Computer %', computerMarks, setComputerMarks],
+                ['Urdu %', urduMarks, setUrduMarks],
+              ].map(([label, value, setValue]) => (
+                <div key={label}>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">{label}</label>
+                  <input type="number" value={value} onChange={(e) => setValue(parseFloat(e.target.value) || 0)} className="w-full px-3 py-2 rounded-lg border border-slate-300 text-slate-900" />
+                </div>
+              ))}
             </div>
 
             <button
@@ -392,6 +433,33 @@ export function Grade8MatricTab({ profile, onNavigate, lang }) {
                   </div>
                   {analysisResult.warnings.map((w, idx) => (
                     <p key={idx}>{w}</p>
+                  ))}
+                </div>
+              )}
+
+              {(analysisResult.strongSubjects || analysisResult.weakSubjects) && (
+                <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                    <p className="font-bold text-emerald-900">Strong subjects (70%+)</p>
+                    <p className="text-slate-700 mt-1">{(analysisResult.strongSubjects || []).map((s) => `${s.subject} ${s.marks}%`).join(', ') || 'None entered at this band.'}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-amber-50 border border-amber-200">
+                    <p className="font-bold text-amber-900">Weak subjects (under 55%)</p>
+                    <p className="text-slate-700 mt-1">{(analysisResult.weakSubjects || []).map((s) => `${s.subject} ${s.marks}%`).join(', ') || 'None under the BISE comfort line.'}</p>
+                  </div>
+                </div>
+              )}
+              {Array.isArray(analysisResult.allPaths) && (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-bold text-slate-900">Every post-Matric path</h3>
+                  {analysisResult.allPaths.map((path) => (
+                    <div key={path.stream} className="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="text-sm font-bold text-slate-900">{path.stream}</h4>
+                        <span className={`text-[11px] font-bold ${path.unrealistic ? 'text-amber-700' : 'text-emerald-700'}`}>{path.matchScore}</span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1">Leads to: {path.leadsTo}</p>
+                    </div>
                   ))}
                 </div>
               )}
