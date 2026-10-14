@@ -486,7 +486,7 @@ function MainApp({ isCommandPaletteOpen, setIsCommandPaletteOpen }) {
                   <Route path="/job-portal" element={<Navigate to="/jobs" replace />} />
                   <Route path="/tevta-it" element={<TevtaItTab lang={lang} />} />
                   <Route path="/transnational" element={<TransnationalTab lang={lang} />} />
-                  <Route path="/degree-career" element={<DegreeCareerTab lang={lang} />} />
+                  <Route path="/degree-career" element={<DegreeCareerTab profile={profile} lang={lang} />} />
                   <Route path="/career-comparison" element={<CareerComparisonTab lang={lang} />} />
                   <Route path="/courses" element={<CoursesTab lang={lang} />} />
                   <Route path="/voice-assistant" element={<ProtectedRoute><VoiceAssistantTab profile={profile} lang={lang} /></ProtectedRoute>} />
@@ -500,7 +500,7 @@ function MainApp({ isCommandPaletteOpen, setIsCommandPaletteOpen }) {
                   <Route path="/pricing" element={<PricingTab profile={profile} onUpdateProfile={handleUpdateProfile} onNavigate={handleSelectTab} lang={lang} />} />
                   <Route path="/entry-test-prep" element={<ProtectedRoute><EntryTestPrepTab profile={profile} lang={lang} /></ProtectedRoute>} />
                   <Route path="/merit-calculator" element={<MeritCalculatorTab profile={profile} lang={lang} />} />
-                  <Route path="/progress-tracker" element={<ProtectedRoute><ProgressTrackerTab profile={profile} lang={lang} /></ProtectedRoute>} />
+                  <Route path="/progress-tracker" element={<ProtectedRoute><ProgressTrackerTab profile={profile} lang={lang} onNavigate={handleSelectTab} /></ProtectedRoute>} />
                   <Route path="/about" element={<AboutPage onNavigate={handleSelectTab} lang={lang} />} />
                   <Route path="/privacy" element={<PrivacyPage onNavigate={handleSelectTab} lang={lang} />} />
                   <Route path="/terms" element={<TermsPage onNavigate={handleSelectTab} lang={lang} />} />

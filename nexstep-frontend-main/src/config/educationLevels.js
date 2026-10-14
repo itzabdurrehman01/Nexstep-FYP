@@ -42,7 +42,7 @@ export const levelLabel = (id, lang = 'en') => {
 };
 
 /** Pages every student sees, whatever their level (the interest quiz is for everyone, DAE included). */
-const COMMON = ['dashboard', 'pathway', 'quiz', 'calendarNotif', 'scholarships', 'courses', 'aiChatbot', 'voiceAssistant', 'community', 'mentorship'];
+const COMMON = ['dashboard', 'pathway', 'progressTracker', 'quiz', 'calendarNotif', 'scholarships', 'courses', 'aiChatbot', 'voiceAssistant', 'community', 'mentorship'];
 
 /** Extra pages that make sense at each level (Pakistani system). */
 const BY_LEVEL = {

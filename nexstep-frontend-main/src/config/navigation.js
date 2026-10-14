@@ -5,7 +5,7 @@
  * so every page is defined exactly once (label, icon, description, roles).
  */
 import {
-  LayoutDashboard, Sparkles, ListChecks, Route, Target, GitCompareArrows,
+  LayoutDashboard, Sparkles, ListChecks, Route, Target, GitCompareArrows, TrendingUp,
   Building2, GraduationCap, Calculator, ClipboardList, Layers, School, Globe2,
   Briefcase, BookOpen, Wrench, FileText, Mic, Bot, AudioLines,
   Users, UserRound, BarChart3, CalendarDays, Settings, LifeBuoy,
@@ -16,6 +16,7 @@ import {
 export const NAV_ITEMS = {
   pathway:         { label: 'My Pathway',         labelUr: 'میرا راستہ',           icon: Compass,         desc: 'Your class, options and next steps' },
   dashboard:       { label: 'Dashboard',          labelUr: 'ڈیش بورڈ',            icon: LayoutDashboard, desc: 'Your overview and next steps' },
+  progressTracker: { label: 'Progress',           labelUr: 'پیش رفت',             icon: TrendingUp,      desc: 'Class to university journey and deadlines' },
   analytics:       { label: 'Analytics',          labelUr: 'تجزیات',              icon: BarChart3,       desc: 'Progress, scores and activity' },
   calendarNotif:   { label: 'Calendar',           labelUr: 'کیلنڈر',              icon: CalendarDays,    desc: 'Deadlines and notifications' },
 
@@ -56,7 +57,7 @@ export const NAV_ITEMS = {
 /** Sidebar sections per role. Each page appears in exactly one section. */
 const GROUPS_BY_ROLE = {
   STUDENT: [
-    { id: 'overview',  title: 'Overview',        titleUr: 'جائزہ',        items: ['dashboard', 'pathway', 'analytics', 'calendarNotif'] },
+    { id: 'overview',  title: 'Overview',        titleUr: 'جائزہ',        items: ['dashboard', 'progressTracker', 'pathway', 'analytics', 'calendarNotif'] },
     { id: 'career',    title: 'Career',          titleUr: 'کیریئر',       items: ['careerAi', 'quiz', 'careerRoadmap', 'skillGap', 'degreeCareer'] },
     { id: 'education', title: 'Education',       titleUr: 'تعلیم',        items: ['universities', 'scholarships', 'meritCalculator', 'entryTestPrep', 'fscMapper', 'grade8Matric', 'transnational'] },
     { id: 'skills',    title: 'Skills & Jobs',   titleUr: 'مہارتیں اور نوکریاں', items: ['jobs', 'courses', 'tevtaIt', 'resume', 'mockInterview'] },

@@ -12,6 +12,7 @@ import { translations }          from '../../data/translations.js';
 import { DashboardSkeleton }      from '../common/Skeletons.jsx';
 import { RecentActivityTimeline } from '../dashboard/RecentActivityTimeline.jsx';
 import { rankAllCareers }         from '../../utils/careerMatchService.js';
+import { JourneyPanel }           from '../dashboard/JourneyPanel.jsx';
 import { computeRoadmapProgress, loadRoadmap } from '../../services/roadmapService.js';
 import { isPageAllowedForLevel, normalizeStream } from '../../config/educationLevels.js';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -129,8 +130,19 @@ export function DashboardTab({ profile, onNavigate, lang }) {
 
   const firstName = profile?.name?.split(' ')[0] || authUser?.firstName || authUser?.name?.split(' ')[0] || 'Student';
 
-  const upcomingDeadlines = [];
   const studentLevel = profile?.education?.level || null;
+  const setupSteps = [
+    { done: !!(profile?.education?.level || profile?.educationLevel), label: 'Grade / class saved', action: 'Set your class', tab: 'pathway' },
+    { done: !!profile?.city, label: 'City saved', action: 'Add your city', tab: 'onboarding' },
+    { done: !!(profile?.marks?.matricPct || profile?.marks?.fscPct), label: 'Marks saved', action: 'Add your marks', tab: 'onboarding' },
+    { done: Number(profile?.budgetAnnualPkr) > 0, label: 'Budget saved', action: 'Add your annual budget', tab: 'onboarding' },
+    { done: Array.isArray(profile?.interests) && profile.interests.length > 0, label: 'Interests saved', action: 'Add your interests', tab: 'onboarding' },
+    { done: !!profile?.topRiasecCluster, label: 'Interest quiz completed', action: 'Take the 30-question quiz', tab: 'quiz' },
+  ];
+  const upcomingActions = setupSteps.filter((s) => !s.done).map((s) => ({ title: s.action, tab: s.tab }));
+  if (profile?.topRiasecCluster && (studentLevel === 'class8')) upcomingActions.push({ title: 'Choose your Matric group using your quiz result', tab: 'grade8Matric' });
+  if (profile?.topRiasecCluster && (studentLevel === 'class9' || studentLevel === 'class10')) upcomingActions.push({ title: 'Check which FSc stream your marks and quiz allow', tab: 'grade8Matric' });
+  if (studentLevel === 'class11' || studentLevel === 'class12') upcomingActions.push({ title: 'Map your FSc marks to careers and universities', tab: 'fscMapper' });
   const can = (tab) => isPageAllowedForLevel(tab, studentLevel);
 
   const recommendedActions = [
@@ -229,6 +241,10 @@ export function DashboardTab({ profile, onNavigate, lang }) {
           </div>
         </div>
       </motion.section>
+
+      <motion.div variants={item}>
+        <JourneyPanel profile={profile} onNavigate={onNavigate} />
+      </motion.div>
 
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
@@ -666,35 +682,35 @@ export function DashboardTab({ profile, onNavigate, lang }) {
           </motion.div>
 </>)}
 
-          {/* Upcoming Deadlines */}
+          {/* Completed steps and upcoming actions */}
           <motion.div variants={item} className="ns-card p-5 sm:p-6 space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-950/50 flex items-center justify-center">
                 <CalendarDays className="w-4.5 h-4.5 text-rose-600 dark:text-rose-400" aria-hidden="true" />
               </div>
-              <h2 className="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Upcoming Deadlines</h2>
+              <h2 className="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Your steps</h2>
             </div>
-            <div className="space-y-2.5">
-              {upcomingDeadlines.length === 0 && (
-                <p className="text-xs text-slate-500 dark:text-slate-400">No upcoming deadlines. Deadlines you save will show up here.</p>
-              )}
-              {upcomingDeadlines.map((dl, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50">
-                  <div className={`w-1.5 h-12 rounded-full shrink-0 ${dl.tag === 'urgent' ? 'bg-red-500' : dl.tag === 'scholarship' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
-                  <div className="flex-1 min-w-0 space-y-0.5">
-                    <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200 truncate">{dl.title}</p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 inline-flex items-center gap-1 font-semibold">
-                      <Clock className="w-3 h-3" /> {dl.date}
-                    </p>
-                  </div>
-                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-black shrink-0 ${
-                    dl.days <= 15
-                      ? 'bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
-                  }`}>
-                    {dl.days}d
-                  </span>
+            <div className="space-y-2">
+              {setupSteps.map((s) => (
+                <div key={s.label} className="flex items-center gap-2 text-sm">
+                  {s.done ? <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> : <Circle className="w-4 h-4 text-slate-300 shrink-0" />}
+                  <span className={s.done ? 'text-slate-700 dark:text-slate-200' : 'text-slate-400'}>{s.label}</span>
                 </div>
+              ))}
+            </div>
+            <div className="space-y-2.5 pt-1">
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Upcoming actions</p>
+              {upcomingActions.length === 0 && (
+                <p className="text-xs text-slate-500 dark:text-slate-400">Profile and quiz are complete. Open Career AI for matches that use both.</p>
+              )}
+              {upcomingActions.map((dl) => (
+                <button key={dl.title} type="button" onClick={() => onNavigate(dl.tab)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 text-left cursor-pointer hover:border-emerald-300">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-extrabold text-slate-800 dark:text-slate-200">{dl.title}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                </button>
               ))}
             </div>
           </motion.div>

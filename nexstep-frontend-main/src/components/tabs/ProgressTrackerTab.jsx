@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { JourneyPanel } from '../dashboard/JourneyPanel.jsx';
 
 function StatCard({ icon: Icon, label, value, sub, color = 'emerald' }) {
   const colors = {
@@ -40,7 +41,7 @@ function ReadinessArc({ score }) {
   );
 }
 
-export function ProgressTrackerTab({ profile, lang = 'en' }) {
+export function ProgressTrackerTab({ profile, lang = 'en', onNavigate }) {
   const { apiFetch } = useAuth();
   const [data, setData]       = useState(null);
   const [loading, setLoading] = useState(true);
@@ -87,6 +88,8 @@ export function ProgressTrackerTab({ profile, lang = 'en' }) {
           <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} /> Refresh
         </button>
       </div>
+
+      <JourneyPanel profile={profile} onNavigate={onNavigate} />
 
       {/* Readiness Ring */}
       <div className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
