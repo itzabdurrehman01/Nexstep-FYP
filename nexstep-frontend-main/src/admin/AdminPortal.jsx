@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, UserCog, ShieldCheck, Database, UserRound, LogOut, Menu, X, Sun, Moon, Loader2, Library, Link2, CreditCard } from 'lucide-react';
+import { LayoutDashboard, Users, UserCog, ShieldCheck, Database, UserRound, LogOut, Menu, X, Sun, Moon, Loader2, Library, Link2, CreditCard, CalendarClock } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext.jsx';
 import { adminFetch } from './adminApi.js';
 import { AdminSignIn } from './AdminSignIn.jsx';
@@ -15,6 +15,7 @@ const AdminAccount = lazy(() => import('./AdminAccount.jsx'));
 const AdminContent = lazy(() => import('./AdminContent.jsx'));
 const AdminAssignments = lazy(() => import('./AdminAssignments.jsx'));
 const AdminPayments = lazy(() => import('./AdminPayments.jsx'));
+const AdminRefresh = lazy(() => import('./AdminRefresh.jsx'));
 const DataReadinessDashboard = lazy(() => import('../components/admin/DataReadinessDashboard.jsx'));
 
 const NAV = [
@@ -24,6 +25,7 @@ const NAV = [
   { path: '/admin/assignments', label: 'Assignments', icon: Link2 },
   { path: '/admin/payments', label: 'Payments', icon: CreditCard },
   { path: '/admin/content', label: 'Content', icon: Library },
+  { path: '/admin/refresh', label: 'Annual refresh', icon: CalendarClock },
   { path: '/admin/admins', label: 'Admins', icon: ShieldCheck },
   { path: '/admin/data', label: 'Data', icon: Database },
   { path: '/admin/account', label: 'Account', icon: UserRound },
@@ -93,6 +95,7 @@ export function AdminPortal() {
     case '/admin/users': page = <AdminUsers />; break;
     case '/admin/mentors': page = <AdminMentors />; break;
     case '/admin/content': page = <AdminContent />; break;
+    case '/admin/refresh': page = <AdminRefresh />; break;
     case '/admin/assignments': page = <AdminAssignments />; break;
     case '/admin/payments': page = <AdminPayments />; break;
     case '/admin/admins': page = <AdminAdmins me={admin} />; break;

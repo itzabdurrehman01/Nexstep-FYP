@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Building2, GraduationCap, BookOpen, Briefcase, Compass, X } from 'lucide-react';
+import { Plus, Search, Pencil, Building2, GraduationCap, BookOpen, Briefcase, Compass, X, Calculator } from 'lucide-react';
 import { adminFetch, formatDate } from './adminApi.js';
 import { Badge, Button, Card, ConfirmButton, Empty, Field, Loading, Notice, PageHeader, inputClass } from './AdminUi.jsx';
+import { AdminCutoffs } from './AdminCutoffs.jsx';
 
 const LEVELS = [
   ['class8', 'Class 8'], ['class9', 'Class 9'], ['class10', 'Class 10'], ['class11', 'Class 11'],
@@ -19,7 +20,7 @@ const TYPES = {
       ['type', 'Sector', 'select', false, ['Public', 'Private']], ['hecRankTier', 'HEC category', 'text'], ['isHecRecognized', 'HEC recognised', 'bool'],
       ['annualFeePkr', 'Approx. annual fee (PKR)', 'int'], ['officialWebsite', 'Official website', 'url'], ['admissionsUrl', 'Admissions page', 'url'],
       ['programs', 'Programmes (one per line)', 'list'], ['lastMeritCutoffPct', 'Last merit cut-off (%)', 'int'], ['hasHostel', 'Hostel available', 'bool'],
-      ['description', 'Description', 'longtext'],
+      ['description', 'Description', 'longtext'], ['verifiedYear', 'Verified year (e.g. 2026)', 'int'],
     ],
   },
   scholarships: {
@@ -30,7 +31,7 @@ const TYPES = {
       ['province', 'Province / region', 'text'], ['category', 'Category', 'select', false, ['Merit Based', 'Need Based', 'Merit & Need Based', 'Sports', 'Minorities', 'Special Quota', 'Other']],
       ['coverage', 'Coverage', 'text'], ['amountPkr', 'Amount (PKR)', 'int'], ['maxFamilyIncome', 'Max. family income (PKR / month)', 'int'],
       ['deadline', 'Deadline', 'date'], ['applicationUrl', 'Application link', 'url'], ['officialUrl', 'Official page', 'url'],
-      ['minAcademicPct', 'Minimum marks (%)', 'int'],
+      ['minAcademicPct', 'Minimum marks (%)', 'int'], ['verifiedYear', 'Verified year (e.g. 2026)', 'int'],
     ],
   },
   courses: {
@@ -186,7 +187,8 @@ function SampleDataPanel({ onChanged }) {
 
 export function AdminContent() {
   const [type, setType] = useState('universities');
-  const def = TYPES[type];
+  const isCutoffs = type === 'cutoffs';
+  const def = TYPES[type] || TYPES.universities;
   const [rows, setRows] = useState(null);
   const [search, setSearch] = useState('');
   const [levelFilter, setLevelFilter] = useState('');
@@ -196,6 +198,7 @@ export function AdminContent() {
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
+    if (type === 'cutoffs') return;
     setRows(null);
     try {
       const params = new URLSearchParams();
@@ -234,8 +237,8 @@ export function AdminContent() {
 
   return (
     <div>
-      <PageHeader title="Content" description="Universities, scholarships, courses and jobs shown to students. Tag each item with the classes it is for."
-        actions={!editing && <Button onClick={() => setEditing('new')}><Plus className="w-4 h-4" /> Add {def.singular}</Button>} />
+      <PageHeader title="Content" description="Universities, scholarships, merit cut-offs, courses and jobs shown to students. Each listing can carry the year it was last verified."
+        actions={!editing && !isCutoffs && <Button onClick={() => setEditing('new')}><Plus className="w-4 h-4" /> Add {def.singular}</Button>} />
 
       <div className="flex gap-1 p-1 mb-5 rounded-xl bg-slate-100 dark:bg-slate-800/70 w-full sm:w-fit overflow-x-auto">
         {Object.entries(TYPES).map(([id, t]) => {
@@ -247,10 +250,16 @@ export function AdminContent() {
             </button>
           );
         })}
+        <button type="button" onClick={() => setType('cutoffs')} aria-pressed={isCutoffs}
+          className={`inline-flex items-center gap-2 h-9 px-3 rounded-lg text-sm whitespace-nowrap cursor-pointer ${isCutoffs ? 'bg-white dark:bg-slate-900 shadow-sm font-medium text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>
+          <Calculator className="w-4 h-4" strokeWidth={1.75} aria-hidden="true" />Merit cut-offs
+        </button>
       </div>
 
       <SampleDataPanel onChanged={load} />
 
+      {isCutoffs ? <AdminCutoffs /> : (
+      <>
       <div className="space-y-3 mb-4">
         <Notice>{error}</Notice>
         <Notice kind="success">{notice}</Notice>
@@ -285,6 +294,7 @@ export function AdminContent() {
                     <p className="text-xs text-slate-500 truncate">{def.subtitle(r) || '—'}</p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
                       {r.isSample && <Badge tone="amber">Sample</Badge>}
+                      {r.verifiedYear && <Badge tone="green">Verified {r.verifiedYear}</Badge>}
                       {(r.educationLevels?.length ? r.educationLevels : ['all']).map((l) => (
                         <Badge key={l} tone={l === 'all' ? 'slate' : 'green'}>{l === 'all' ? 'All levels' : LEVEL_NAME[l]}</Badge>
                       ))}
@@ -299,6 +309,8 @@ export function AdminContent() {
             </ul>
           )}
         </Card>
+      )}
+      </>
       )}
     </div>
   );
